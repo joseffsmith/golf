@@ -7,6 +7,59 @@
  *  Generating an MSBid will need to be done so that the cookie is set
  */
 
+const puppeteer = require('puppeteer');
+
+
+
+(async() => {
+    // VARS
+    let desired_date = '1 Dec';
+
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+
+    // Login
+    await page.goto('https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php?CWID=5070')
+    await page.evaluate(() => {
+        document.querySelector('select').value = "254:~:Smith, Anthony "
+        document.querySelector('input[type="password"]').value = ""
+    })
+    await Promise.all([
+        page.click('input[value="Log in"]'),
+        page.waitForNavigation({
+            waitUntil: 'networkidle0'
+        })
+    ])
+
+    // Select competition (wait for it to become available)
+    let row = await page.evaluate((desired_date) => {
+        document.querySelectorAll('tr').forEach(node => {
+            if (!node.innerText.includes(desired_date))
+                return
+            if (node.innerText.toLowerCase().includes('ladies')) {
+                return
+            }
+            return node
+        })
+    })
+    console.log(row)
+    await Promise.all([
+        page.goto(row.querySelector('form').action),
+        page.waitForNavigation({
+            waitUntil: 'networkidle0'
+        })
+    ])
+
+    await page.screenshot({
+        path: 'example.png'
+    })
+
+    await browser.close()
+
+})();
+
+return;
+
 // on https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php
 // date must be '5 Jan' or '16 Dec'
 let date = '1 Dec'
