@@ -31,7 +31,9 @@ const puppeteer = require('puppeteer');
 
 
     // setup chrome
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox']
+    })
     const page = await browser.newPage()
     page.on('console', msg => console.log(msg.text()));
 
