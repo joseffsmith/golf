@@ -4,8 +4,31 @@ const puppeteer = require('puppeteer');
 (async() => {
     // VARS
 
+    const now = new Date()
+    if (now.getDay() !== 5) { // only run on fridays
+        console.error("Only run on fridays")
+        await browser.close();
+        return
+    }
     // time we can book the competition today, if it's in the past we assume can book now
     const kick_off_time = "20:00:00:00"
+
+    const ko = new Date()
+    ko.setHours(parseInt(kick_off_time.split(':')[0]))
+    ko.setMinutes(parseInt(kick_off_time.split(':')[1]))
+    ko.setSeconds(parseInt(kick_off_time.split(':')[2]))
+
+    if (ko - now > (1000 * 60 * 10)) { // kick off is more than 10 mins ahead so in the future
+        console.error("Too early")
+        await browser.close()
+        return
+    }
+    if (ko - now < 0) { // kick off is in the past
+        console.error("Done for the day")
+        await browser.close()
+        return
+    }
+
 
     // date of competition in future
     const desired_date = '5 Dec'
@@ -41,7 +64,7 @@ const puppeteer = require('puppeteer');
     // Login
     await page.goto('https://www.masterscoreboard.co.uk/ClubIndex.php?CWID=5070', {
         waitUntil: 'networkidle0',
-        timeout: 10000
+        timeout: 1000
     })
 
     await page.evaluate((username, password) => {
@@ -52,7 +75,8 @@ const puppeteer = require('puppeteer');
     await Promise.all([
         page.click('input[value="Log in"]'),
         page.waitForNavigation({
-            waitUntil: 'networkidle0'
+            waitUntil: 'networkidle0',
+            timeout: 1000
         })
     ])
 
@@ -80,7 +104,7 @@ const puppeteer = require('puppeteer');
         // go to competition page and find the comp we want
         await page.goto('https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php?CWID=5070', {
             waitUntil: 'networkidle0',
-            timeout: 10000
+            timeout: 1000
         })
 
         const action = await page.evaluate((desired_date, keyword) => {
@@ -94,16 +118,14 @@ const puppeteer = require('puppeteer');
                 }
                 return true
             })
-            let form = null
             if (!row) {
                 console.error(`Row not found, for desired_date: '${desired_date}' or keyword: '${keyword}'`)
                 return null
             }
-            try {
-                form = row.querySelector('form')
-            } catch { // TODO make this a loop, refresh the page
+            let form = row.querySelector('form')
+            if (!form) {
                 console.error("Could not get form of row")
-                load_comp(desired_date, keyword)
+                return null
             }
             return form.action
         }, desired_date, keyword)
@@ -112,10 +134,15 @@ const puppeteer = require('puppeteer');
 
     const action = await load_comp(desired_date, keyword)
 
+    if (!action) {
+        console.error("Could not get form of page")
+        await browser.close()
+        return
+    }
     // load competition page
     await page.goto(action, {
         waitUntil: 'networkidle0',
-        timeout: 10000
+        timeout: 1000
     })
 
     const input_selector = await page.evaluate(time_slots => {
@@ -137,6 +164,12 @@ const puppeteer = require('puppeteer');
         }
     }, time_slots)
 
+    if (!input_selector) {
+        console.error("Could not find any suitable time slot on page")
+        await browser.close()
+        return
+    }
+
     await page.$eval(input_selector, e => {
         e.scrollIntoView()
         e.click()
@@ -152,7 +185,6 @@ const puppeteer = require('puppeteer');
 
     await page.$eval('input[type="submit"]', e => e.click())
     await page.evaluate(() => console.log('booked'))
-
 
     await browser.close()
 })();
