@@ -82,7 +82,7 @@ const puppeteer = require('puppeteer');
             waitUntil: 'networkidle0',
             timeout: 10000
         })
-        await page.waitForTimeout(5000)
+
         const action = await page.evaluate((desired_date, keyword) => {
             // go through the rows and find the comp that we want to book
             const nodes = document.querySelectorAll('tr')
@@ -95,10 +95,14 @@ const puppeteer = require('puppeteer');
                 return true
             })
             let form = null
+            if (!row) {
+                console.error(`Row not found, for desired_date: '${desired_date}' or keyword: '${keyword}'`)
+                return null
+            }
             try {
                 form = row.querySelector('form')
             } catch { // TODO make this a loop, refresh the page
-                console.error("Competition is not available yet, try again")
+                console.error("Could not get form of row")
                 load_comp(desired_date, keyword)
             }
             return form.action
