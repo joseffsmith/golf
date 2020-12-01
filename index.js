@@ -3,19 +3,22 @@ const puppeteer = require('puppeteer');
 
 (async() => {
     // VARS
-    const LIVE = false
 
     // time we can book the competition today, if it's in the past we assume can book now
-    const kick_off_time = "21:44:00:00"
+    const kick_off_time = "20:00:00:00"
 
     // date of competition in future
-    const desired_date = '3 Dec'
+    const desired_date = '5 Dec'
 
     // unique word in the competition title to distinguish it from other comps on the same day
-    const keyword = null
+    const keyword = 'stableford'
 
     // tee times we want in order of preference
-    const time_slots = ['11:00', '11:10', '11:20', '11:30', '11:40', '11:50', '12:00', '12:10', '12:20', '12:30']
+    const time_slots = [
+        '11:00', '11:10', '11:20', '11:30', '11:40', '11:50',
+        '12:00', '12:10', '12:20', '12:30', '12:40', '12:50',
+        '13:00', '13:10', '13:20', '13:30', '13:40', '13:50',
+    ]
 
     // ID's for the <select> of the <option> values of the players we want to play with
     const player1 = 26 // Tony Brown
@@ -71,31 +74,37 @@ const puppeteer = require('puppeteer');
 
     await page.evaluate(() => console.log('Time to go - ', new Date().toLocaleTimeString()))
 
-    // go to competition page and find the comp we want
-    await page.goto('https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php?CWID=5070', {
-        waitUntil: 'networkidle0',
-        timeout: 10000
-    })
-
-    const action = await page.evaluate((desired_date, keyword) => {
-        // go through the rows and find the comp that we want to book
-        const nodes = document.querySelectorAll('tr')
-        const row = Array.from(nodes).find(node => {
-            if (!node.innerText.includes(desired_date))
-                return false
-            if (keyword && !node.innerText.toLowerCase().includes(keyword)) {
-                return false
-            }
-            return true
+    async function load_comp(desired_date, keyword) {
+        // go to competition page and find the comp we want
+        await page.goto('https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php?CWID=5070', {
+            waitUntil: 'networkidle0',
+            timeout: 10000
         })
-        let form = null
-        try {
-            form = row.querySelector('form')
-        } catch { // TODO make this a loop, refresh the page
-            console.error("Competition is not available yet, try again")
-        }
-        return form.action
-    }, desired_date, keyword)
+        await page.waitForTimeout(5000)
+        const action = await page.evaluate((desired_date, keyword) => {
+            // go through the rows and find the comp that we want to book
+            const nodes = document.querySelectorAll('tr')
+            const row = Array.from(nodes).find(node => {
+                if (!node.innerText.includes(desired_date))
+                    return false
+                if (keyword && !node.innerText.toLowerCase().includes(keyword)) {
+                    return false
+                }
+                return true
+            })
+            let form = null
+            try {
+                form = row.querySelector('form')
+            } catch { // TODO make this a loop, refresh the page
+                console.error("Competition is not available yet, try again")
+                load_comp(desired_date, keyword)
+            }
+            return form.action
+        }, desired_date, keyword)
+        return action
+    }
+
+    const action = await load_comp(desired_date, keyword)
 
     // load competition page
     await page.goto(action, {
@@ -103,42 +112,29 @@ const puppeteer = require('puppeteer');
         timeout: 10000
     })
 
-    await page.screenshot({
-        path: '5.Clicked into the competition and loaded.png'
-    })
-
-    const inpu = await page.evaluateHandle((time_slots) => {
-        // loop through slots until we find an available one
-        let input = null
-        do {
-            Array.from(document.querySelectorAll('tr')).forEach(node => {
-                if (!!node.innerText.trim()) {
-                    return
-                }
-                const inp = node.querySelector('input')
-                const viable = time_slots.some(slot => {
-                    if (inp.value.includes(slot)) {
-                        console.log(`found slot: ${slot}`)
-                        return true
-                    }
-                    return false
-                })
-                if (viable) {
-                    console.log('viable')
-                    input = inp
-                }
-            })
+    const input_selector = await page.evaluate(time_slots => {
+        for (const slot of time_slots) {
+            // TODO handle In Use slots
+            let str = `input[value="${slot}     Book"`
+            const inp = document.querySelector(str)
+            if (!inp) {
+                console.log(`slot: ${slot} unviable - full or not available`)
+                continue
+            }
+            const tr = inp.closest('tr')
+            if (!!tr.innerText.trim()) {
+                console.log(`slot: ${slot} unviable - other players`)
+                continue
+            }
+            console.log(`going with: ${slot}`)
+            return str
         }
-        while (!input)
-        console.log(input)
-        return input
     }, time_slots)
 
-    await inpu.click()
-
-    await page.screenshot({
-        path: '6.Filling in players.png'
-    })
+    await page.$eval(input_selector, e => {
+        e.scrollIntoView()
+        e.click()
+    }, input_selector)
 
     await page.evaluate((player1, player2, player3) => {
         const [select1, select2, select3] = document.querySelectorAll('select')
@@ -147,10 +143,10 @@ const puppeteer = require('puppeteer');
         select3.value = player3
     }, player1, player2, player3)
 
-    if (!LIVE) {
-        await browser.close()
-    }
-    // WARNING past this point we're actually booking
+
+    await page.$eval('input[type="submit"]', e => e.click())
+    await page.evaluate(() => console.log('booked'))
 
 
+    await browser.close()
 })();
