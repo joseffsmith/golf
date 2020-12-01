@@ -27,7 +27,7 @@ const puppeteer = require('puppeteer');
 
     // not really the username, it's the value of the <option> to set the <select> to on the login page
     const username = "254:~:Smith, Anthony "
-    const password = ""
+    const password = process.env.MS_PASS
 
 
     // setup chrome
@@ -85,9 +85,9 @@ const puppeteer = require('puppeteer');
             // go through the rows and find the comp that we want to book
             const nodes = document.querySelectorAll('tr')
             const row = Array.from(nodes).find(node => {
-                if (!node.innerText.includes(desired_date))
+                if (!node.innerText.toLowerCase().includes(desired_date.toLowerCase()))
                     return false
-                if (keyword && !node.innerText.toLowerCase().includes(keyword)) {
+                if (keyword && !node.innerText.toLowerCase().includes(keyword.toLowerCase())) {
                     return false
                 }
                 return true
