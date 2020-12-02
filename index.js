@@ -61,7 +61,7 @@ const puppeteer = require('puppeteer');
     // Login
     await page.goto('https://www.masterscoreboard.co.uk/ClubIndex.php?CWID=5070', {
         waitUntil: 'networkidle0',
-        timeout: 1001
+        timeout: 10001
     })
 
     await page.evaluate((username, password) => {
