@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
 
     const now = new Date()
     if (now.getDay() !== 3) { // only run on fridays
-        console.error("Only run on fridays")
+        console.warn("Warning: Only run on fridays")
         return
     }
     // time we can book the competition today, if it's in the past we assume can book now
@@ -19,11 +19,11 @@ const puppeteer = require('puppeteer');
     ko.setSeconds(parseInt(kick_off_time.split(':')[2]))
 
     if (ko - now > (1000 * 60 * 10)) { // kick off is more than 10 mins ahead so in the future
-        console.error("Too early")
+        console.warn("Warning: Too early")
         return
     }
     if (ko - now < 0) { // kick off is in the past
-        console.error("Done for the day")
+        console.warn("Warning: Done for the day")
         return
     }
 
@@ -89,7 +89,7 @@ const puppeteer = require('puppeteer');
         if (kick_off < now) {
             return true
         }
-        console.log(`Waiting - ${kick_off - now} milliseconds left`)
+        console.info(`Info: waiting - ${kick_off - now} milliseconds left`)
     }, {
         polling: 100,
         timeout: 0
@@ -116,12 +116,12 @@ const puppeteer = require('puppeteer');
                 return true
             })
             if (!row) {
-                console.error(`Row not found, for desired_date: '${desired_date}' or keyword: '${keyword}'`)
+                console.error(`Error: Row not found, for desired_date: '${desired_date}' or keyword: '${keyword}'`)
                 return null
             }
             let form = row.querySelector('form')
             if (!form) {
-                console.error("Could not get form of row")
+                console.error("Error: Could not get form of row")
                 return null
             }
             return form.action
@@ -132,7 +132,7 @@ const puppeteer = require('puppeteer');
     const action = await load_comp(desired_date, keyword)
 
     if (!action) {
-        console.error("Could not get form of page")
+        console.error("Error: Could not get form of page")
         await browser.close()
         return
     }
@@ -148,12 +148,12 @@ const puppeteer = require('puppeteer');
             let str = `input[value="${slot}     Book"`
             const inp = document.querySelector(str)
             if (!inp) {
-                console.log(`slot: ${slot} unviable - full or not available`)
+                console.warn(`Warning: slot - ${slot} unviable - full or not available`)
                 continue
             }
             const tr = inp.closest('tr')
             if (!!tr.innerText.trim()) {
-                console.log(`slot: ${slot} unviable - other players`)
+                console.log(`Warning: slot - ${slot} unviable - other players`)
                 continue
             }
             console.log(`going with: ${slot}`)
@@ -162,7 +162,7 @@ const puppeteer = require('puppeteer');
     }, time_slots)
 
     if (!input_selector) {
-        console.error("Could not find any suitable time slot on page")
+        console.error("Error: Could not find any suitable time slot on page")
         await browser.close()
         return
     }
