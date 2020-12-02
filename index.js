@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
     }
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "11:00:00:00"
+    const kick_off_time = "15:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
