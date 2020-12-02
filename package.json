@@ -7,9 +7,6 @@
         "puppeteer": "^5.5.0"
     },
     "devDependencies": {},
-    "scripts": {
-        "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 index.js"
-    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/joseffsmith/golf.git"
