@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
     }
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "15:00:00:00"
+    const kick_off_time = "18:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
@@ -73,7 +73,7 @@ const puppeteer = require('puppeteer');
         page.click('input[value="Log in"]'),
         page.waitForNavigation({
             waitUntil: 'networkidle0',
-            timeout: 1002
+            timeout: 10002
         })
     ])
 
@@ -101,7 +101,7 @@ const puppeteer = require('puppeteer');
         // go to competition page and find the comp we want
         await page.goto('https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php?CWID=5070', {
             waitUntil: 'networkidle0',
-            timeout: 1003
+            timeout: 10003
         })
 
         const action = await page.evaluate((desired_date, keyword) => {
@@ -139,7 +139,7 @@ const puppeteer = require('puppeteer');
     // load competition page
     await page.goto(action, {
         waitUntil: 'networkidle0',
-        timeout: 1004
+        timeout: 10004
     })
 
     const input_selector = await page.evaluate(time_slots => {
