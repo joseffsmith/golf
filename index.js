@@ -5,13 +5,13 @@ const puppeteer = require('puppeteer');
     // VARS
 
     const now = new Date()
-    if (now.getDay() !== 3) { // only run on fridays
+    if (now.getDay() !== 4) { // only run on fridays
         console.warn("Warning: Only run on fridays")
         return
     }
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "19:00:00:00"
+    const kick_off_time = "10:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
