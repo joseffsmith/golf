@@ -5,13 +5,13 @@ const puppeteer = require('puppeteer');
     // VARS
 
     const now = new Date()
-    if (now.getDay() !== 4) { // only run on fridays
+    if (now.getDay() !== 5) { // only run on fridays
         console.warn("Warning: Only run on fridays")
         return
     }
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "10:00:00:00"
+    const kick_off_time = "20:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
@@ -28,14 +28,14 @@ const puppeteer = require('puppeteer');
     }
 
     // date of competition in future
-    const desired_date = '5 Dec'
+    const desired_date = '10 Dec'
 
     // unique word in the competition title to distinguish it from other comps on the same day
-    const keyword = 'stableford'
+    const keyword = 'social'
 
     // tee times we want in order of preference
     const time_slots = [
-        '11:00', '11:10', '11:20', '11:30', '11:40', '11:50',
+        '08:00', '08:10', '08:20', '08:30', '08:40', '08:50',
         '12:00', '12:10', '12:20', '12:30', '12:40', '12:50',
         '13:00', '13:10', '13:20', '13:30', '13:40', '13:50',
     ]
@@ -145,7 +145,7 @@ const puppeteer = require('puppeteer');
     const input_selector = await page.evaluate(time_slots => {
         for (const slot of time_slots) {
             // TODO handle In Use slots
-            let str = `input[value="${slot}     Book"`
+            let str = `input[value="${slot}     Book"]`
             const inp = document.querySelector(str)
             if (!inp) {
                 console.warn(`Warning: slot - ${slot} unviable - full or not available`)
@@ -167,10 +167,8 @@ const puppeteer = require('puppeteer');
         return
     }
 
-    await page.$eval(input_selector, e => {
-        e.scrollIntoView()
-        e.click()
-    }, input_selector)
+    await page.click(input_selector)
+    await page.waitForSelector('select')
 
     await page.evaluate((player1, player2, player3) => {
         const [select1, select2, select3] = document.querySelectorAll('select')
@@ -179,8 +177,11 @@ const puppeteer = require('puppeteer');
         select3.value = player3
     }, player1, player2, player3)
 
-
-    await page.$eval('input[type="submit"]', e => e.click())
+    await page.click('input[type="submit"]')
+    await page.waitForTimeout(5000)
+    await page.screenshot({
+        path: 'test2.png'
+    })
     await page.evaluate(() => console.log('booked'))
 
     await browser.close()
