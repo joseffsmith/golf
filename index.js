@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
     }
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "15:15:00:00"
+    const kick_off_time = "20:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
@@ -28,10 +28,10 @@ const puppeteer = require('puppeteer');
     }
 
     // date of competition in future
-    const desired_date = '17 Dec'
+    const desired_date = '19 Dec'
 
     // unique word in the competition title to distinguish it from other comps on the same day
-    const keyword = 'social'
+    const keyword = 'SATURDAY'
 
     // tee times we want in order of preference
     const time_slots = [
