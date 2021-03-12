@@ -5,12 +5,12 @@ const puppeteer = require('puppeteer');
     // VARS
 
     const now = new Date()
-    //if (now.getDay() !== 6) { // only run on saturdays
+        //if (now.getDay() !== 6) { // only run on saturdays
         //console.warn("Warning: Only run on saturdays")
         //return
-    //}
-    // time we can book the competition today, if it's in the past we assume can book now
-    // const kick_off_time = "20:00:00:00"
+        //}
+        // time we can book the competition today, if it's in the past we assume can book now
+        // const kick_off_time = "20:00:00:00"
     const kick_off_time = "18:30:00:00:00"
 
     const ko = new Date()
@@ -55,8 +55,8 @@ const puppeteer = require('puppeteer');
         args: ['--no-sandbox']
     })
     const page = await browser.newPage()
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36');
-    page.on('console', msg => console.log(msg.text()));
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36')
+    page.on('console', msg => console.log(msg.text()))
 
 
     // Login
@@ -172,10 +172,11 @@ const puppeteer = require('puppeteer');
     await page.waitForSelector('select')
 
     await page.evaluate((player1, player2, player3) => {
-        const select1 = document.querySelectorAll('select')
+        const select1 = document.querySelectorAll('select')[0]
+
         select1.value = player1
-        //select2.value = player2
-        //select3.value = player3
+            //select2.value = player2
+            //select3.value = player3
     }, player1, player2, player3)
 
     await page.click('input[type="submit"]')
@@ -184,4 +185,4 @@ const puppeteer = require('puppeteer');
     await page.evaluate(() => console.log('booked'))
 
     await browser.close()
-})();
+})()
