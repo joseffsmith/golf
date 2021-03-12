@@ -5,13 +5,13 @@ const puppeteer = require('puppeteer');
     // VARS
 
     const now = new Date()
-    if (now.getDay() !== 5) { // only run on fridays
-        console.warn("Warning: Only run on fridays")
-        return
-    }
+    //if (now.getDay() !== 6) { // only run on saturdays
+        //console.warn("Warning: Only run on saturdays")
+        //return
+    //}
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "20:00:00:00"
+    const kick_off_time = "18:30:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
@@ -28,21 +28,21 @@ const puppeteer = require('puppeteer');
     }
 
     // date of competition in future
-    const desired_date = '19 Dec'
+    const desired_date = '14 Mar'
 
     // unique word in the competition title to distinguish it from other comps on the same day
-    const keyword = 'SATURDAY'
+    const keyword = undefined
 
     // tee times we want in order of preference
     const time_slots = [
-        '11:30', '11:40', '11:50',
+        '11:00', '11:10', '11:20', '11:30', '11:40', '11:50',
         '12:00', '12:10', '12:20', '12:30', '12:40', '12:50',
         '13:00', '13:10', '13:20', '13:30', '13:40', '13:50',
     ]
 
     // ID's for the <select> of the <option> values of the players we want to play with
-    const player1 = 26 // Tony Brown
-    const player2 = 101 // Rhys Griffith
+    const player2 = 26 // Tony Brown
+    const player1 = 101 // Rhys Griffith
     const player3 = 61 // Jeff Davies
 
     // not really the username, it's the value of the <option> to set the <select> to on the login page
@@ -172,10 +172,10 @@ const puppeteer = require('puppeteer');
     await page.waitForSelector('select')
 
     await page.evaluate((player1, player2, player3) => {
-        const [select1, select2, select3] = document.querySelectorAll('select')
+        const select1 = document.querySelectorAll('select')
         select1.value = player1
-        select2.value = player2
-        select3.value = player3
+        //select2.value = player2
+        //select3.value = player3
     }, player1, player2, player3)
 
     await page.click('input[type="submit"]')
