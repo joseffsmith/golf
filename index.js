@@ -1,16 +1,16 @@
 const puppeteer = require('puppeteer');
 
 
-(async() => {
+(async () => {
     // VARS
 
     const now = new Date()
-        //if (now.getDay() !== 6) { // only run on saturdays
-        //console.warn("Warning: Only run on saturdays")
-        //return
-        //}
-        // time we can book the competition today, if it's in the past we assume can book now
-        // const kick_off_time = "20:00:00:00"
+    //if (now.getDay() !== 6) { // only run on saturdays
+    //console.warn("Warning: Only run on saturdays")
+    //return
+    //}
+    // time we can book the competition today, if it's in the past we assume can book now
+    // const kick_off_time = "20:00:00:00"
     const kick_off_time = "09:00:00:00:00"
 
     const ko = new Date()
@@ -28,16 +28,16 @@ const puppeteer = require('puppeteer');
     }
 
     // date of competition in future
-    const desired_date = '18 Mar'
+    const desired_date = '20 Mar'
 
     // unique word in the competition title to distinguish it from other comps on the same day
     const keyword = undefined
 
     // tee times we want in order of preference
     const time_slots = [
-        '11:00', '11:10', '11:20', '11:30', '11:40', '11:50',
-        '12:00', '12:10', '12:20', '12:30', '12:40', '12:50',
-        '13:00', '13:10', '13:20', '13:30', '13:40', '13:50',
+        '10:00', '10:10', '10:20', '10:30', '10:40', '10:50',
+        // '12:00', '12:10', '12:20', '12:30', '12:40', '12:50',
+        // '13:00', '13:10', '13:20', '13:30', '13:40', '13:50',
     ]
 
     // ID's for the <select> of the <option> values of the players we want to play with
@@ -175,8 +175,8 @@ const puppeteer = require('puppeteer');
         const select1 = document.querySelectorAll('select')[0]
 
         select1.value = player1
-            //select2.value = player2
-            //select3.value = player3
+        //select2.value = player2
+        //select3.value = player3
     }, player1, player2, player3)
 
     await page.click('input[type="submit"]')
