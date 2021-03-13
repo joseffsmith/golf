@@ -1,6 +1,5 @@
 import bs4
-from datetime import datetime, timedelta
-import json
+from datetime import datetime
 
 class Parser:
     def __init__(self, content=None):
@@ -15,7 +14,7 @@ class Parser:
     def parse(self):
         b = bs4.BeautifulSoup(self.content)
         rows = b.find_all('tr')[1:] # skip first row it's a header
-        return json.dumps({'comps': [self.parse_row(row) for row in rows]})
+        return {'comps': [self.parse_row(row) for row in rows]}
 
     
     def parse_row(self, row):
