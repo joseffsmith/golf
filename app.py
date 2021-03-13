@@ -1,10 +1,12 @@
 import os
 from flask import Flask, request, jsonify, abort
+from flask_cors import CORS
 
 from scraper import MasterScoreboard
 from ms_parser import Parser
 from asset import Library
 app = Flask(__name__)
+CORS(app)
 
 from dotenv import load_dotenv
 load_dotenv()
