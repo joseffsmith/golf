@@ -1,11 +1,12 @@
 import requests
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-
-PASSWORD = ''
-USERNAME = ''
-BASE_URL = 'https://www.masterscoreboard.co.uk/ClubIndex.php?CWID=5070'
-COMP_URL = 'https://www.masterscoreboard.co.uk/ListOfFutureCompetitions.php?CWID=5070'
-print('here')
+PASSWORD = os.getenv('PASSWORD')
+USERNAME = os.getenv('USERNAME')
+BASE_URL = os.getenv('BASE_URL')
+COMP_URL = os.getenv('COMP_URL')
 
 
 class MasterScoreboard:
@@ -24,8 +25,8 @@ class MasterScoreboard:
             'ms_uniqueid': USERNAME,
         }
 
-        self.session.post(BASE_URL, data=payload)
-        print('authed')
+        r = self.session.post(BASE_URL, data=payload)
+        r.raise_for_status()
 
     def list_comps(self):
         comps_url = COMP_URL
