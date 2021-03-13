@@ -16,6 +16,8 @@ LIVE = os.getenv('LIVE')
 
 @app.before_request
 def before_request():
+    if request.method == 'OPTIONS':
+        return
     key = request.headers.get('X_MS_JS_API_KEY')
     if key != API_SECRET:
         abort(401)
