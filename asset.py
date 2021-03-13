@@ -7,6 +7,8 @@ import tempfile
 from dotenv import load_dotenv
 load_dotenv()
 BUCKET = os.getenv('BUCKET')
+KEY = os.getenv('AWS_KEY')
+SECRET = os.getenv('AWS_SECRET')
 
 credentials = ''
 
@@ -43,7 +45,7 @@ class Library:
 
     @property
     def s3(self):
-        s3 = boto3.client('s3')
+        s3 = boto3.client('s3', aws_access_key_id=KEY, aws_secret_access_key=SECRET)
         return s3
 
     def _read_s3(self, path):
