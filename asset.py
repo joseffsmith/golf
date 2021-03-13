@@ -2,6 +2,7 @@ import boto3
 import pathlib
 import json
 import os
+import tempfile
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -12,9 +13,6 @@ credentials = ''
 class Library:
     def __init__(self, live=False):
         self.live = live
-        if live:
-            self.auth_s3(credentials)
-        
         self.local_root = pathlib.Path('./_cache')
         self.local_root.mkdir(exist_ok=True)
 
@@ -30,10 +28,10 @@ class Library:
             content = self.read_s3(path)
         else:
             content = self.read_local(path)
+        
         return json.loads(content)
 
     def write_local(self, path, content):
-        print(self.local_root)
         p = self.local_root.joinpath(path)
         with open(p, 'w') as f:
             f.write(content)
@@ -45,11 +43,11 @@ class Library:
 
     @property
     def s3(self):
-        s3 = boto3.resource('s3')
-        return s3.Bucket(BUCKET)
+        s3 = boto3.client('s3')
+        return s3
 
     def read_s3(self, path):
-        return self.s3.get_object(Key=path)
+        return self.s3.get_object(Bucket=BUCKET, Key=path)['Body'].read()
 
     def write_s3(self, path, content):
-        self.s3.put_object(Key=path, Body=content)
+        self.s3.put_object(Bucket=BUCKET, Key=path, Body=content)
