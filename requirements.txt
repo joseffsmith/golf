@@ -3,6 +3,8 @@ boto3==1.17.27
 requests==2.25.1
 python-dotenv==0.15.0
 Flask==1.1.2
+gunicorn==20.0.4
+
 
 #dev
 ipython==7.21.0
@@ -14,14 +16,18 @@ backcall==0.2.0
 botocore==1.20.27
 certifi==2020.12.5
 chardet==4.0.0
+click==7.1.2
 colorama==0.4.4
 decorator==4.4.2
 idna==2.10
 ipython-genutils==0.2.0
 isort==5.7.0
+itsdangerous==1.1.0
 jedi==0.18.0
+Jinja2==2.11.3
 jmespath==0.10.0
 lazy-object-proxy==1.5.2
+MarkupSafe==1.1.1
 mccabe==0.6.1
 parso==0.8.1
 pickleshare==0.7.5
@@ -37,4 +43,5 @@ toml==0.10.2
 traitlets==5.0.5
 urllib3==1.26.3
 wcwidth==0.2.5
+Werkzeug==1.0.1
 wrapt==1.12.1
