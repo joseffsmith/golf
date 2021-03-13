@@ -1,24 +1,19 @@
+from botocore.credentials import BaseAssumeRoleCredentialFetcher
 import bs4
 from datetime import datetime
 
 from asset import Library
 
+
 class Parser:
-    def __init__(self, content=None):
-        self.content = content
-        if not self.content:
-            self.load_content()
+    def __init__(self):
+        pass
 
-    def load_content(self):
-        lib = Library()
-        self.content = lib.read('curr_comps')
-
-    def parse(self):
-        b = bs4.BeautifulSoup(self.content)
-        rows = b.find_all('tr')[1:] # skip first row it's a header
+    def parse(self, content):
+        b = bs4.BeautifulSoup(content)
+        rows = b.find_all('tr')[1:]  # skip first row it's a header
         return {'comps': [self.parse_row(row) for row in rows]}
 
-    
     def parse_row(self, row):
         # TODO check day of month is zero padded
 
@@ -40,4 +35,9 @@ class Parser:
             'action': action,
             'notes': notes.text
         }
-        
+
+    def booking_page(self, content):
+        b = bs4.BeautifulSoup(content.decode('utf-8'))
+        form_data = {i['name']: i['value']
+                     for i in b.find_all('input')}
+        return form_data
