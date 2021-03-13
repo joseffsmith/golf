@@ -3,7 +3,8 @@ from datetime import datetime
 
 class Parser:
     def __init__(self, content=None):
-        if not content:
+        self.content = content
+        if not self.content:
             self.load_content()
 
 

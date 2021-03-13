@@ -29,6 +29,4 @@ class MasterScoreboard:
         r.raise_for_status()
 
     def list_comps(self):
-        comps_url = COMP_URL
-
-
+        return self.session.get(COMP_URL)

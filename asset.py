@@ -19,24 +19,24 @@ class Library:
     def write(self, path, content):
         c = json.dumps(content)
         if self.live:
-            self.write_s3(path, c)
+            self._write_s3(path, c)
         else:
-            self.write_local(path, c)
+            self._write_local(path, c)
 
     def read(self, path):
         if self.live:
-            content = self.read_s3(path)
+            content = self._read_s3(path)
         else:
-            content = self.read_local(path)
+            content = self._read_local(path)
         
         return json.loads(content)
 
-    def write_local(self, path, content):
+    def _write_local(self, path, content):
         p = self.local_root.joinpath(path)
         with open(p, 'w') as f:
             f.write(content)
 
-    def read_local(self, path):
+    def _read_local(self, path):
         p = self.local_root.joinpath(path)
         with open(p, 'r') as f:
             return f.read()
@@ -46,8 +46,8 @@ class Library:
         s3 = boto3.client('s3')
         return s3
 
-    def read_s3(self, path):
+    def _read_s3(self, path):
         return self.s3.get_object(Bucket=BUCKET, Key=path)['Body'].read()
 
-    def write_s3(self, path, content):
+    def _write_s3(self, path, content):
         self.s3.put_object(Bucket=BUCKET, Key=path, Body=content)
