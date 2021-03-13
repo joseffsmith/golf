@@ -1,16 +1,17 @@
 import bs4
 from datetime import datetime
 
+from asset import Library
+
 class Parser:
     def __init__(self, content=None):
         self.content = content
         if not self.content:
             self.load_content()
 
-
     def load_content(self):
-        with open('comps_list.txt', 'r') as f:
-            self.content = f.read()
+        lib = Library()
+        self.content = lib.read('curr_comps')
 
     def parse(self):
         b = bs4.BeautifulSoup(self.content)

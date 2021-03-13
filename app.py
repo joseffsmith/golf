@@ -11,8 +11,7 @@ CORS(app)
 from dotenv import load_dotenv
 load_dotenv()
 API_SECRET = os.getenv('API_SECRET')
-
-LIVE=False
+LIVE=os.getenv('LIVE')
 
 
 @app.before_request
