@@ -1,8 +1,5 @@
-from botocore.credentials import BaseAssumeRoleCredentialFetcher
 import bs4
 from datetime import datetime
-
-from asset import Library
 
 
 class Parser:
@@ -36,8 +33,20 @@ class Parser:
             'notes': notes.text
         }
 
-    def booking_page(self, content):
+    def select_slot_page(self, content):
         b = bs4.BeautifulSoup(content.decode('utf-8'))
         form_data = {i['name']: i['value']
                      for i in b.find_all('input')}
         return form_data
+
+    def select_partner_page(self, content):
+        b = bs4.BeautifulSoup(content.decode('utf-8'))
+        form_data = {i['name']: i['value']
+                     for i in b.find_all('input')}
+        num_partners = len(b.find_all('select'))
+        return form_data, num_partners
+
+    def partner_ids(self, content):
+        b = bs4.BeautifulSoup(content.decode('utf-8'))
+        id_to_name_map = {o['value']: o.text for o in b.find_all('option')}
+        return id_to_name_map
