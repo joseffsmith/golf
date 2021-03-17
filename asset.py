@@ -38,7 +38,7 @@ class Library:
                 content = self._read_local(path)
         except Exception as e:
             logger.exception(f'Could not read content fron {path}')
-            if default:
+            if default is not None:
                 return default
             raise e
         return json.loads(content)
