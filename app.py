@@ -12,6 +12,7 @@ logger.setLevel(logging.DEBUG)
 
 # TODO add all needed classes to session variable
 # set up logging with papertrail, email on exceptions
+# handle comps already open/ check for spaces available
 
 load_dotenv()
 LIVE = os.getenv('LIVE')
