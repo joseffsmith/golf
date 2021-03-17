@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, abort
 from flask_apscheduler import APScheduler
 from flask_cors import CORS
 from dotenv import load_dotenv
+from datetime import datetime
 import logging
 
 import app as js
@@ -43,8 +44,8 @@ def curr_players():
     return jsonify(status='ok', players=players)
 
 
-@app.route('/current_bookings/', methods=['GET'])
-def current_bookings():
+@app.route('/curr_bookings/', methods=['GET'])
+def curr_bookings():
     lib = Library(live=LIVE)
     bookings = lib.read('bookings', default=[])
     return jsonify(status='ok', bookings=bookings)
@@ -80,7 +81,7 @@ def schedule_booking():
         js.book_job,
         args=[comp, [booking_time], player_ids],
         replace_existing=True,
-        next_run_time=comp['book_from']
+        next_run_time=comp['book_from'] if comp['book_from'] else datetime.now()
     )
 
     bookings = lib.read('bookings', default=[])
