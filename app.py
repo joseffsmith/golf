@@ -1,121 +1,115 @@
 import os
-from s3_job_store import S3JobStore
-from flask import Flask, request, jsonify, abort
-from flask_apscheduler import APScheduler
-from flask_cors import CORS
 from dotenv import load_dotenv
 import logging
 
 from scraper import MasterScoreboard
 from ms_parser import Parser
 from asset import Library
-app = Flask(__name__)
-CORS(app)
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+# TODO add all needed classes to session variable
+# set up logging with papertrail, email on exceptions
 
 load_dotenv()
-API_SECRET = os.getenv('API_SECRET')
 LIVE = os.getenv('LIVE')
 
 
-@app.before_request
-def before_request():
-    if request.method == 'OPTIONS':
-        return
-    key = request.headers.get('X_MS_JS_API_KEY')
-    if key != API_SECRET:
-        abort(401)
-
-
-@app.route('/comps/', methods=['GET'])
-def index():
+def scrape_and_save_comps(parsed_test_comps=None):
     lib = Library(live=LIVE)
-    comps = lib.read('curr_comps')
-    return jsonify(status='ok', comps=comps)
-
-
-@app.route('/scrape_comps/', methods=['POST'])
-def scrape():
-
-    lib = Library(live=LIVE)
-    parsed = lib.read('curr_comps')
-    if LIVE:
+    current_comps = {c['id']: c for c in lib.read('curr_comps')}
+    parsed_comps = parsed_test_comps
+    if not parsed_test_comps:
         ms = MasterScoreboard()
         ms.auth()
         content = ms.list_comps()
-        parsed = Parser().parse(content)
+        parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
 
-    lib.write('curr_comps', parsed)
+    if len(current_comps) == 0:
+        logger.debug(
+            f"No current comps, saving {len(parsed_comps)} parsed comps as current")
+        lib.write('curr_comps', parsed_comps)
+        return parsed_comps
 
-    return jsonify(status='ok', comps=parsed)
+    skipped = []
+    saving = []
+    removed = []
+    for id, pc in parsed_comps.items():
+        if id not in current_comps:
+            # new comp we haven't seen before
+            # or the id has changed since we last viewed it
+            if 'Book from' not in pc['notes']:
+                logger.exception(
+                    f"New Comp without 'book from', don't like it - {id}, skipping")
+                skipped.append(pc)
+                continue
+
+            logger.debug('New comp with book from, adding to list')
+            saving.append(pc)
+            continue
+
+        cc = current_comps[id]
+
+        if cc == pc:
+            logger.debug("No change in comp, saving as normal")
+            saving.append(pc)
+            continue
+
+        logger.debug(
+            'Change detected in comp, patching current comp with new data')
+        for key, value in pc.items():
+            if cc[key] == value:
+                continue
+            cc[key] = value
+        saving.append(cc)
+
+    removed = [c for c in current_comps.values() if c not in saving]
+
+    logger.debug(
+        f"Finished with comps, parsed: {len(parsed_comps)} saving: {len(saving)}, skipped: {len(skipped)}, removed: {len(removed)}")
+
+    lib.write('curr_comps', saving)
+    return saving
 
 
-@app.route('/scheduler/scrape_comps/', methods=['GET'])
-def scrape_scheduler():
-    from datetime import datetime, timedelta
-    now = datetime.now() + timedelta(minutes=1)
-    scheduler.add_job('123', scrape_players,
-                      next_run_time=now, replace_existing=True)
-    return jsonify(status='ok')
-
-
-def scrape_players():
+def scrape_and_save_players(parsed_test_players=None):
     logger.debug(f'Scraping players, live={LIVE}')
     lib = Library(live=LIVE)
-    parser = Parser()
-    parsed_players = lib.read('players')
-    if LIVE:
-        ms = MasterScoreboard()
-        content = ms.get_partners()
-        parsed_players = parser.partner_ids(content)
-    print('hello')
-    lib.write('players', parsed_players)
-
-
-@app.route('/scrape_players/', methods=['POST'])
-def scrape_players_req():
-
-    lib = Library(live=LIVE)
-    parser = Parser()
-    parsed_players = lib.read('players')
-    if LIVE:
+    parsed_players = parsed_test_players
+    if not parsed_test_players:
+        parser = Parser()
         ms = MasterScoreboard()
         content = ms.get_partners()
         parsed_players = parser.partner_ids(content)
 
     lib.write('players', parsed_players)
-    return jsonify(status='ok', players=parsed_players)
+    return parsed_players
 
 
-class Config(object):
-    JOBS = []
+def book_job(comp, preferred_times, partner_ids):
+    # assumes that the comp is live
+    # time in 16:00 format, 10 min incs
+    # need correct id_number of partners
 
-    SCHEDULER_JOBSTORES = {
-        'default': S3JobStore(live=LIVE)
-    }
+    ms = MasterScoreboard()
+    ms.auth()
+    parser = Parser()
 
-    SCHEDULER_EXECUTORS = {
-        'default': {'type': 'threadpool', 'max_workers': 20}
-    }
+    # all the time booking slots
+    raw_slots_available = ms.select_comp(comp['action'])
 
-    SCHEDULER_JOB_DEFAULTS = {
-        'coalesce': False,
-        'max_instances': 3
-    }
+    slot_page_data = parser.booking_page(raw_slots_available)
+    block_id_pair = {k: v for k, v in slot_page_data.items() if
+                     v.split(' ')[0] in preferred_times}
 
-    SCHEDULER_API_ENABLED = False
+    raw_partner_choosing = ms.select_slot(block_id_pair, slot_page_data)
+    partner_page_data, num_partners = parser.select_partner_page(
+        raw_partner_choosing)
 
+    if len(partner_ids) != num_partners:
+        raise Exception("Not right amount of players")
 
-app.config.from_object(Config())
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
-
-app.debug = True
-
-if __name__ == '__main__':
-    app.run(port=5000)
+    ms.select_partners(partner_ids, partner_page_data)
+    return

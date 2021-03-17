@@ -1,36 +1,84 @@
 import bs4
-from datetime import datetime
+from dateutil import parser
+
+import logging
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 class Parser:
     def __init__(self):
         pass
 
-    def parse(self, content):
+    def parse_comps(self, content):
         b = bs4.BeautifulSoup(content)
         rows = b.find_all('tr')[1:]  # skip first row it's a header
-        return {'comps': [self.parse_row(row) for row in rows]}
+        comps = []
+        for row in rows:
+            try:
+                r = self.parse_row(row)
+                comps.append(r)
+            except Exception as e:
+                logger.exception('Could not parse row')
+                continue
+
+        return comps
 
     def parse_row(self, row):
         # TODO check day of month is zero padded
 
         cells = row.find_all('td')
+        if len(cells) == 1:
+            raise Exception('Header column')
         if len(cells) != 4:
             raise Exception('Unable to parse row, cells not equal to 4')
 
-        gender, date, html_description, notes = cells
+        raw_gender, raw_date, raw_html_description, raw_notes = cells
 
-        form = notes.find('form')
+        form = raw_notes.find('form')
         action = None
         if form:
-            action = notes.find('form', action=True)['action']
+            action = raw_notes.find('form', action=True)['action']
+
+        comp_date = None
+        try:
+            comp_date = parser.parse(raw_date.text).timestamp()
+        except Exception as e:
+            logger.exception(f"Failed to parse datetime {raw_date.text}")
+
+        notes = raw_notes.text
+
+        bkb = 'Bookings close by '
+        bookings_close_by = None
+        if bkb in notes:
+            index = notes.find(bkb)
+            bkb_date = notes[index:].replace(bkb, '')
+            try:
+                bookings_close_by = parser.parse(bkb_date).timestamp()
+            except Exception as e:
+                logger.exception(
+                    f'Could not parse Booking close by date {bkb_date}')
+
+        bf = 'Book from '
+        book_from = None
+        if bf in notes:
+            bf_date = notes.replace(bf, '')
+            try:
+                book_from = parser.parse(bf_date).timestamp()
+            except Exception as e:
+                logger.exception(
+                    f'Could not parse Book from date {bf_date}')
 
         return {
-            'gender': gender.find('img', alt=True)['alt'],
-            'date': datetime.strptime(date.text, '%a %d %b %y').timestamp(),
-            'html_description': html_description.text,
+            'id': f'{comp_date}-{raw_html_description.text}',
+            'gender': raw_gender.find('img', alt=True)['alt'],
+            'comp_date': comp_date,
+            'html_description': raw_html_description.text,
             'action': action,
-            'notes': notes.text
+            'notes': notes,
+            'bookings_close_by': bookings_close_by,
+            'book_from': book_from
         }
 
     def select_slot_page(self, content):

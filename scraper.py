@@ -1,7 +1,6 @@
 import requests
 import os
 from dotenv import load_dotenv
-from requests.api import head
 load_dotenv()
 
 PASSWORD = os.getenv('MS_PASSWORD')
