@@ -19,7 +19,7 @@ LIVE = os.getenv('LIVE')
 
 def scrape_and_save_comps(parsed_test_comps=None):
     lib = Library(live=LIVE)
-    current_comps = {c['id']: c for c in lib.read('curr_comps')}
+    current_comps = {c['id']: c for c in lib.read('curr_comps', default=[])}
     parsed_comps = parsed_test_comps
     if not parsed_test_comps:
         ms = MasterScoreboard()
@@ -112,4 +112,10 @@ def book_job(comp, preferred_times, partner_ids):
         raise Exception("Not right amount of players")
 
     ms.select_partners(partner_ids, partner_page_data)
+
+    lib = Library(live=LIVE)
+    bookings = {b['comp']['id']: b for b in lib.read('bookings')}
+    booking = bookings[comp['id']]
+    booking['booked'] = True
+    bookings[comp['id']] = booking
     return

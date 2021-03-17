@@ -42,7 +42,7 @@ class S3JobStore(BaseJobStore):
     def _jobs(self):
         lib = Library(live=self.live)
         jobs = [self._reconstitute_job(j)
-                for j in lib.read('jobs')]
+                for j in lib.read('jobs', default=[])]
         return sorted([(j, j.next_run_time.timestamp()) for j in jobs], key=lambda x: (x[0].next_run_time, x[0].id))
 
     @_jobs.setter

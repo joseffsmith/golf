@@ -32,21 +32,21 @@ def before_request():
 @app.route('/curr_comps/', methods=['GET'])
 def curr_comps():
     lib = Library(live=LIVE)
-    comps = lib.read('curr_comps')
+    comps = lib.read('curr_comps', default=[])
     return jsonify(status='ok', comps=comps)
 
 
 @app.route('/curr_players/', methods=['GET'])
 def curr_players():
     lib = Library(live=LIVE)
-    players = lib.read('players')
+    players = lib.read('players', default=[])
     return jsonify(status='ok', players=players)
 
 
 @app.route('/current_bookings/', methods=['GET'])
 def current_bookings():
     lib = Library(live=LIVE)
-    bookings = lib.read('bookings')
+    bookings = lib.read('bookings', default=[])
     return jsonify(status='ok', bookings=bookings)
 
 
@@ -82,6 +82,15 @@ def schedule_booking():
         replace_existing=True,
         next_run_time=comp['book_from']
     )
+
+    bookings = lib.read('bookings', default=[])
+    bookings.append({
+        'comp': comp,
+        'booking_time': booking_time,
+        'player_ids': player_ids,
+        'booked': False
+    })
+    lib.write('bookings', bookings)
     return jsonify(status='ok')
 
 

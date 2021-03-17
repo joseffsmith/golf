@@ -1,8 +1,8 @@
+import logging
 import boto3
 import pathlib
 import json
 import os
-import tempfile
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -11,6 +11,11 @@ KEY = os.getenv('AWS_KEY')
 SECRET = os.getenv('AWS_SECRET')
 
 credentials = ''
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
 
 class Library:
     def __init__(self, live=False):
@@ -25,12 +30,17 @@ class Library:
         else:
             self._write_local(path, c)
 
-    def read(self, path):
-        if self.live:
-            content = self._read_s3(path)
-        else:
-            content = self._read_local(path)
-        
+    def read(self, path, default=None):
+        try:
+            if self.live:
+                content = self._read_s3(path)
+            else:
+                content = self._read_local(path)
+        except Exception as e:
+            logger.exception(f'Could not read content fron {path}')
+            if default:
+                return default
+            raise e
         return json.loads(content)
 
     def _write_local(self, path, content):
@@ -45,7 +55,8 @@ class Library:
 
     @property
     def s3(self):
-        s3 = boto3.client('s3', aws_access_key_id=KEY, aws_secret_access_key=SECRET)
+        s3 = boto3.client('s3', aws_access_key_id=KEY,
+                          aws_secret_access_key=SECRET)
         return s3
 
     def _read_s3(self, path):
