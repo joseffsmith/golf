@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
     //}
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "09:00:00:00:00"
+    const kick_off_time = "18:00:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
@@ -28,16 +28,18 @@ const puppeteer = require('puppeteer');
     }
 
     // date of competition in future
-    const desired_date = '20 Mar'
+    const desired_date = '24 Mar'
 
     // unique word in the competition title to distinguish it from other comps on the same day
     const keyword = undefined
 
     // tee times we want in order of preference
     const time_slots = [
-        '10:00', '10:10', '10:20', '10:30', '10:40', '10:50',
+        // '10:00', '10:10', '10:20', '10:30', '10:40', '10:50',
         // '12:00', '12:10', '12:20', '12:30', '12:40', '12:50',
         // '13:00', '13:10', '13:20', '13:30', '13:40', '13:50',
+        '14:30', '14:40', '14:50',
+        '15:00', '15:10', '15:20', '15:30', '15:40', '15:50',
     ]
 
     // ID's for the <select> of the <option> values of the players we want to play with
