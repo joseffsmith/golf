@@ -67,10 +67,10 @@ def scrape_and_save_players():
 def schedule_booking():
     json = request.json
     comp_id = json['comp_id']
-    booking_time = json['time']
+    booking_time = json['booking_times']
     player_ids = json['player_ids']
     lib = Library(live=LIVE)
-    comps = {c['id'] for c in lib.read('curr_comps')}
+    comps = {c['id']: c for c in lib.read('curr_comps')}
     if comp_id not in comps:
         abort(404, 'comp not found')
 
@@ -79,9 +79,11 @@ def schedule_booking():
     scheduler.add_job(
         comp_id,
         js.book_job,
-        args=[comp, [booking_time], player_ids],
+        args=[comp, booking_time, player_ids],
         replace_existing=True,
-        next_run_time=comp['book_from'] if comp['book_from'] else datetime.now()
+        next_run_time=datetime.fromtimestamp(
+            int(comp['book_from'])) if comp['book_from'] else datetime.now(),
+        misfire_grace_time=None
     )
 
     bookings = lib.read('bookings', default=[])

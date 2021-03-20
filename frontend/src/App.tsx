@@ -1,4 +1,4 @@
-import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent } from 'react'
+import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent, MouseEventHandler } from 'react'
 import { observer } from 'mobx-react-lite'
 import { makeAutoObservable, runInAction } from 'mobx'
 
@@ -20,11 +20,12 @@ const Header: FunctionComponent = observer(() => {
 const Comps: FunctionComponent = observer(() => {
   const store = useContext(StoreContext)
   return (<>
-    {store!.comps.map(c => <Competition key={c.id} comp={c} booking={store?.bookings.find(b => b.comp.id === c.id)} players={store!.players} />)}
+    {store!.comps.map((c, idx) => <Competition idx={idx} key={c.id} comp={c} booking={store?.bookings.find(b => b.comp.id === c.id)} players={store!.players} />)}
   </>)
 })
 
-const Competition: FunctionComponent<{ comp: Comp, booking: Booking | undefined, players: { [id: string]: string } }> = ({ comp, booking, players }) => {
+const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking | undefined, players: { [id: string]: string } }> = ({ idx, comp, booking, players }) => {
+  const store = useContext(StoreContext)
   const hours = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
   const minutes = ['00', '10', '20', '30', '40', '50']
 
@@ -32,19 +33,30 @@ const Competition: FunctionComponent<{ comp: Comp, booking: Booking | undefined,
   const [tee_times, setTeeTimes] = useState<Array<string>>(['empty'])
   const [partners, setPartners] = useState<Array<string>>(preferred_partners)
   const handleSetTeeTime = (e: ChangeEvent<HTMLSelectElement>) => {
-    const fieldset = e.target.form![0]
-    // const all_tees = tee_times.filter(e => e !== 'empty')
-    // console.log(new_val, all_tees)
-    // const set_tees = new Set(all_tees)
-
-    // if (new_val !== 'empty') {
-    //   set_tees.add(new_val)
-    // }
-    // setTeeTimes(['empty', ...Array.from(set_tees)])
+    const times = document.querySelectorAll(`#comp-${idx} .tee-time`)
+    const ts: string[] = []
+    times.forEach((t: any) => {
+      if (t.value !== 'empty') {
+        ts.push(t.value)
+      }
+    })
+    setTeeTimes(['empty', ...ts])
   }
   const handleSetPartner = (e: ChangeEvent<HTMLSelectElement>) => {
+    const partners = document.querySelectorAll(`#comp-${idx} .partners`)
+    const ps: string[] = []
+    partners.forEach((p: any) => {
+      ps.push(p.value)
+    })
+    setPartners(ps)
   }
-  return <details open={true}>
+  const handelSubmitJob = (e: React.MouseEvent) => {
+    e.preventDefault()
+    store?.api.book_comp(comp.id, tee_times.filter(t => t !== 'empty'), partners)
+
+  }
+
+  return <details open={process.env['NODE_ENV'] === 'development'}>
     <summary>
       {formatDateTime(comp.comp_date)}{booking && `, ${booking.booking_time}-${booking.player_ids.map(p_id => players[p_id])}`}
       <p><sub>{comp.html_description}</sub></p>
@@ -52,20 +64,18 @@ const Competition: FunctionComponent<{ comp: Comp, booking: Booking | undefined,
     <small>Notes: {comp.notes}</small><br />
     <small>Booking opens: {formatDateTime(comp.book_from, true)}</small>
 
-    <form id={comp.id}>
-      <fieldset>
-        Tee time:<small><br />All of these slots may not be available on the day, set more than one, order matters</small>
-        {tee_times.map(t => {
-          return <select className='tee-time' key={t} onChange={handleSetTeeTime}>
-            <option value='empty'>No time</option>
-            {hours.map(h => minutes.map(m => <option value={h + ':' + m}>{h + ':' + m}</option>)).flat()}
-          </select>
-        })}
-      </fieldset>
+    <form id={`comp-${idx}`}>
+      Tee time:<small><br />All of these slots may not be available on the day, set more than one, order matters</small>
+      {tee_times.map((t, idx) => {
+        return <select className='tee-time' key={idx} onChange={handleSetTeeTime}>
+          <option value='empty'>No time</option>
+          {hours.map(h => minutes.map(m => <option value={h + ':' + m}>{h + ':' + m}</option>)).flat()}
+        </select>
+      })}
       <label>
         Partners:<small><br />Order matters, for example, with a 2 ball, Rhys is the default, swap him for someone else if necessary</small>
         {partners.map(p => {
-          return <select key={p} onChange={handleSetPartner}>
+          return <select className='partners' key={p} onChange={handleSetPartner}>
             <option value={p}>{players[p]}</option>
             {Object.entries(players).map(v => {
               const [key, val] = v
@@ -74,7 +84,7 @@ const Competition: FunctionComponent<{ comp: Comp, booking: Booking | undefined,
           </select>
         })}
       </label>
-      <button type='submit'>Book</button>
+      <button onClick={handelSubmitJob}>Book</button>
     </form>
   </details>
 }
@@ -99,6 +109,7 @@ class API {
     if (!API_SECRET) { throw Error('No access to API') }
     if (!API_URL) { throw Error('No API url set') }
     this.headers.set('X_MS_JS_API_KEY', API_SECRET)
+    this.headers.set('Content-Type', 'application/json')
     this.url = API_URL
   }
 
@@ -111,11 +122,11 @@ class API {
     return await response.json()
   }
 
-  book_comp(comp_id: string, booking_time: string, player_ids: number[]) {
+  book_comp(comp_id: string, booking_times: string[], player_ids: string[]) {
     return fetch(`${this.url}scheduler/booking/`, {
       method: 'POST',
       headers: this.headers,
-      body: JSON.stringify({ comp_id, booking_time, player_ids })
+      body: JSON.stringify({ comp_id, booking_times, player_ids })
     })
       .then(response => {
         if (!response.ok) {
@@ -144,7 +155,7 @@ type Comp = {
 type Booking = {
   comp: Comp,
   booking_time: string,
-  player_ids: number[],
+  player_ids: string[],
   booked: boolean
 }
 

@@ -12,7 +12,7 @@ class Parser:
         pass
 
     def parse_comps(self, content):
-        b = bs4.BeautifulSoup(content)
+        b = bs4.BeautifulSoup(content, features='html.parser')
         rows = b.find_all('tr')[1:]  # skip first row it's a header
         comps = []
         for row in rows:
@@ -82,19 +82,19 @@ class Parser:
         }
 
     def select_slot_page(self, content):
-        b = bs4.BeautifulSoup(content.decode('utf-8'))
+        b = bs4.BeautifulSoup(content.decode('utf-8'), features='html.parser')
         form_data = {i['name']: i['value']
                      for i in b.find_all('input')}
         return form_data
 
     def select_partner_page(self, content):
-        b = bs4.BeautifulSoup(content.decode('utf-8'))
+        b = bs4.BeautifulSoup(content.decode('utf-8'), features='html.parser')
         form_data = {i['name']: i['value']
                      for i in b.find_all('input')}
         num_partners = len(b.find_all('select'))
         return form_data, num_partners
 
     def partner_ids(self, content):
-        b = bs4.BeautifulSoup(content.decode('utf-8'))
+        b = bs4.BeautifulSoup(content.decode('utf-8'), features='html.parser')
         id_to_name_map = {o['value']: o.text for o in b.find_all('option')}
         return id_to_name_map

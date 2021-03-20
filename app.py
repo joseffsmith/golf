@@ -61,6 +61,10 @@ def scrape_and_save_comps(parsed_test_comps=None):
         logger.debug(
             'Change detected in comp, patching current comp with new data')
         for key, value in pc.items():
+            if not value:
+                continue
+            if key == 'book_from':
+                continue
             if cc[key] == value:
                 continue
             cc[key] = value
@@ -89,7 +93,7 @@ def scrape_and_save_players(parsed_test_players=None):
     return parsed_players
 
 
-def book_job(comp, preferred_times, partner_ids):
+def book_job(comp, preferred_times, partner_ids=[]):
     # assumes that the comp is live
     # time in 16:00 format, 10 min incs
     # need correct id_number of partners
@@ -97,26 +101,40 @@ def book_job(comp, preferred_times, partner_ids):
     ms = MasterScoreboard()
     ms.auth()
     parser = Parser()
+    lib = Library(live=LIVE)
 
     # all the time booking slots
-    raw_slots_available = ms.select_comp(comp['action'])
+    action = comp.get('action')
+    if not action:
+        comps = {c['id']: c for c in scrape_and_save_comps()}
+        action = comps[comp['id']]['action']
 
-    slot_page_data = parser.booking_page(raw_slots_available)
+    raw_slots_available = ms.select_comp(action)
+
+    logger.debug('Finding slots available for comp')
+    slot_page_data = parser.select_slot_page(raw_slots_available)
     block_id_pair = {k: v for k, v in slot_page_data.items() if
                      v.split(' ')[0] in preferred_times}
 
+    if (len(block_id_pair.keys()) == 0):
+        raise Exception('No slots available')
+
+    logger.debug(f'slots: {len(block_id_pair.keys())}')
     raw_partner_choosing = ms.select_slot(block_id_pair, slot_page_data)
     partner_page_data, num_partners = parser.select_partner_page(
         raw_partner_choosing)
 
-    if len(partner_ids) != num_partners:
-        raise Exception("Not right amount of players")
+    logger.debug('Number of partners = ' + str(num_partners))
+    logger.debug('Selecting partners')
+    if num_partners == 0:
+        partner_ids = []
 
-    ms.select_partners(partner_ids, partner_page_data)
+    ms.select_partners(partner_ids[:num_partners], partner_page_data)
 
-    lib = Library(live=LIVE)
+    logger.debug('BOOKED!!!')
     bookings = {b['comp']['id']: b for b in lib.read('bookings')}
-    booking = bookings[comp['id']]
-    booking['booked'] = True
-    bookings[comp['id']] = booking
+    booking = bookings.get(comp['id'])
+    if booking:
+        booking['booked'] = True
+        bookings[comp['id']] = booking
     return

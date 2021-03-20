@@ -1,5 +1,6 @@
 import requests
 import os
+import logging
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -7,6 +8,9 @@ PASSWORD = os.getenv('MS_PASSWORD')
 USERNAME = os.getenv('MS_USERNAME')
 BASE_URL = os.getenv('BASE_URL')
 COMP_URL = os.getenv('COMP_URL')
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 class MasterScoreboard:
@@ -45,6 +49,8 @@ class MasterScoreboard:
         payload = {
             'Book': "    Book    "
         }
+        logger.debug(payload)
+
         r = self.session.post(url, data=payload)
         r.raise_for_status()
         return r.content
@@ -58,6 +64,7 @@ class MasterScoreboard:
         payload.update(block_id_pair)
         payload['Params'] = form_data['Params']
         payload['MaxID'] = form_data['MaxID']
+        logger.debug(payload)
 
         r = self.session.post(next_page, data=payload)
         r.raise_for_status()
@@ -72,6 +79,7 @@ class MasterScoreboard:
             f"Partner_{idx+1}": str(p_id) for idx, p_id in enumerate(partner_ids)
         })
         payload['Book'] = 'Book'
+        logger.debug(payload)
 
         r = self.session.post(next_page, data=payload)
         r.raise_for_status()
