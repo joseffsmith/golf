@@ -76,7 +76,7 @@ class MasterScoreboard:
         payload = form_data
         # add in the players we can
         payload.update({
-            f"Partner_{idx+1}": str(p_id) for idx, p_id in enumerate(partner_ids)
+            f"Partner_{idx+1}": str(p_id.split(':')[0]) for idx, p_id in enumerate(partner_ids)
         })
         payload['Book'] = 'Book'
         logger.debug(payload)

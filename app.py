@@ -126,10 +126,12 @@ def book_job(comp, preferred_times, partner_ids=[]):
 
     logger.debug('Number of partners = ' + str(num_partners))
     logger.debug('Selecting partners')
-    if num_partners == 0:
-        partner_ids = []
 
-    ms.select_partners(partner_ids[:num_partners], partner_page_data)
+    new_ids = partner_ids[:num_partners]
+    while len(new_ids) < 4:  # always send 4 partner ids
+        new_ids.append('0')
+
+    ms.select_partners(new_ids, partner_page_data)
 
     logger.debug('BOOKED!!!')
     bookings = {b['comp']['id']: b for b in lib.read('bookings')}
