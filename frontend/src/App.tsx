@@ -1,8 +1,11 @@
-import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent, MouseEventHandler } from 'react'
+import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent, MouseEventHandler, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { makeAutoObservable, runInAction } from 'mobx'
+import netlifyAuth from './netlifyAuth.js'
+import { User } from 'netlify-identity-widget'
 
 const App: FunctionComponent = () => {
+
   return (
     <StoreContext.Provider value={new Store()}>
       <main>
@@ -14,7 +17,35 @@ const App: FunctionComponent = () => {
 }
 
 const Header: FunctionComponent = observer(() => {
-  return <header><nav>Logged in as A.Smith</nav></header>
+  let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
+  let [user, setUser] = useState<User>()
+  let login = () => {
+    netlifyAuth.authenticate((user: any) => {
+      setLoggedIn(!!user)
+      setUser(user)
+      // @ts-ignore
+      netlifyAuth.closeModal()
+    })
+  }
+
+  let logout = () => {
+    netlifyAuth.signout(() => {
+      setLoggedIn(false)
+      setUser(undefined)
+    })
+  }
+
+  useEffect(() => {
+    netlifyAuth.initialize((user: any) => {
+      setLoggedIn(!!user)
+    })
+  }, [loggedIn])
+
+  return <header><nav>
+    <div id='netlify-modal' data-netlify-identity-menu></div>
+    {user}
+    {loggedIn}
+  </nav></header>
 })
 
 const Comps: FunctionComponent = observer(() => {
