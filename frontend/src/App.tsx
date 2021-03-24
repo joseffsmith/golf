@@ -3,9 +3,12 @@ import { observer } from 'mobx-react-lite'
 import { makeAutoObservable, runInAction } from 'mobx'
 import netlifyAuth from './netlifyAuth.js'
 import { User } from 'netlify-identity-widget'
+import { configure } from "mobx"
+
+
 
 const App: FunctionComponent = () => {
-
+  configure({ isolateGlobalState: true })
   return (
     <StoreContext.Provider value={new Store()}>
       <main>
@@ -17,6 +20,7 @@ const App: FunctionComponent = () => {
 }
 
 const Header: FunctionComponent = observer(() => {
+
   let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
   let [user, setUser] = useState<User>()
   let login = () => {
@@ -60,9 +64,8 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
   const hours = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
   const minutes = ['00', '10', '20', '30', '40', '50']
 
-  const preferred_partners = ["101:~:Griffith, Rhys ", "61:~:Davies, Jeff ", "26:~:Brown, Tony Paul "]
   const [tee_times, setTeeTimes] = useState<Array<string>>(['empty'])
-  const [partners, setPartners] = useState<Array<string>>(preferred_partners)
+  const [partners, setPartners] = useState<Array<string>>(["101:~:Griffith, Rhys "])
   const handleSetTeeTime = (e: ChangeEvent<HTMLSelectElement>) => {
     const times = document.querySelectorAll(`#comp-${idx} .tee-time`)
     const ts: string[] = []
@@ -107,8 +110,37 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
         Partners:<small><br />Order matters, for example, with a 2 ball, Rhys is the default, swap him for someone else if necessary</small>
         {partners.map(p => {
           return <select className='partners' key={p} onChange={handleSetPartner}>
-            <option value={p}>{players[p]}</option>
-            {Object.entries(players).map(v => {
+            {Object.entries(store?.preferred_players!).sort((a, b) => {
+              const [keya, vala] = a
+              const [keyb, valb] = b
+              if (vala < valb) {
+                return -1
+              }
+              if (vala > valb) {
+                return 1
+              }
+              return 0
+            }).map(v => {
+              const [key, val] = v
+              return <option key={`${key}-${val}`} value={key}>{val}</option>
+            })}
+            {Object.entries(players).filter(v => {
+              const [key, val] = v
+              if (store?.preferred_players.hasOwnProperty(key)) {
+                return false
+              }
+              return true
+            }).sort((a, b) => {
+              const [keya, vala] = a
+              const [keyb, valb] = b
+              if (vala < valb) {
+                return -1
+              }
+              if (vala > valb) {
+                return 1
+              }
+              return 0
+            }).map(v => {
               const [key, val] = v
               return <option key={`${key}-${val}`} value={key}>{val}</option>
             })}
@@ -194,6 +226,12 @@ class Store {
   comps: Comp[] = []
   bookings: Booking[] = []
   players: { [id: string]: string } = {}
+  preferred_players = {
+    "101:~:Griffith, Rhys ": 'Rhys',
+    "61:~:Davies, Jeff ": 'Jeff',
+    "26:~:Brown, Tony Paul ": 'Tony',
+    "141:~:Jenkins, Andrew ": 'Andy Jenkins',
+  }
   api: API
   constructor() {
     makeAutoObservable(this)
