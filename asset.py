@@ -3,13 +3,15 @@ import boto3
 import pathlib
 import json
 import os
+import pymongo
 
 from dotenv import load_dotenv
 load_dotenv()
 BUCKET = os.getenv('BUCKET')
 KEY = os.getenv('AWS_KEY')
 SECRET = os.getenv('AWS_SECRET')
-
+MONGO_USER = os.getenv('MONGO_USER')
+MONGO_PASS = os.getenv('MONGO_PASS')
 credentials = ''
 
 logging.basicConfig()
@@ -19,6 +21,8 @@ logger.setLevel(logging.DEBUG)
 
 class Library:
     def __init__(self, live=False):
+        self.client = pymongo.MongoClient(f"mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.jp1de.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+        self.db = self.client.golf
         self.live = live
         self.local_root = pathlib.Path('./_cache')
         self.local_root.mkdir(exist_ok=True)

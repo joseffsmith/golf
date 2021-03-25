@@ -4,10 +4,11 @@ from flask_apscheduler import APScheduler
 from flask_cors import CORS
 from dotenv import load_dotenv
 from datetime import datetime
+import pymongo
 import logging
 
 import app as js
-from s3_job_store import S3JobStore
+from apscheduler.jobstores.mongodb import MongoDBJobStore
 from asset import Library
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +20,8 @@ logger.setLevel(logging.DEBUG)
 load_dotenv()
 API_SECRET = os.getenv('API_SECRET')
 LIVE = os.getenv('LIVE')
+MONGO_USER = os.getenv('MONGO_USER')
+MONGO_PASS = os.getenv('MONGO_PASS')
 
 
 @app.before_request
@@ -101,7 +104,7 @@ class Config(object):
     JOBS = []
 
     SCHEDULER_JOBSTORES = {
-        'default': S3JobStore(live=LIVE)
+        'mongo': MongoDBJobStore(client=pymongo.MongoClient(f"mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.jp1de.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
     }
 
     SCHEDULER_EXECUTORS = {
@@ -121,6 +124,12 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
 app.debug = True
+
+
+@scheduler.task('cron', id='scrape-comps', hour='9', day='*')
+def scrape_scheduled_comps():
+    js.scrape_and_save_comps()
+
 
 if __name__ == '__main__':
     app.run(port=5000)
