@@ -113,8 +113,18 @@ def book_job(comp, preferred_times, partner_ids=[]):
 
     logger.debug('Finding slots available for comp')
     slot_page_data = parser.select_slot_page(raw_slots_available)
-    block_id_pair = {k: v for k, v in slot_page_data.items() if
-                     v.split(' ')[0] in preferred_times}
+    block_id_pair = {}
+    for t in preferred_times:
+        if block_id_pair:
+            continue
+        for k, v in slot_page_data.items():
+            if v.split(' ')[0] == t:
+                block_id_pair[k] = v
+
+    if not block_id_pair:
+        raise Exception('No slots for times found')
+
+    logger.debug('block-id-pair: ', block_id_pair)
 
     if (len(block_id_pair.keys()) == 0):
         raise Exception('No slots available')
