@@ -21,8 +21,6 @@ logger.setLevel(logging.DEBUG)
 
 class Library:
     def __init__(self, live=False):
-        self.client = pymongo.MongoClient(f"mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.jp1de.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-        self.db = self.client.golf
         self.live = live
         self.local_root = pathlib.Path('./_cache')
         self.local_root.mkdir(exist_ok=True)

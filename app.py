@@ -149,4 +149,5 @@ def book_job(comp, preferred_times, partner_ids=[]):
     if booking:
         booking['booked'] = True
         bookings[comp['id']] = booking
+        lib.write('bookings', bookings)
     return
