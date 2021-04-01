@@ -1,1 +1,2 @@
-web: gunicorn views:app
+web: waitress-serve views:app
+clock: python scheduler.py

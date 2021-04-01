@@ -1,9 +1,10 @@
 import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent, MouseEventHandler, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { makeAutoObservable, runInAction } from 'mobx'
-import netlifyAuth from './netlifyAuth.js'
-import { User } from 'netlify-identity-widget'
+// import netlifyAuth from './netlifyAuth.js'
+// import { User } from 'netlify-identity-widget'
 import { configure } from "mobx"
+import { timeStamp } from 'node:console'
 
 
 
@@ -20,42 +21,48 @@ const App: FunctionComponent = () => {
 }
 
 const Header: FunctionComponent = observer(() => {
+  const store = useContext(StoreContext)
 
-  let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
-  let [user, setUser] = useState<User>()
-  let login = () => {
-    netlifyAuth.authenticate((user: any) => {
-      setLoggedIn(!!user)
-      setUser(user)
-      // @ts-ignore
-      netlifyAuth.closeModal()
-    })
+  // let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
+  // let [user, setUser] = useState<User>()
+  // let login = () => {
+  //   netlifyAuth.authenticate((user: any) => {
+  //     setLoggedIn(!!user)
+  //     setUser(user)
+  //     // @ts-ignore
+  //     netlifyAuth.closeModal()
+  //   })
+  // }
+
+  // let logout = () => {
+  //   netlifyAuth.signout(() => {
+  //     setLoggedIn(false)
+  //     setUser(undefined)
+  //   })
+  // }
+
+  // useEffect(() => {
+  //   netlifyAuth.initialize((user: any) => {
+  //     setLoggedIn(!!user)
+  //   })
+  // }, [loggedIn])
+
+  const handleUpdateComps = (e) => {
+    e.preventDefault()
+    store.scrape_comps()
   }
 
-  let logout = () => {
-    netlifyAuth.signout(() => {
-      setLoggedIn(false)
-      setUser(undefined)
-    })
-  }
-
-  useEffect(() => {
-    netlifyAuth.initialize((user: any) => {
-      setLoggedIn(!!user)
-    })
-  }, [loggedIn])
-
-  return <header><nav>
-    <div id='netlify-modal' data-netlify-identity-menu></div>
+  return <header><nav><button onClick={handleUpdateComps}>Update comps</button>
+    {/* <div id='netlify-modal' data-netlify-identity-menu></div>
     {user}
-    {loggedIn}
+    {loggedIn} */}
   </nav></header>
 })
 
 const Comps: FunctionComponent = observer(() => {
   const store = useContext(StoreContext)
   return (<>
-    {store!.comps.map((c, idx) => <Competition idx={idx} key={c.id} comp={c} booking={store?.bookings.find(b => b.comp.id === c.id)} players={store!.players} />)}
+    {store!.comps.map((c, idx) => <Competition idx={idx} key={c.id} comp={c} booking={null} players={store!.players} />)}
   </>)
 })
 
@@ -64,8 +71,12 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
   const hours = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
   const minutes = ['00', '10', '20', '30', '40', '50']
 
+
   const [tee_times, setTeeTimes] = useState<Array<string>>(['empty'])
-  const [partners, setPartners] = useState<Array<string>>(["101:~:Griffith, Rhys "])
+  const [partner1, setPartner1] = useState("101:~:Griffith, Rhys ")
+  const [partner2, setPartner2] = useState(null)
+  const [partner3, setPartner3] = useState(null)
+
   const handleSetTeeTime = (e: ChangeEvent<HTMLSelectElement>) => {
     const times = document.querySelectorAll(`#comp-${idx} .tee-time`)
     const ts: string[] = []
@@ -76,80 +87,80 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
     })
     setTeeTimes(['empty', ...ts])
   }
-  const handleSetPartner = (e: ChangeEvent<HTMLSelectElement>) => {
-    const partners = document.querySelectorAll(`#comp-${idx} .partners`)
-    const ps: string[] = []
-    partners.forEach((p: any) => {
-      ps.push(p.value)
-    })
-    setPartners(ps)
-  }
   const handelSubmitJob = (e: React.MouseEvent) => {
     e.preventDefault()
-    store?.api.book_comp(comp.id, tee_times.filter(t => t !== 'empty'), partners)
-
+    store?.api.book_comp(comp.id, tee_times.filter(t => t !== 'empty'), [partner1, partner2, partner3].filter(Boolean).filter(v => v === '-1:~:Select Your Name'))
   }
 
-  return <details open={process.env['NODE_ENV'] === 'development'}>
-    <summary>
-      {formatDateTime(comp.comp_date)}{booking && `, ${booking.booking_time}-${booking.player_ids.map(p_id => players[p_id])}`}
-      <p><sub>{comp.html_description}</sub></p>
-    </summary>
-    <small>Notes: {comp.notes}</small><br />
-    <small>Booking opens: {formatDateTime(comp.book_from, true)}</small>
+  return (
+    <details open={process.env['NODE_ENV'] === 'development'}>
+      <summary>
+        {formatDateTime(comp.comp_date)}{booking && `, ${booking.booking_time}-${booking.player_ids.map(p_id => players[p_id])}`}
+        <p><sub>{comp.html_description}</sub></p>
+      </summary>
+      <small>Notes: {comp.notes}</small><br />
+      <small>Booking opens: {formatDateTime(comp.book_from, true)}</small>
 
-    <form id={`comp-${idx}`}>
-      Tee time:<small><br />All of these slots may not be available on the day, set more than one, order matters</small>
-      {tee_times.map((t, idx) => {
-        return <select className='tee-time' key={idx} onChange={handleSetTeeTime}>
-          <option value='empty'>No time</option>
-          {hours.map(h => minutes.map(m => <option value={h + ':' + m}>{h + ':' + m}</option>)).flat()}
-        </select>
-      })}
-      <label>
-        Partners:<small><br />Order matters, for example, with a 2 ball, Rhys is the default, swap him for someone else if necessary</small>
-        {partners.map(p => {
-          return <select className='partners' key={p} onChange={handleSetPartner}>
-            {Object.entries(store?.preferred_players!).sort((a, b) => {
-              const [keya, vala] = a
-              const [keyb, valb] = b
-              if (vala < valb) {
-                return -1
-              }
-              if (vala > valb) {
-                return 1
-              }
-              return 0
-            }).map(v => {
-              const [key, val] = v
-              return <option key={`${key}-${val}`} value={key}>{val}</option>
-            })}
-            {Object.entries(players).filter(v => {
-              const [key, val] = v
-              if (store?.preferred_players.hasOwnProperty(key)) {
-                return false
-              }
-              return true
-            }).sort((a, b) => {
-              const [keya, vala] = a
-              const [keyb, valb] = b
-              if (vala < valb) {
-                return -1
-              }
-              if (vala > valb) {
-                return 1
-              }
-              return 0
-            }).map(v => {
-              const [key, val] = v
-              return <option key={`${key}-${val}`} value={key}>{val}</option>
-            })}
+      <form id={`comp-${idx}`}>
+        Tee time:<small><br />All of these slots may not be available on the day, set more than one, order matters</small>
+        {tee_times.map((t, idx) => {
+          return <select className='tee-time' key={t} onChange={handleSetTeeTime}>
+            <option value='empty'>No time</option>
+            {hours.map(h => minutes.map(m => <option key={`${h}:${m}`} value={`${h}:${m}`}>{`${h}:${m}`}</option>)).flat()}
           </select>
         })}
-      </label>
-      <button onClick={handelSubmitJob}>Book</button>
-    </form>
-  </details>
+        {tee_times.length > 1 && <>
+          <label>
+            Partners:<small><br />Order matters, for example, with a 2 ball, Rhys is the default, swap him for someone else if necessary</small>
+            <Partner partner={partner1} setPartner={setPartner1} current_players={[partner1, partner2, partner3]} />
+            <Partner partner={partner2} setPartner={setPartner2} current_players={[partner1, partner2, partner3]} />
+            <Partner partner={partner3} setPartner={setPartner3} current_players={[partner1, partner2, partner3]} />
+          </label>
+          <button onClick={handelSubmitJob}>Book</button>
+        </>}
+      </form>
+    </details >
+  )
+}
+
+const Partner = ({ current_players, partner, setPartner }) => {
+  const store = useContext(StoreContext)
+  const players = store.players!
+  return (
+    <select className='partners' onChange={e => setPartner(e.target.value)}>
+      <option key={'selected'} value={partner}>{players[partner]}</option>
+      <PlayerOptions current_players={current_players} players={players} />
+    </select >
+  )
+}
+
+const PlayerOptions = ({ current_players, players }) => {
+  const preferred_players = [
+    "101:~:Griffith, Rhys ",
+    "61:~:Davies, Jeff ",
+    "26:~:Brown, Tony Paul ",
+    "141:~:Jenkins, Andrew ",
+  ]
+  return (<>
+    {Object.entries(players).filter(v => {
+      const [key, val] = v
+      if (current_players.includes(key)) {
+        return false
+      }
+      return true
+    }).sort((a, b) => {
+      const [keya, vala] = a
+      const [keyb, valb] = b
+      if (preferred_players.includes(keya)) { return -1 }
+      if (preferred_players.includes(keyb)) { return 1 }
+      if (vala < valb) { return -1 }
+      if (vala > valb) { return 1 }
+      return 0
+    }).map(v => {
+      const [key, val] = v
+      return <option key={`${key}-${val}`} value={key}>{val}</option>
+    })}
+  </>)
 }
 
 const formatDateTime = (time: number | null, include_time = false): string => {
@@ -171,7 +182,7 @@ class API {
     const API_URL = process.env['REACT_APP_API_URL']
     if (!API_SECRET) { throw Error('No access to API') }
     if (!API_URL) { throw Error('No API url set') }
-    this.headers.set('X_MS_JS_API_KEY', API_SECRET)
+    this.headers.set('X-MS-JS-API-KEY', API_SECRET)
     this.headers.set('Content-Type', 'application/json')
     this.url = API_URL
   }
@@ -184,9 +195,20 @@ class API {
     }
     return await response.json()
   }
+  async post(url: string) {
+    const response = await fetch(`${this.url}${url}`, {
+      headers: this.headers,
+      method: 'POST',
+    })
+    if (!(response.ok && response.status === 200)) {
+      console.error(`error retrieving ${url}`)
+      return []
+    }
+    return await response.json()
+  }
 
   book_comp(comp_id: string, booking_times: string[], player_ids: string[]) {
-    return fetch(`${this.url}scheduler/booking/`, {
+    return fetch(`${this.url}/scheduler/booking/`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({ comp_id, booking_times, player_ids })
@@ -226,12 +248,7 @@ class Store {
   comps: Comp[] = []
   bookings: Booking[] = []
   players: { [id: string]: string } = {}
-  preferred_players = {
-    "101:~:Griffith, Rhys ": 'Rhys',
-    "61:~:Davies, Jeff ": 'Jeff',
-    "26:~:Brown, Tony Paul ": 'Tony',
-    "141:~:Jenkins, Andrew ": 'Andy Jenkins',
-  }
+
   api: API
   constructor() {
     makeAutoObservable(this)
@@ -241,20 +258,26 @@ class Store {
     this.set_players()
   }
 
+  async scrape_comps() {
+    const data = await this.api.post('/scrape_comps/')
+    runInAction(() => {
+      this.comps = data.comps
+    })
+  }
   async set_comps() {
-    const data = await this.api.get('curr_comps/')
+    const data = await this.api.get('/curr_comps/')
     runInAction(() => {
       this.comps = data.comps
     })
   }
   async set_bookings() {
-    const data = await this.api.get('curr_bookings/')
+    const data = await this.api.get('/curr_bookings/')
     runInAction(() => {
       this.bookings = data.bookings
     })
   }
   async set_players() {
-    const data = await this.api.get('curr_players/')
+    const data = await this.api.get('/curr_players/')
     runInAction(() => {
       this.players = data.players
     })
