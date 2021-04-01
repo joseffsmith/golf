@@ -31,7 +31,7 @@ def scrape_and_save_comps(parsed_test_comps=None):
     if len(current_comps) == 0:
         logger.debug(
             f"No current comps, saving {len(parsed_comps)} parsed comps as current")
-        lib.write('curr_comps', parsed_comps)
+        lib.write('curr_comps', list(parsed_comps.values()))
         return parsed_comps
 
     skipped = []
