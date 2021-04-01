@@ -56,6 +56,9 @@ const Header: FunctionComponent = observer(() => {
     {/* <div id='netlify-modal' data-netlify-identity-menu></div>
     {user}
     {loggedIn} */}
+    <ul>
+      {Object.entries(store.bookings).map(b => <li>{JSON.stringify(b[1])}</li>)}
+    </ul>
   </nav></header>
 })
 
@@ -89,7 +92,7 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
   }
   const handelSubmitJob = (e: React.MouseEvent) => {
     e.preventDefault()
-    store?.api.book_comp(comp.id, tee_times.filter(t => t !== 'empty'), [partner1, partner2, partner3].filter(Boolean).filter(v => v === '-1:~:Select Your Name'))
+    store?.book_comp(comp.id, tee_times.filter(t => t !== 'empty'), [partner1, partner2, partner3].filter(Boolean).filter(v => v !== '-1:~:Select Your Name'))
   }
 
   return (
@@ -246,7 +249,7 @@ type Booking = {
 
 class Store {
   comps: Comp[] = []
-  bookings: Booking[] = []
+  bookings: { [id: string]: Booking } = {}
   players: { [id: string]: string } = {}
 
   api: API
@@ -268,6 +271,12 @@ class Store {
     const data = await this.api.get('/curr_comps/')
     runInAction(() => {
       this.comps = data.comps
+    })
+  }
+  async book_comp(comp_id: string, booking_times: string[], player_ids: string[]) {
+    const data = await this.api.book_comp(comp_id, booking_times, player_ids)
+    runInAction(() => {
+      this.bookings = data.bookings
     })
   }
   async set_bookings() {

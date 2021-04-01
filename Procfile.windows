@@ -1,0 +1,2 @@
+clock: python scheduler.py
+web: python views.py

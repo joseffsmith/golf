@@ -94,7 +94,7 @@ def schedule_booking():
         'booked': False
     }
     lib.write('bookings', bookings)
-    return jsonify(status='ok')
+    return jsonify(status='ok', bookings=bookings)
 
 
 app.debug = True
