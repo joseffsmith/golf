@@ -3,7 +3,7 @@ from apscheduler.schedulers import SchedulerAlreadyRunningError
 from apscheduler.jobstores.mongodb import MongoDBJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
 import six
-from threading import Event, Thread
+from threading import Event
 
 import pymongo
 import logging

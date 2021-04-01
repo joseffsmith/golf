@@ -3,7 +3,6 @@ import boto3
 import pathlib
 import json
 import os
-import pymongo
 
 from dotenv import load_dotenv
 load_dotenv()
