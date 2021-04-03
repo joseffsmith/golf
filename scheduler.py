@@ -4,7 +4,7 @@ from apscheduler.jobstores.mongodb import MongoDBJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
 import six
 from threading import Event
-
+import pickle
 import pymongo
 import logging
 import os
@@ -84,7 +84,8 @@ if __name__ == '__main__':
         hour='*',
         day='*',
         minute='*',
-        second='20'
+        second='20',
+        pickle_protocol=pickle.DEFAULT_PROTOCOL
     )
     logger.debug('Starting scheduler')
     blocking_sched.start()

@@ -5,11 +5,11 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from datetime import datetime
 import logging
-
-import app as js
+import pickle
+import app
 from asset import Library
-app = Flask(__name__)
-CORS(app)
+flaskapp = Flask(__name__)
+CORS(flaskapp)
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ API_SECRET = os.getenv('API_SECRET')
 LIVE = os.getenv('LIVE')
 
 
-@app.before_request
+@flaskapp.before_request
 def before_request():
     if request.method == 'OPTIONS':
         return
@@ -29,40 +29,40 @@ def before_request():
         abort(401)
 
 
-@app.route('/curr_comps/', methods=['GET'])
+@flaskapp.route('/curr_comps/', methods=['GET'])
 def curr_comps():
     lib = Library(live=LIVE)
     comps = lib.read('curr_comps', default=[])
     return jsonify(status='ok', comps=comps)
 
 
-@app.route('/curr_players/', methods=['GET'])
+@flaskapp.route('/curr_players/', methods=['GET'])
 def curr_players():
     lib = Library(live=LIVE)
     players = lib.read('players', default=[])
     return jsonify(status='ok', players=players)
 
 
-@app.route('/curr_bookings/', methods=['GET'])
+@flaskapp.route('/curr_bookings/', methods=['GET'])
 def curr_bookings():
     lib = Library(live=LIVE)
     bookings = lib.read('bookings', default={})
     return jsonify(status='ok', bookings=bookings)
 
 
-@app.route('/scrape_comps/', methods=['POST'])
+@flaskapp.route('/scrape_comps/', methods=['POST'])
 def scrape_and_save_comps():
-    comps = js.scrape_and_save_comps()
+    comps = app.scrape_and_save_comps()
     return jsonify(status='ok', comps=comps)
 
 
-@app.route('/scrape_players/', methods=['POST'])
+@flaskapp.route('/scrape_players/', methods=['POST'])
 def scrape_and_save_players():
-    players = js.scrape_and_save_players()
+    players = app.scrape_and_save_players()
     return jsonify(status='ok', players=players)
 
 
-@app.route('/scheduler/booking/', methods=['POST'])
+@flaskapp.route('/scheduler/booking/', methods=['POST'])
 def schedule_booking():
     json = request.json
     comp_id = json['comp_id']
@@ -76,13 +76,14 @@ def schedule_booking():
     comp = comps[comp_id]
     background_sched_add_jobs.start()
     background_sched_add_jobs.add_job(
-        js.book_job,
+        app.book_job,
         id=comp_id,
         args=[comp, booking_time, player_ids],
         replace_existing=True,
         next_run_time=datetime.fromtimestamp(
             int(comp['book_from'])) if comp['book_from'] else datetime.now(),
-        misfire_grace_time=None
+        misfire_grace_time=None,
+        pickle_protocol=pickle.DEFAULT_PROTOCOL
     )
     background_sched_add_jobs.shutdown()
 
@@ -97,7 +98,7 @@ def schedule_booking():
     return jsonify(status='ok', bookings=bookings)
 
 
-app.debug = True
+flaskapp.debug = True
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    flaskapp.run(port=5000)
