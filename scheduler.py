@@ -24,7 +24,6 @@ STATE_RUNNING = 1
 #: constant indicating a scheduler's paused state (started but not processing jobs)
 STATE_PAUSED = 2
 
-LIVE = os.getenv('LIVE')
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 

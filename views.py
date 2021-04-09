@@ -18,7 +18,6 @@ logger.setLevel(logging.DEBUG)
 
 load_dotenv()
 API_SECRET = os.getenv('API_SECRET')
-LIVE = os.getenv('LIVE')
 
 
 @flaskapp.before_request
@@ -32,21 +31,21 @@ def before_request():
 
 @flaskapp.route('/curr_comps/', methods=['GET'])
 def curr_comps():
-    lib = Library(live=LIVE)
+    lib = Library()
     comps = lib.read('curr_comps', default=[])
     return jsonify(status='ok', comps=comps)
 
 
 @flaskapp.route('/curr_players/', methods=['GET'])
 def curr_players():
-    lib = Library(live=LIVE)
+    lib = Library()
     players = lib.read('players', default=[])
     return jsonify(status='ok', players=players)
 
 
 @flaskapp.route('/curr_bookings/', methods=['GET'])
 def curr_bookings():
-    lib = Library(live=LIVE)
+    lib = Library()
     bookings = lib.read('bookings', default={})
     return jsonify(status='ok', bookings=bookings)
 
@@ -69,7 +68,7 @@ def schedule_booking():
     comp_id = json['comp_id']
     booking_time = json['booking_times']
     player_ids = json['player_ids']
-    lib = Library(live=LIVE)
+    lib = Library()
     comps = {c['id']: c for c in lib.read('curr_comps')}
     if comp_id not in comps:
         abort(404, 'comp not found')

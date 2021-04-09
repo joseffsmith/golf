@@ -41,6 +41,7 @@ class MasterScoreboard:
         r.raise_for_status()
 
     def list_comps(self):
+        logger.debug(f'Comp url - {COMP_URL}')
         return self.session.get(COMP_URL).content
 
     def select_comp(self, action):

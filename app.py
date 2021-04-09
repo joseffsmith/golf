@@ -15,17 +15,17 @@ logger.setLevel(logging.DEBUG)
 # handle comps already open/ check for spaces available
 
 load_dotenv()
-LIVE = os.getenv('LIVE')
 
 
 def scrape_and_save_comps(parsed_test_comps=None):
-    lib = Library(live=LIVE)
+    lib = Library()
     current_comps = {c['id']: c for c in lib.read('curr_comps', default=[])}
     parsed_comps = parsed_test_comps
     if not parsed_test_comps:
         ms = MasterScoreboard()
         ms.auth()
         content = ms.list_comps()
+        logger.debug(f'Content length - {len(content)}')
         parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
         logger.debug(f'{len(parsed_comps)} fresh comps')
 
@@ -81,8 +81,7 @@ def scrape_and_save_comps(parsed_test_comps=None):
 
 
 def scrape_and_save_players(parsed_test_players=None):
-    logger.debug(f'Scraping players, live={LIVE}')
-    lib = Library(live=LIVE)
+    lib = Library()
     parsed_players = parsed_test_players
     if not parsed_test_players:
         parser = Parser()
@@ -102,7 +101,7 @@ def book_job(comp, preferred_times, partner_ids=[]):
     ms = MasterScoreboard()
     ms.auth()
     parser = Parser()
-    lib = Library(live=LIVE)
+    lib = Library()
 
     # all the time booking slots
     action = comp.get('action')
