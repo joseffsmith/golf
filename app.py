@@ -26,6 +26,7 @@ def scrape_and_save_comps(parsed_test_comps=None):
         ms.auth()
         content = ms.list_comps()
         logger.debug(f'Content length - {len(content)}')
+        logger.debug(content)
         parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
         logger.debug(f'{len(parsed_comps)} fresh comps')
 
