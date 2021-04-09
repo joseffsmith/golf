@@ -42,6 +42,7 @@ class MasterScoreboard:
 
     def list_comps(self):
         logger.debug(f'Comp url - {COMP_URL}')
+        logger.debug(self.session.__dict__)
         return self.session.get(COMP_URL).content
 
     def select_comp(self, action):
