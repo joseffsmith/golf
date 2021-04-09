@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
     //}
     // time we can book the competition today, if it's in the past we assume can book now
     // const kick_off_time = "20:00:00:00"
-    const kick_off_time = "17:00:00:00:00"
+    const kick_off_time = "19:00:00:00:00"
 
     const ko = new Date()
     ko.setHours(parseInt(kick_off_time.split(':')[0]))
@@ -28,7 +28,7 @@ const puppeteer = require('puppeteer');
     }
 
     // date of competition in future
-    const desired_date = '10 Apr'
+    const desired_date = '14 Apr'
 
     // unique word in the competition title to distinguish it from other comps on the same day
     const keyword = undefined
@@ -44,8 +44,8 @@ const puppeteer = require('puppeteer');
     // ID's for the <select> of the <option> values of the players we want to play with
     const player3 = 101 // Rhys Griffith
     const player2 = 26 // Tony Brown
-    // const player1 = 61 // Jeff Davies
-    const player1 = 1401 //steffan
+    const player1 = 61 // Jeff Davies
+    // const player1 = 1401 //steffan
 
     // not really the username, it's the value of the <option> to set the <select> to on the login page
     const username = "101:~:Griffith, Rhys "
