@@ -145,7 +145,7 @@ def book_job(comp, preferred_times, partner_ids=[]):
     ms.select_partners(new_ids, partner_page_data)
 
     logger.debug('BOOKED!!!')
-    bookings = {b['comp']['id']: b for b in lib.read('bookings')}
+    bookings = lib.read('bookings')
     booking = bookings.get(comp['id'])
     if booking:
         booking['booked'] = True

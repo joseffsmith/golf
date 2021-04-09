@@ -10,6 +10,8 @@ import logging
 import os
 from dotenv import load_dotenv
 
+from app import scrape_and_save_comps
+
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -31,7 +33,7 @@ jobstores = {
     'default': MongoDBJobStore(
         client=pymongo.MongoClient(
             f"mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.jp1de.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-        )
+        ), pickle_protocol=pickle.DEFAULT_PROTOCOL
     )
 }
 blocking_sched = BlockingScheduler(
@@ -76,6 +78,16 @@ def check_for_jobs():
 
 if __name__ == '__main__':
     blocking_sched.add_job(
+        scrape_and_save_comps,
+        'cron',
+        replace_existing=True,
+        id='scrape-comps',
+        name='Scrape comps',
+        hour='*',
+        day='*',
+        minute='1',
+    )
+    blocking_sched.add_job(
         check_for_jobs,
         'cron',
         replace_existing=True,
@@ -84,8 +96,7 @@ if __name__ == '__main__':
         hour='*',
         day='*',
         minute='*',
-        second='20',
-        pickle_protocol=pickle.DEFAULT_PROTOCOL
+        second='20'
     )
     logger.debug('Starting scheduler')
     blocking_sched.start()

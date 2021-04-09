@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 from dotenv import load_dotenv
 from datetime import datetime
+import dateutil
 import logging
 import pickle
 import app
@@ -80,10 +81,9 @@ def schedule_booking():
         id=comp_id,
         args=[comp, booking_time, player_ids],
         replace_existing=True,
-        next_run_time=datetime.fromtimestamp(
-            int(comp['book_from'])) if comp['book_from'] else datetime.now(),
+        next_run_time=dateutil.parser.parse('8pm 9th april 2021'),
+        # int(comp['book_from'])) if comp['book_from'] else datetime.now(),
         misfire_grace_time=None,
-        pickle_protocol=pickle.DEFAULT_PROTOCOL
     )
     background_sched_add_jobs.shutdown()
 
