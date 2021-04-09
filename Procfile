@@ -1,2 +1,2 @@
 clock: python scheduler.py
-web: gunicorn views:app
+web: gunicorn views:flaskapp
