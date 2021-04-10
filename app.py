@@ -91,12 +91,12 @@ def scrape_and_save_players(parsed_test_players=None):
     return parsed_players
 
 
-def book_job(comp, preferred_times, partner_ids=[]):
+def book_job(comp, preferred_times, partner_ids=[], username=None, password=None):
     # assumes that the comp is live
     # time in 16:00 format, 10 min incs
     # need correct id_number of partners
 
-    ms = MasterScoreboard()
+    ms = MasterScoreboard(username=username, password=password)
     ms.auth()
     parser = Parser()
     lib = Library()
@@ -143,9 +143,9 @@ def book_job(comp, preferred_times, partner_ids=[]):
 
     logger.debug('BOOKED!!!')
     bookings = lib.read('bookings')
-    booking = bookings.get(comp['id'])
+    booking = bookings.get(f"{username}-{comp['id']}")
     if booking:
         booking['booked'] = True
-        bookings[comp['id']] = booking
+        bookings[f"{username}-{comp['id']}"] = booking
         lib.write('bookings', bookings)
     return

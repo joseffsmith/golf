@@ -1,3 +1,4 @@
+from ms_parser import Parser
 import requests
 import os
 import logging
@@ -14,8 +15,15 @@ logger.setLevel(logging.DEBUG)
 
 
 class MasterScoreboard:
-    def __init__(self):
+    def __init__(self, username=None, password=None):
         self.session = requests.Session()
+        self.username = username
+        self.password = password
+        if not self.username:
+            logger.debug(
+                'No username and password supplied, falling back to default')
+            self.username = USERNAME
+            self.password = PASSWORD
 
     def _get(self, url, headers={}):
         user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
@@ -26,19 +34,18 @@ class MasterScoreboard:
 
     def auth(self):
         user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
-
         self.session.headers = {'User-Agent': user_agent}
-
         payload = {
             'ms_name': 'HMWebUser',
-            'ms_password': PASSWORD,
-            'ms_uniqueid': USERNAME
+            'ms_password': self.password,
+            'ms_uniqueid': self.username
         }
 
         r = self.session.post(BASE_URL, data=payload)
-        if (len(self.session.cookies) != 2):
-            raise Exception('Not enough cookies in the jar auth failed')
         r.raise_for_status()
+        parser = Parser()
+        if not parser.check_login(r.content):
+            raise Exception('Login failed')
 
     def list_comps(self):
         logger.debug(f'Comp url - {COMP_URL}')

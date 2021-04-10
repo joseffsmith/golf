@@ -10,7 +10,7 @@ import logging
 import os
 from dotenv import load_dotenv
 
-from app import scrape_and_save_comps
+from app import scrape_and_save_comps, scrape_and_save_players
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -96,6 +96,16 @@ if __name__ == '__main__':
         day='*',
         minute='*',
         second='20'
+    )
+    blocking_sched.add_job(
+        scrape_and_save_players,
+        'cron',
+        replace_existing=True,
+        id='scrape-players',
+        name='Scrape players',
+        hour='9',
+        day='*',
+        minute='1'
     )
     logger.debug('Starting scheduler')
     blocking_sched.start()

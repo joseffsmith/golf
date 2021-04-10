@@ -1,4 +1,6 @@
+from scraper import MasterScoreboard
 from scheduler import background_sched_add_jobs
+from datetime import datetime
 import os
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
@@ -27,6 +29,20 @@ def before_request():
         abort(401)
 
 
+@flaskapp.route('/test_pass/', methods=['POST'])
+def test_pass():
+    json = request.json
+    username = json['username']
+    password = json['password']
+    ms = MasterScoreboard(username, password)
+    try:
+        ms.auth()
+    except Exception:
+        logger.exception('Incorrect password')
+        abort(401)
+    return jsonify(status='ok')
+
+
 @flaskapp.route('/curr_comps/', methods=['GET'])
 def curr_comps():
     lib = Library()
@@ -45,7 +61,7 @@ def curr_players():
 def curr_bookings():
     lib = Library()
     bookings = lib.read('bookings', default={})
-    return jsonify(status='ok', bookings=bookings)
+    return jsonify(status='ok', bookings=list(bookings.values()))
 
 
 @flaskapp.route('/scrape_comps/', methods=['POST'])
@@ -66,6 +82,8 @@ def schedule_booking():
     comp_id = json['comp_id']
     booking_time = json['booking_times']
     player_ids = json['player_ids']
+    username = json['username']
+    password = json['password']
     lib = Library()
     comps = {c['id']: c for c in lib.read('curr_comps')}
     if comp_id not in comps:
@@ -75,24 +93,25 @@ def schedule_booking():
     background_sched_add_jobs.start()
     background_sched_add_jobs.add_job(
         app.book_job,
-        id=comp_id,
-        args=[comp, booking_time, player_ids],
+        id=f'{username}-{comp_id}',
+        args=[comp, booking_time, player_ids, username, password],
         replace_existing=True,
-        next_run_time=dateutil.parser.parse('8pm 9th april 2021'),
-        # int(comp['book_from'])) if comp['book_from'] else datetime.now(),
+        next_run_time=dateutil.parser(
+            int(comp['book_from'])) if comp['book_from'] else datetime.now(),
         misfire_grace_time=None,
     )
     background_sched_add_jobs.shutdown()
 
     bookings = lib.read('bookings', default={})
-    bookings[comp_id] = {
+    bookings[f'{username}-{comp_id}'] = {
         'comp': comp,
+        'user': username,
         'booking_time': booking_time,
         'player_ids': player_ids,
         'booked': False
     }
     lib.write('bookings', bookings)
-    return jsonify(status='ok', bookings=bookings)
+    return jsonify(status='ok', bookings=list(bookings.values()))
 
 
 flaskapp.debug = True

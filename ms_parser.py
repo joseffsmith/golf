@@ -11,6 +11,12 @@ class Parser:
     def __init__(self):
         pass
 
+    def check_login(self, content):
+        b = bs4.BeautifulSoup(content, features='html.parser')
+        if b.find(string='Restricted Access'):
+            return False
+        return True
+
     def parse_comps(self, content):
         b = bs4.BeautifulSoup(content, features='html.parser')
         rows = b.find_all('tr')[1:]  # skip first row it's a header
@@ -19,7 +25,7 @@ class Parser:
             try:
                 r = self.parse_row(row)
                 comps.append(r)
-            except Exception as e:
+            except Exception:
                 logger.exception('Could not parse row')
                 continue
 
@@ -44,7 +50,7 @@ class Parser:
         comp_date = None
         try:
             comp_date = parser.parse(raw_date.text).timestamp()
-        except Exception as e:
+        except Exception:
             logger.exception(f"Failed to parse datetime {raw_date.text}")
 
         notes = raw_notes.text

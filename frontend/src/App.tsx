@@ -1,11 +1,9 @@
 import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent, MouseEventHandler, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { makeAutoObservable, runInAction } from 'mobx'
+import { makeAutoObservable, runInAction, toJS } from 'mobx'
 // import netlifyAuth from './netlifyAuth.js'
 // import { User } from 'netlify-identity-widget'
 import { configure } from "mobx"
-import { timeStamp } from 'node:console'
-
 
 
 const App: FunctionComponent = () => {
@@ -22,6 +20,7 @@ const App: FunctionComponent = () => {
 
 const Header: FunctionComponent = observer(() => {
   const store = useContext(StoreContext)
+
 
   // let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
   // let [user, setUser] = useState<User>()
@@ -47,17 +46,11 @@ const Header: FunctionComponent = observer(() => {
   //   })
   // }, [loggedIn])
 
-  const handleUpdateComps = (e) => {
-    e.preventDefault()
-    store.scrape_comps()
-  }
 
-  return <header><nav><button onClick={handleUpdateComps}>Update comps</button>
-    {/* <div id='netlify-modal' data-netlify-identity-menu></div>
-    {user}
-    {loggedIn} */}
+  return <header><nav>
+
     <ul>
-      {Object.entries(store.bookings).map(b => <li>{JSON.stringify(b[1])}</li>)}
+      {Object.entries(store.bookings).map(b => <li key={b[0]}>{JSON.stringify(b[1])}</li>)}
     </ul>
   </nav></header>
 })
@@ -65,12 +58,19 @@ const Header: FunctionComponent = observer(() => {
 const Comps: FunctionComponent = observer(() => {
   const store = useContext(StoreContext)
   return (<>
-    {store!.comps.map((c, idx) => <Competition idx={idx} key={c.id} comp={c} booking={null} players={store!.players} />)}
+    {store!.comps.map((c, idx) => <Competition
+      idx={idx}
+      key={c.id}
+      comp={c}
+      players={store!.players}
+    />)}
   </>)
 })
 
-const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking | undefined, players: { [id: string]: string } }> = ({ idx, comp, booking, players }) => {
+const Competition: FunctionComponent<{ idx: number, comp: Comp, players: { [id: string]: string } }> = observer(({ idx, comp, players }) => {
   const store = useContext(StoreContext)
+  const bookings = store.bookings.filter(b => b.comp.id === comp.id)
+
   const hours = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
   const minutes = ['00', '10', '20', '30', '40', '50']
 
@@ -79,6 +79,18 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
   const [partner1, setPartner1] = useState("101:~:Griffith, Rhys ")
   const [partner2, setPartner2] = useState(null)
   const [partner3, setPartner3] = useState(null)
+  const [username, changeUsername] = useState("254:~:Smith, Anthony ")
+  const [password, changePassword] = useState('')
+
+  const setPassword = (val: string) => {
+    changePassword(val)
+    store.password_is_legit = false
+  }
+
+  const setUsername = (val: string) => {
+    setPassword('')
+    changeUsername(val)
+  }
 
   const handleSetTeeTime = (e: ChangeEvent<HTMLSelectElement>) => {
     const times = document.querySelectorAll(`#comp-${idx} .tee-time`)
@@ -90,15 +102,27 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
     })
     setTeeTimes(['empty', ...ts])
   }
-  const handelSubmitJob = (e: React.MouseEvent) => {
+  const handleSubmitJob = (e: React.MouseEvent) => {
     e.preventDefault()
-    store?.book_comp(comp.id, tee_times.filter(t => t !== 'empty'), [partner1, partner2, partner3].filter(Boolean).filter(v => v !== '-1:~:Select Your Name'))
+    store?.book_comp(
+      comp.id,
+      tee_times.filter(t => t !== 'empty'),
+      [partner1, partner2, partner3].filter(Boolean).filter(v => v !== '-1:~:Select Your Name'),
+      username,
+      password
+    )
+    setPassword('')
+  }
+
+  const testPassword = (e) => {
+    e.preventDefault()
+    store.test_pass(username, password)
   }
 
   return (
     <details open={process.env['NODE_ENV'] === 'development'}>
       <summary>
-        {formatDateTime(comp.comp_date)}{booking && `, ${booking.booking_time}-${booking.player_ids.map(p_id => players[p_id])}`}
+        {formatDateTime(comp.comp_date)}{bookings.length && `, ${bookings[0].booking_times}-${bookings[0].player_ids.map(p_id => players[p_id])}`}
         <p><sub>{comp.html_description}</sub></p>
       </summary>
       <small>Notes: {comp.notes}</small><br />
@@ -114,17 +138,26 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, booking: Booking
         })}
         {tee_times.length > 1 && <>
           <label>
-            Partners:<small><br />Order matters, for example, with a 2 ball, Rhys is the default, swap him for someone else if necessary</small>
-            <Partner partner={partner1} setPartner={setPartner1} current_players={[partner1, partner2, partner3]} />
-            <Partner partner={partner2} setPartner={setPartner2} current_players={[partner1, partner2, partner3]} />
-            <Partner partner={partner3} setPartner={setPartner3} current_players={[partner1, partner2, partner3]} />
+            Book as:
+            <Partner partner={username} setPartner={setUsername} current_players={[username]} />
           </label>
-          <button onClick={handelSubmitJob}>Book</button>
+          <label>
+            Password
+            <input value={password} onChange={e => setPassword(e.target.value)} />
+            <button onClick={testPassword}>Test password (Must do before booking)</button>
+          </label>
+          <label>
+            Partners:<small><br />Order matters, for example, with a 2 ball, Rhys is the default, swap him for someone else if necessary</small>
+            <Partner partner={partner1} setPartner={setPartner1} current_players={[username, partner1, partner2, partner3]} />
+            <Partner partner={partner2} setPartner={setPartner2} current_players={[username, partner1, partner2, partner3]} />
+            <Partner partner={partner3} setPartner={setPartner3} current_players={[username, partner1, partner2, partner3]} />
+          </label>
+          {store.password_is_legit && <button onClick={handleSubmitJob}>Book</button>}
         </>}
       </form>
     </details >
   )
-}
+})
 
 const Partner = ({ current_players, partner, setPartner }) => {
   const store = useContext(StoreContext)
@@ -139,10 +172,12 @@ const Partner = ({ current_players, partner, setPartner }) => {
 
 const PlayerOptions = ({ current_players, players }) => {
   const preferred_players = [
+    "254:~:Smith, Anthony ",
     "101:~:Griffith, Rhys ",
     "61:~:Davies, Jeff ",
     "26:~:Brown, Tony Paul ",
     "141:~:Jenkins, Andrew ",
+    "1401:~:Griffith, Steffan ",
   ]
   return (<>
     {Object.entries(players).filter(v => {
@@ -210,11 +245,25 @@ class API {
     return await response.json()
   }
 
-  book_comp(comp_id: string, booking_times: string[], player_ids: string[]) {
+  async test_pass(username: string, password: string) {
+    return fetch(`${this.url}/test_pass/`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({ username, password })
+    })
+      .then(response => {
+        if (!response.ok) {
+          return false
+        }
+        return true
+      })
+  }
+
+  book_comp(comp_id: string, booking_times: string[], player_ids: string[], username, password) {
     return fetch(`${this.url}/scheduler/booking/`, {
       method: 'POST',
       headers: this.headers,
-      body: JSON.stringify({ comp_id, booking_times, player_ids })
+      body: JSON.stringify({ comp_id, booking_times, player_ids, username, password })
     })
       .then(response => {
         if (!response.ok) {
@@ -242,15 +291,16 @@ type Comp = {
 
 type Booking = {
   comp: Comp,
-  booking_time: string,
+  booking_times: string[],
   player_ids: string[],
   booked: boolean
 }
 
 class Store {
   comps: Comp[] = []
-  bookings: { [id: string]: Booking } = {}
+  bookings: Booking[] = []
   players: { [id: string]: string } = {}
+  password_is_legit: Boolean = false
 
   api: API
   constructor() {
@@ -259,6 +309,13 @@ class Store {
     this.set_comps()
     this.set_bookings()
     this.set_players()
+  }
+
+  async test_pass(username: string, pass: string) {
+    const data = await this.api.test_pass(username, pass)
+    runInAction(() => {
+      this.password_is_legit = data
+    })
   }
 
   async scrape_comps() {
@@ -273,8 +330,8 @@ class Store {
       this.comps = data.comps
     })
   }
-  async book_comp(comp_id: string, booking_times: string[], player_ids: string[]) {
-    const data = await this.api.book_comp(comp_id, booking_times, player_ids)
+  async book_comp(comp_id: string, booking_times: string[], player_ids: string[], username, password) {
+    const data = await this.api.book_comp(comp_id, booking_times, player_ids, username, password)
     runInAction(() => {
       this.bookings = data.bookings
     })
