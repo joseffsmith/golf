@@ -1,2 +1,2 @@
-worker: python scheduler.py
+clock: python scheduler.py
 web: gunicorn views:flaskapp
