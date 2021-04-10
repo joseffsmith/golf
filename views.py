@@ -97,7 +97,7 @@ def schedule_booking():
         id=f'{username}-{comp_id}',
         args=[comp, booking_time, player_ids, username, password],
         replace_existing=True,
-        next_run_time=dateutil.parser.parse(int(comp['book_from'])),
+        next_run_time=datetime.fromtimestamp(int(comp['book_from'])),
         misfire_grace_time=None,
     )
     background_sched_add_jobs.shutdown()
