@@ -73,13 +73,10 @@ def scrape_and_save_comps(parsed_test_comps=None):
     removed = [c for c in current_comps.values() if c not in saving]
 
     bookings: Dict = lib.read('bookings')
-    for b_id, booking in bookings.items():
-        id = booking['comp']['id']
-        if id not in parsed_comps.keys():
-            logger.debug(f'Deleting old booking => {b_id}')
-            del bookings[id]
+    keep_bookings = {b_id: booking for b_id, booking in bookings.items() if booking['comp']['id'] in parsed_comps.keys()}
+    lib.write('bookings', keep_bookings)
+    logger.debug(f'Removed bookings: {bookings.keys() - keep_bookings.keys()}')
 
-    lib.write('bookings', bookings)
 
     logger.debug(
         f"Finished with comps, parsed: {len(parsed_comps)} saving: {len(saving)}, skipped: {len(skipped)}, removed: {len(removed)}")
