@@ -84,7 +84,7 @@ if __name__ == '__main__':
         name='Scrape comps',
         hour='*',
         day='*',
-        minute='10',
+        minute='40',
     )
     blocking_sched.add_job(
         check_for_jobs,
