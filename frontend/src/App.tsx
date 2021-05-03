@@ -79,7 +79,7 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, players: { [id: 
   const [partner1, setPartner1] = useState("101:~:Griffith, Rhys ")
   const [partner2, setPartner2] = useState(null)
   const [partner3, setPartner3] = useState(null)
-  const [username, changeUsername] = useState("254:~:Smith, Anthony ")
+  const [username, changeUsername] = useState("254:~:Smith, Tony ")
   const [password, changePassword] = useState('')
 
   const setPassword = (val: string) => {
@@ -172,7 +172,7 @@ const Partner = ({ current_players, partner, setPartner }) => {
 
 const PlayerOptions = ({ current_players, players }) => {
   const preferred_players = [
-    "254:~:Smith, Anthony ",
+    "254:~:Smith, Tony ",
     "101:~:Griffith, Rhys ",
     "61:~:Davies, Jeff ",
     "26:~:Brown, Tony Paul ",
