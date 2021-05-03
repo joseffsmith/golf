@@ -1,3 +1,4 @@
+from typing import Dict
 from dotenv import load_dotenv
 import logging
 
@@ -46,19 +47,18 @@ def scrape_and_save_comps(parsed_test_comps=None):
                 skipped.append(pc)
                 continue
 
-            logger.debug('New comp with book from, adding to list')
+            logger.debug(f"New comp with book from, adding to list - {pc['html_description']}")
             saving.append(pc)
             continue
 
         cc = current_comps[id]
 
         if cc == pc:
-            logger.debug("No change in comp, saving as normal")
+            logger.debug(f"No change in comp, saving as normal - {pc['html_description']}")
             saving.append(pc)
             continue
 
-        logger.debug(
-            'Change detected in comp, patching current comp with new data')
+        logger.debug(f"Change detected in comp, patching current comp with new data - {pc['html_description']}")
         for key, value in pc.items():
             if not value:
                 continue
@@ -66,10 +66,20 @@ def scrape_and_save_comps(parsed_test_comps=None):
                 continue
             if cc[key] == value:
                 continue
+            logger.debug(f"Key - {key}, Newval - {pc[key]}, Oldval - {cc[key]}")
             cc[key] = value
         saving.append(cc)
 
     removed = [c for c in current_comps.values() if c not in saving]
+
+    bookings: Dict = lib.read('bookings')
+    for b_id, booking in bookings.items():
+        id = booking['comp']['id']
+        if id not in parsed_comps.keys():
+            logger.debug(f'Deleting old booking => {b_id}')
+            bookings.delete(id)
+
+    lib.write('bookings', bookings)
 
     logger.debug(
         f"Finished with comps, parsed: {len(parsed_comps)} saving: {len(saving)}, skipped: {len(skipped)}, removed: {len(removed)}")
