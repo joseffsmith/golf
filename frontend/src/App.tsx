@@ -1,6 +1,6 @@
-import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent, MouseEventHandler, useEffect } from 'react'
+import React, { FunctionComponent, createContext, useContext, useState, ChangeEvent } from 'react'
 import { observer } from 'mobx-react-lite'
-import { makeAutoObservable, runInAction, toJS } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 // import netlifyAuth from './netlifyAuth.js'
 // import { User } from 'netlify-identity-widget'
 import { configure } from "mobx"
@@ -130,7 +130,7 @@ const Competition: FunctionComponent<{ idx: number, comp: Comp, players: { [id: 
 
       <form id={`comp-${idx}`}>
         Tee time:<small><br />All of these slots may not be available on the day, set more than one, order matters</small>
-        {tee_times.map((t, idx) => {
+        {tee_times.map((t) => {
           return <select className='tee-time' key={t} onChange={handleSetTeeTime}>
             <option value='empty'>No time</option>
             {hours.map(h => minutes.map(m => <option key={`${h}:${m}`} value={`${h}:${m}`}>{`${h}:${m}`}</option>)).flat()}
@@ -207,7 +207,7 @@ const formatDateTime = (time: number | null, include_time = false): string => {
   }
   const dt = new Date(time * 1000)
   return include_time ?
-    dt.toDateString() + ' - ' + dt.toLocaleTimeString()
+    dt.toDateString() + ' - ' + dt.toLocaleTimeString("en-GB", { timeZone: "Europe/London" })
     : dt.toDateString()
 }
 
