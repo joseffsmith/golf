@@ -1,10 +1,11 @@
+from os import remove
 from typing import Dict
 from dotenv import load_dotenv
 import logging
 
 from scraper import MasterScoreboard
 from ms_parser import Parser
-from asset import Library
+from asset import Library, DB
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -84,6 +85,72 @@ def scrape_and_save_comps(parsed_test_comps=None):
     lib.write('curr_comps', saving)
     return saving
 
+def scrape_and_save_comps_db():
+    db = DB()
+    db_comps = db.client.golf.comps
+    current_comps = {c['id']: c for c in list(db_comps.find())}
+
+    ms = MasterScoreboard()
+    ms.auth()
+    content = ms.list_comps()
+    parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
+    logger.debug(f'{len(parsed_comps)} parsed comps')
+
+    if db.client.golf.comps.count_documents({}) == 0:
+        logger.debug(
+            f"No current comps, saving {len(parsed_comps)} parsed comps as current")
+        db_comps.insert_many(list(parsed_comps.values()))
+        return parsed_comps
+
+    skipped = []
+    saving = []
+    removed = []
+    for id, pc in parsed_comps.items():
+        if id not in current_comps:
+            # new comp we haven't seen before
+            # or the id has changed since we last viewed it
+            if 'Book from' not in pc['notes']:
+                logger.exception(
+                    f"New Comp without 'book from', don't like it - {id}, skipping")
+                skipped.append(pc)
+                continue
+
+            logger.debug(f"New comp with book from, adding to list - {pc['html_description']}")
+            saving.append(pc)
+            continue
+
+        cc = current_comps[id]
+
+        del cc['_id']
+
+        if cc == pc:
+            logger.debug(f"No change in comp, saving as normal - {pc['html_description']}")
+            saving.append(pc)
+            continue
+
+        logger.debug(f"Change detected in comp, patching current comp with new data - {pc['html_description']}")
+        for key, value in pc.items():
+            if not value:
+                continue
+            if key == 'book_from':
+                continue
+            if cc[key] == value:
+                continue
+            logger.debug(f"Key - {key}, Newval - {pc[key]}, Oldval - {cc[key]}")
+            cc[key] = value
+        saving.append(cc)
+
+    removed = [c for c in current_comps.values() if c not in saving]
+
+    for comp in saving:
+        saved = db.client.golf.comps.replace_one({'id': comp['id']}, comp, upsert=True)
+
+    for comp in removed:
+        deleted = db.client.golf.comps.delete_one({'id': comp['id']})
+        bookings_removed = db.client.golf.bookings.delete_many({'comp': {'id': comp['id']}})
+
+
+    return saved
 
 def scrape_and_save_players(parsed_test_players=None):
     lib = Library()

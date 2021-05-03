@@ -2,6 +2,7 @@ import logging
 import boto3
 import json
 import os
+import pymongo
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -46,3 +47,10 @@ class Library:
 
     def _write_s3(self, path, content):
         self.s3.put_object(Bucket=BUCKET, Key=path, Body=content)
+
+
+class DB:
+    def __init__(self):
+        self.client = pymongo.MongoClient(
+            f"mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.jp1de.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+        )
