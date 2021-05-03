@@ -77,7 +77,7 @@ def scrape_and_save_comps(parsed_test_comps=None):
         id = booking['comp']['id']
         if id not in parsed_comps.keys():
             logger.debug(f'Deleting old booking => {b_id}')
-            bookings.delete(id)
+            del bookings[id]
 
     lib.write('bookings', bookings)
 
