@@ -191,7 +191,7 @@ def book_job(comp, preferred_times, partner_ids=[], username=None, password=None
             continue
         for k, v in slot_page_data.items():
             time = v.split(' ')[0]
-            if time == t and slot_page_data.get(f"BlockNumAvailable_{k.split('_')[1]}") == str(len(partner_ids)):
+            if time == t and slot_page_data.get(f"BlockNumAvailable_{k.split('_')[1]}") >= str(len(partner_ids)):
                 block_id_pair[k] = v
 
     if not block_id_pair:
