@@ -63,7 +63,7 @@ def scrape_and_save_comps(parsed_test_comps=None):
         for key, value in pc.items():
             if not value:
                 continue
-            if key == 'book_from':
+            if key == 'book_from' and value == None:
                 continue
             if cc[key] == value:
                 continue
