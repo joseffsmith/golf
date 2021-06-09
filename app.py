@@ -92,7 +92,6 @@ def scrape_and_save_comps(parsed_test_comps=None):
 def scrape_and_save_comps_db():
     db = DB()
     db_comps = db.client.golf.comps
-    current_comps = {c['id']: c for c in list(db_comps.find())}
 
     ms = MasterScoreboard()
     ms.auth()
@@ -100,11 +99,27 @@ def scrape_and_save_comps_db():
     parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
     logger.debug(f'{len(parsed_comps)} parsed comps')
 
-    if db.client.golf.comps.count_documents({}) == 0:
-        logger.debug(
-            f"No current comps, saving {len(parsed_comps)} parsed comps as current")
-        db_comps.insert_many(list(parsed_comps.values()))
-        return parsed_comps
+    if not parsed_comps:
+        logger.exception('No comps found, check auth')
+
+    for _id, parsed_comp in parsed_comps.items():
+
+        saved_comp = db.client.golf.comps.find_one({'id': _id})
+
+        if not saved_comp:
+            logger.debug(f'New comp - {_id}')
+            db.client.golf.comps.insert_one(parsed_comp)
+
+        for key, value in parsed_comp.items():
+            if not value:
+                continue
+            if key == 'book_from' and value == None:
+                continue
+            logger.debug(f"Updating '{key}' with '{value}'")
+            saved_comp[key] = value
+
+        db.client.golf.comps.update_one(
+            {'id': saved_comp['id']}, {'$set': saved_comp})
 
     skipped = []
     saving = []
@@ -113,12 +128,6 @@ def scrape_and_save_comps_db():
         if id not in current_comps:
             # new comp we haven't seen before
             # or the id has changed since we last viewed it
-            if 'Book from' not in pc['notes']:
-                logger.exception(
-                    f"New Comp without 'book from', don't like it - {id}, skipping")
-                skipped.append(pc)
-                continue
-
             logger.debug(
                 f"New comp with book from, adding to list - {pc['html_description']}")
             saving.append(pc)
@@ -139,7 +148,7 @@ def scrape_and_save_comps_db():
         for key, value in pc.items():
             if not value:
                 continue
-            if key == 'book_from':
+            if key == 'book_from' and value == None:
                 continue
             if cc[key] == value:
                 continue
