@@ -2,6 +2,7 @@ from pytz import timezone
 from apscheduler.schedulers import SchedulerAlreadyRunningError
 from apscheduler.jobstores.mongodb import MongoDBJobStore
 from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import six
 from threading import Event
 import pickle
@@ -37,6 +38,9 @@ jobstores = {
 }
 blocking_sched = BlockingScheduler(
     jobstores=jobstores, timezone=timezone('europe/london'))
+background_sched = BackgroundScheduler(
+    jobstores=jobstores, timezone=timezone('europe/london'))
+
 
 
 class BackgroundAddScheduler(BlockingScheduler):
