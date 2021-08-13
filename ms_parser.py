@@ -17,6 +17,11 @@ class Parser:
             return False
         return True
 
+    def login_param(self, content):
+        b = bs4.BeautifulSoup(content, features='html.parser')
+        param_input = b.find('input', attrs={'name': 'Params'})
+        return param_input.get('value')
+
     def parse_comps(self, content):
         b = bs4.BeautifulSoup(content, features='html.parser')
         rows = b.find_all('tr')[1:]  # skip first row it's a header

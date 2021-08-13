@@ -35,15 +35,21 @@ class MasterScoreboard:
     def auth(self):
         user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
         self.session.headers = {'User-Agent': user_agent}
+
+        login_content = self._get(BASE_URL).content
+        parser = Parser()
+
+        param = parser.login_param(login_content)
         payload = {
             'ms_name': 'HMWebUser',
             'ms_password': self.password,
-            'ms_uniqueid': self.username
+            'ms_uniqueid': self.username,
+            'Params': param
         }
 
         r = self.session.post(BASE_URL, data=payload)
         r.raise_for_status()
-        parser = Parser()
+
         if not parser.check_login(r.content):
             raise Exception('Login failed')
 
