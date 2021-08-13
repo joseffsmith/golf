@@ -87,17 +87,6 @@ if __name__ == '__main__':
         minute='40',
     )
     blocking_sched.add_job(
-        check_for_jobs,
-        'cron',
-        replace_existing=True,
-        id='check-jobs',
-        name='Check for jobs',
-        hour='*',
-        day='*',
-        minute='*',
-        second='20'
-    )
-    blocking_sched.add_job(
         scrape_and_save_players,
         'cron',
         replace_existing=True,
