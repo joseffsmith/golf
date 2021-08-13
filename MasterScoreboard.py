@@ -1,4 +1,4 @@
-from ms_parser import Parser
+from Parser import Parser
 import requests
 import os
 import logging
