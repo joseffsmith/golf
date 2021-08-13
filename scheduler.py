@@ -70,11 +70,6 @@ background_sched_add_jobs = BackgroundAddScheduler(
 )
 
 
-def check_for_jobs():
-    logger.debug(
-        f"Jobs: {', '.join([j.name for j in blocking_sched.get_jobs()])}")
-
-
 if __name__ == '__main__':
     blocking_sched.add_job(
         scrape_and_save_comps,
