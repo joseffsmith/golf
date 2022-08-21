@@ -36,7 +36,7 @@ jobstores = {
     )
 }
 blocking_sched = BlockingScheduler(
-    jobstores=jobstores, timezone=timezone('europe/london'))
+    jobstores=jobstores, timezone=timezone('europe/london'), job_defaults={'max_instances': 2})
 
 
 class BackgroundAddScheduler(BlockingScheduler):
@@ -66,7 +66,7 @@ class BackgroundAddScheduler(BlockingScheduler):
 
 
 background_sched_add_jobs = BackgroundAddScheduler(
-    jobstores=jobstores, timezone=timezone('europe/london')
+    jobstores=jobstores, timezone=timezone('europe/london'), job_defaults={'max_instances': 2}
 )
 
 
