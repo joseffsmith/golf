@@ -2,8 +2,7 @@ import requests
 import bs4
 from pprint import pprint
 
-USERNAME=71451
-PASSWORD="arsenal"
+
 
 
 def login():
