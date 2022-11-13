@@ -1,11 +1,14 @@
-# fly.toml file generated for py-golf on 2022-08-21T14:10:37+01:00
+# fly.toml file generated for py-golf-2 on 2022-11-13T21:34:51Z
 
-app = "py-golf"
-
+app = "py-golf-2"
 kill_signal = "SIGINT"
 kill_timeout = 5
 
+[build]
+  builder = "paketobuildpacks/builder:base"
+
 [env]
+  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
@@ -16,7 +19,7 @@ kill_timeout = 5
 
 [processes]
   app = "gunicorn views:flaskapp"
-  clock = "python scheduler.py"
+  clock = "rqscheduler --queue-class=CustomQueue.CustomQueue --url=${RQ_REDIS_URL}"
 
 [[services]]
   http_checks = []
@@ -24,7 +27,6 @@ kill_timeout = 5
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
-
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20

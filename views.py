@@ -1,5 +1,4 @@
 from MasterScoreboard import MasterScoreboard
-from scheduler import background_sched_add_jobs
 from datetime import datetime
 import os
 from flask import Flask, request, jsonify, abort
@@ -8,6 +7,7 @@ from dotenv import load_dotenv
 import logging
 import app
 from Library import Library
+from q import create_connection
 flaskapp = Flask(__name__)
 CORS(flaskapp)
 
@@ -89,30 +89,36 @@ def schedule_booking():
         abort(404, 'comp not found')
 
     comp = comps[comp_id]
-    background_sched_add_jobs.start()
-    background_sched_add_jobs.add_job(
-        app.book_job,
-        id=f'{username}-{comp_id}',
-        args=[comp, booking_time, player_ids, username, password],
-        replace_existing=True,
-        next_run_time=datetime.fromtimestamp(int(comp['book_from'])),
-        misfire_grace_time=None,
-    )
-    background_sched_add_jobs.shutdown()
 
-    bookings = lib.read('bookings', default={})
-    bookings[f'{username}-{comp_id}'] = {
-        'comp': comp,
-        'user': username,
-        'booking_time': booking_time,
-        'player_ids': player_ids,
-        'booked': False
-    }
-    lib.write('bookings', bookings)
-    return jsonify(status='ok', bookings=list(bookings.values()))
+    next_run_time = datetime.fromtimestamp(int(comp['book_from']))
+
+    queue = create_connection()
+
+    job = queue.enqueue_at(next_run_time, app.book_job,
+                           comp, booking_time, player_ids, username, password)
+
+    return jsonify(status='ok', bookings=[])
 
 
 flaskapp.debug = True
 
 if __name__ == '__main__':
     flaskapp.run(port=5000)
+    logger.debug('Enqueuing jobs')
+    scheduler = create_connection()
+
+    scheduler.schedule(
+        scheduled_time=datetime.now(), # Time for first execution, in UTC timezone
+        func=scrape_and_save_comps,                     # Function to be queued
+        kwargs={'foo': 'bar'},         # Keyword arguments passed into function when executed
+        interval=60*60,                   # Time before the function is called again, in seconds
+        repeat=None,                     # Repeat this number of times (None means repeat forever)
+    )
+    scheduler.schedule(
+        scheduled_time=datetime.now(), # Time for first execution, in UTC timezone
+        func=scrape_and_save_players,                     # Function to be queued
+        kwargs={'foo': 'bar'},         # Keyword arguments passed into function when executed
+        interval=60*60*24,                   # Time before the function is called again, in seconds
+        repeat=None,                     # Repeat this number of times (None means repeat forever)
+    )
+
