@@ -1,9 +1,5 @@
-from rq import Queue
 from redis import Redis
 from rq_scheduler import Scheduler
-from datetime import datetime
-from app import scrape_and_save_comps
-from app import scrape_and_save_players
 
 import os
 from dotenv import load_dotenv
@@ -19,5 +15,5 @@ def create_connection():
         password=REDIS_PASS
     )
     scheduler = Scheduler('golf', connection=redis_conn)
-    return scheduler
 
+    return scheduler

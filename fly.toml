@@ -19,7 +19,7 @@ kill_timeout = 5
 
 [processes]
   app = "gunicorn views:flaskapp"
-  clock = "rqscheduler --queue-class=CustomQueue.CustomQueue --url=${RQ_REDIS_URL}"
+  clock = "rqscheduler --queue-class=CustomQueue.CustomQueue --url=${RQ_REDIS_URL} --interval=8"
 
 [[services]]
   http_checks = []
