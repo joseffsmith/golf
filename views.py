@@ -102,22 +102,13 @@ def schedule_booking():
     return jsonify(status='ok', bookings=[])
 
 
-@flaskapp.before_request
-def before_request():
-    if request.method == 'OPTIONS':
-        return
-    key = request.headers.get('X-BRS-API-KEY')
-    if key != API_KEY:
-        abort(401)
-
-
 @flaskapp.route('/brs/login/', methods=['GET'])
-def login():
+def brs_login():
     password = request.args.get('password')
     if not password:
         abort(401, 'No password')
     try:
-        app.login(password)
+        brs_app.login(password)
     except Exception as e:
         print(e)
         abort(400, 'Failed to login')
@@ -126,18 +117,19 @@ def login():
 
 
 @flaskapp.route('/brs/curr_bookings/', methods=['GET'])
-def curr_bookings():
+def brs_curr_bookings():
 
     queue = create_connection()
 
-    resp = jsonify(status='ok', jobs=[queue.fetch_job(
-        j).to_dict()['description'] for j in queue.scheduled_job_registry.get_job_ids()])
-    resp.headers.add('Access-Control-Allow-Origin', '*')
-    return resp
+    # resp = jsonify(status='ok', jobs=[queue.fetch_job(
+    #     j).to_dict()['description'] for j in queue.scheduled_job_registry.get_job_ids()])
+    # resp.headers.add('Access-Control-Allow-Origin', '*')
+    # return resp
+    return jsonify(status='ok', jobs=[])
 
 
 @flaskapp.route('/brs/clear_bookings/', methods=['GET'])
-def clear_bookings():
+def brs_clear_bookings():
 
     resp = jsonify(status='ok')
     resp.headers.add('Access-Control-Allow-Origin', '*')
@@ -145,7 +137,7 @@ def clear_bookings():
 
 
 @flaskapp.route('/brs/scheduler/booking/', methods=['POST'])
-def schedule_booking():
+def brs_schedule_booking():
     json = request.json
     date = json['date']
     hour = str(json['hour']).zfill(2)
