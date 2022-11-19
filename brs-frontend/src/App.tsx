@@ -54,7 +54,7 @@ const App = () => {
     }
     setIsLoggingIn(true);
     axios
-      .get("/login/", { params: { password } })
+      .get("/brs/login/", { params: { password } })
       .then(() => {
         setIsLoggedIn(true);
         setShowModal(false);
@@ -185,14 +185,14 @@ function AuthedApp() {
 
   const loadBookings = async () => {
     setIsLoadingBookings(true);
-    const resp = await axios.get("/curr_bookings/");
+    const resp = await axios.get("/brs/curr_bookings/");
     setBookings(resp.data);
     setIsLoadingBookings(false);
   };
 
   const clearBookings = async () => {
     setIsLoadingBookings(true);
-    await axios.get("/clear_bookings/");
+    await axios.get("/brs/clear_bookings/");
     setBookings({ jobs: [] });
     setIsLoadingBookings(false);
   };
@@ -202,7 +202,7 @@ function AuthedApp() {
       return;
     }
     setIsBooking(true);
-    await axios.post("/scheduler/booking/", {
+    await axios.post("/brs/scheduler/booking/", {
       date: format(date, "yyyy/MM/dd"),
       hour,
       minute,
