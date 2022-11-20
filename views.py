@@ -92,12 +92,20 @@ def schedule_booking():
 
     comp = comps[comp_id]
 
-    next_run_time = datetime.fromtimestamp(int(comp['book_from']))
+    wait_until = datetime.fromtimestamp(int(comp['book_from']))
+    # snap to 10pm
+    next_run_time = wait_until - timedelta(seconds=10)
 
-    queue = create_connection()
+    logger.info('Booking job')
+    if wait_until < datetime.now():
+        logger.info('Comp likely open, scheduling for now')
+        next_run_time = datetime.now() + timedelta(seconds=30)
+        wait_until = None
+
+    queue = create_connection('golf')
 
     job = queue.enqueue_at(next_run_time, app.book_job,
-                           comp, booking_time, player_ids, username, password)
+                           comp, booking_time, player_ids, username, password, wait_until=wait_until)
 
     return jsonify(status='ok', bookings=[])
 
@@ -110,7 +118,7 @@ def brs_login():
     try:
         brs_app.login(password)
     except Exception as e:
-        print(e)
+        logger.exception(e)
         abort(400, 'Failed to login')
 
     return jsonify(status='ok')
@@ -119,13 +127,19 @@ def brs_login():
 @flaskapp.route('/brs/curr_bookings/', methods=['GET'])
 def brs_curr_bookings():
 
-    queue = create_connection()
+    scheduler = create_connection('brs')
+    jobs = []
+    for job in scheduler.get_jobs():
+        queue_name = scheduler.get_queue_for_job(job).name
+        logger.info(f'queue: {queue_name} job: {job.description}')
+        if queue_name == 'brs':
+            jobs.append(job)
 
-    # resp = jsonify(status='ok', jobs=[queue.fetch_job(
-    #     j).to_dict()['description'] for j in queue.scheduled_job_registry.get_job_ids()])
-    # resp.headers.add('Access-Control-Allow-Origin', '*')
-    # return resp
-    return jsonify(status='ok', jobs=[])
+    resp = jsonify(status='ok', jobs=[dict(
+        description=job.description, args=list(job.args)) for job in jobs])
+    resp.headers.add('Access-Control-Allow-Origin', '*')
+    return resp
+    # return jsonify(status='ok', jobs=[])
 
 
 @flaskapp.route('/brs/clear_bookings/', methods=['GET'])
@@ -148,14 +162,15 @@ def brs_schedule_booking():
     wait_until = parsed_date.replace(hour=22) - timedelta(days=7)
     next_run_time = wait_until - timedelta(seconds=10)
 
-    logger.debug('Booking job')
-
+    logger.info('Booking job')
     if wait_until < datetime.now():
-        logger.debug('Comp likely open, scheduling for now')
+        logger.info('Comp likely open, scheduling for now')
         next_run_time = datetime.now() + timedelta(seconds=30)
         wait_until = None
 
-    queue = create_connection()
+    logger.info(
+        f'parsed_date: {parsed_date}, wait_until: {wait_until}, next_run_time: {next_run_time}')
+    queue = create_connection('brs')
 
     job = queue.enqueue_at(next_run_time, brs_app.book_job,
                            date, hour, minute, wait_until)
@@ -169,23 +184,4 @@ flaskapp.debug = True
 
 if __name__ == '__main__':
     flaskapp.run(port=5000)
-    logger.debug('Enqueuing jobs')
-    scheduler = create_connection()
-
-    scheduler.schedule(
-        scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
-        func=scrape_and_save_comps,                     # Function to be queued
-        # Keyword arguments passed into function when executed
-        interval=60*60,                   # Time before the function is called again, in seconds
-        # Repeat this number of times (None means repeat forever)
-        repeat=None,
-    )
-    scheduler.schedule(
-        scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
-        func=scrape_and_save_players,                     # Function to be queued
-        # Keyword arguments passed into function when executed
-        # Time before the function is called again, in seconds
-        interval=60*60*24,
-        # Repeat this number of times (None means repeat forever)
-        repeat=None,
-    )
+    logger.info('Enqueuing jobs')

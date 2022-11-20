@@ -21,13 +21,13 @@ def login(password, session=None):
         session = requests.Session()
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
     session.headers = {'User-Agent': user_agent}
-    print('Getting login page...')
+    logger.info(f'Getting login page...')
     resp = session.get('https://members.brsgolf.com/thevalehotelspa/login')
-    print('Get login page: ', resp)
+    logger.info(f'Get login page: {resp.status_code}')
     b = bs4.BeautifulSoup(resp.content, features='html.parser')
 
     token = b.find(attrs={'id': 'login_form__token'}).get('value')
-    print('Logging in...')
+    logger.info(f'Logging in...')
     resp = session.post('https://members.brsgolf.com/thevalehotelspa/login', data={
         'login_form[username]': USERNAME,
         'login_form[password]': password,
@@ -35,9 +35,9 @@ def login(password, session=None):
         'login_form[_token]': token
     })
     if resp.status_code == 302 and resp.headers.get('location') == '/thevalehotelspa/login':
-        print('Failed to log in')
+        logger.info(f'Failed to log in')
         raise Exception('Failed to login')
-    print('Logged in: ', resp)
+    logger.info(f'Logged in: {resp.status_code}')
     return session
 
 
@@ -46,17 +46,17 @@ def book_job(date, hour, minute, wait=None):
 
     session = login(PASSWORD)
     if wait:
-        logger.debug('Checking for wait')
+        logger.info(f'Checking for wait')
         while datetime.now() < wait:
             time.sleep(.1)
-            logger.debug('Waiting...')
+            logger.info(f'Waiting...')
             continue
 
     # wait until it's the time specified
-    print(f'Getting tee times for {date}...')
+    logger.info(f'Getting tee times for {date}...')
     resp = session.get(
         f'https://members.brsgolf.com/thevalehotelspa/tee-sheet/data/1/{date}')
-    print('Got tee times: ', resp)
+    logger.info(f'Got tee times: {resp.status_code}')
     data = resp.json()
 
     times = data['times']
@@ -68,20 +68,20 @@ def book_job(date, hour, minute, wait=None):
     if booking['reservation']:
         raise Exception("Part booking, don't do it")
 
-    print('Booking: ', booking)
+    logger.info(f'Booking: ${booking}')
 
     url = BASE_URL + booking['url']
 
-    print('Getting booking page...')
+    logger.info(f'Getting booking page...')
     resp = session.get(url)
-    print('Got booking page: ', resp)
+    logger.info(f'Got booking page: {resp.status_code}')
 
     b = bs4.BeautifulSoup(resp.content, features='html.parser')
 
     token = b.find(attrs={'name': 'member_booking_form[token]'}).get('value')
     _token = b.find(attrs={'id': 'member_booking_form__token'}).get('value')
 
-    print('Booking...')
+    logger.info(f'Booking...')
     resp = session.post(f"https://members.brsgolf.com/thevalehotelspa/bookings/store/1/{date.replace('/', '')}/{book_time.replace(':', '')}", data={
         "member_booking_form[token]": token,
         "member_booking_form[player_1]": 1102,
@@ -91,4 +91,4 @@ def book_job(date, hour, minute, wait=None):
         "member_booking_form[vendor-tx-code]": "",
         "member_booking_form[_token]": _token
     })
-    print('Booked: ', resp)
+    logger.info(f'Booked: {resp.status_code}')

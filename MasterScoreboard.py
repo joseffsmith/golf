@@ -20,7 +20,7 @@ class MasterScoreboard:
         self.username = username
         self.password = password
         if not self.username:
-            logger.debug(
+            logger.info(
                 'No username and password supplied, falling back to default')
             self.username = USERNAME
             self.password = PASSWORD
@@ -54,7 +54,7 @@ class MasterScoreboard:
             raise Exception('Login failed')
 
     def list_comps(self):
-        logger.debug(f'Comp url - {COMP_URL}')
+        logger.info(f'Comp url - {COMP_URL}')
         r = self.session.get(COMP_URL)
         r.raise_for_status()
         return r.content
@@ -65,7 +65,7 @@ class MasterScoreboard:
         payload = {
             'Book': "    Book    "
         }
-        logger.debug(payload)
+        logger.info(payload)
 
         r = self.session.post(url, data=payload)
         r.raise_for_status()
@@ -80,7 +80,7 @@ class MasterScoreboard:
         payload.update(block_id_pair)
         payload['Params'] = form_data['Params']
         payload['MaxID'] = form_data['MaxID']
-        logger.debug(payload)
+        logger.info(payload)
 
         r = self.session.post(next_page, data=payload)
         r.raise_for_status()
@@ -95,7 +95,7 @@ class MasterScoreboard:
             f"Partner_{idx+1}": str(p_id.split(':')[0]) for idx, p_id in enumerate(partner_ids)
         })
         payload['Book'] = 'Book'
-        logger.debug(payload)
+        logger.info(payload)
 
         r = self.session.post(next_page, data=payload)
         r.raise_for_status()

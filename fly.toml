@@ -1,6 +1,6 @@
-# fly.toml file generated for py-golf-2 on 2022-11-13T21:34:51Z
+# fly.toml file generated for fly-golf on 2022-11-19T15:56:12Z
 
-app = "py-golf-2"
+app = "fly-golf"
 kill_signal = "SIGINT"
 kill_timeout = 5
 
@@ -19,7 +19,8 @@ kill_timeout = 5
 
 [processes]
   app = "gunicorn views:flaskapp"
-  clock = "rqscheduler --queue-class=CustomQueue.CustomQueue --url=${RQ_REDIS_URL} --interval=.5"
+  worker = "rq worker recurring golf brs --url=${RQ_REDIS_URL}"
+  scheduler = "python q.py"
 
 [[services]]
   http_checks = []

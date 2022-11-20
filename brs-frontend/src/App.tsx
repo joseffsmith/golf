@@ -328,7 +328,7 @@ function AuthedApp() {
                   }}
                 >
                   <>
-                    {b}
+                    {b.description}
                     {/* <Box>
                       Tee time:{" "}
                       <code style={{ display: "inline" }}>{b.id}</code>
