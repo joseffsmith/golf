@@ -31,10 +31,10 @@ import { TeeTimes } from "./TeeTimes";
 
 export const MasterScoreboard = () => {
   return (
-    <main>
+    <>
       <Login />
       <Comps />
-    </main>
+    </>
   );
 };
 
@@ -70,10 +70,10 @@ const Comps = () => {
   return (
     <Card
       sx={{
-        width: 400,
-        maxWidth: "90%",
-        mx: 4,
-        mb: 2,
+        maxWidth: "95%",
+        width: "100%",
+        overflow: "visible",
+        my: 2,
       }}
     >
       <Box height={"4px"}>

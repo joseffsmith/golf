@@ -51,7 +51,7 @@ export const Login = () => {
   };
 
   return (
-    <Card sx={{ width: 400, maxWidth: "90%", mx: 4, mb: 2 }}>
+    <Card sx={{ maxWidth: "95%", width: "100%", overflow: "visible", my: 2 }}>
       <Box height={4}>{isLoggingIn && <LinearProgress />}</Box>
       <CardHeader title="MasterScoreboard password" />
       <form

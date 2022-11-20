@@ -1,4 +1,4 @@
-import { CssBaseline } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ReactDOM from "react-dom/client";
@@ -20,12 +20,17 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+const theme = createTheme({
+  spacing: 4,
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <RecoilRoot>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </LocalizationProvider>
   </RecoilRoot>
 );
