@@ -105,7 +105,7 @@ def schedule_booking():
     queue = create_connection('golf')
 
     job = queue.enqueue_at(next_run_time, app.book_job,
-                           comp, booking_time, player_ids, username, password, wait_until=wait_until)
+                           comp, booking_time, player_ids, username, password, wait_until)
 
     return jsonify(status='ok', bookings=[])
 
