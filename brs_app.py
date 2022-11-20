@@ -48,7 +48,7 @@ def book_job(date, hour, minute, wait=None):
     if wait:
         logger.info(f'Checking for wait')
         while datetime.now() < wait:
-            time.sleep(.1)
+            time.sleep(.01)
             logger.info(f'Waiting...')
             continue
 
