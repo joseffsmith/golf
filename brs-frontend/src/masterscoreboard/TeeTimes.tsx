@@ -34,6 +34,7 @@ export const TeeTimes = () => {
         };
       }),
     ];
+    setTeeTimes(ts);
   };
   return (
     <Box display="flex" textAlign={"left"} flexDirection="column" py={2}>
