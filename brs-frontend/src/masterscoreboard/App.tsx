@@ -70,8 +70,7 @@ const Comps = () => {
   return (
     <Card
       sx={{
-        maxWidth: "95%",
-        width: "100%",
+        maxWidth: "500px", width: "95%",
         overflow: "visible",
         my: 2,
       }}

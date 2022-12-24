@@ -43,7 +43,7 @@ export const AddBooking = () => {
     setIsBooking(false);
   };
   return (
-    <Card sx={{ maxWidth: "95%", width: "100%", overflow: "visible", my: 2 }}>
+    <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
       <Box height={"4px"}>{isBooking && <LinearProgress />}</Box>
       <CardHeader title="Add booking" />
       <CardContent>
