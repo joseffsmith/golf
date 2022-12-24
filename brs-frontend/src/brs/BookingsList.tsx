@@ -54,7 +54,6 @@ export const Bookings = () => {
               }}
             >
               <MenuItem
-                disabled
                 color="error.main"
                 onClick={async () => {
                   await clearBookings();
