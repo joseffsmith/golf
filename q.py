@@ -1,11 +1,8 @@
 from datetime import datetime
 from dotenv import load_dotenv
 import os
-from rq.queue import Queue
-from rq_scheduler.utils import setup_loghandlers
-import sys
-from redis import Redis
 from rq_scheduler import Scheduler
+from redis import Redis
 import logging
 
 from app import scrape_and_save_comps, scrape_and_save_players

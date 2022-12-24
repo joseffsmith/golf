@@ -13,11 +13,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { useRecoilValueLoadable } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from "recoil";
 import { currentBookings } from "./atoms";
 
 export const Bookings = () => {
   const bookings = useRecoilValueLoadable(currentBookings);
+  const refreshBookings = useRecoilRefresher_UNSTABLE(currentBookings)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -57,6 +58,7 @@ export const Bookings = () => {
                 color="error.main"
                 onClick={async () => {
                   await clearBookings();
+                  refreshBookings()
                   handleClose();
                 }}
               >

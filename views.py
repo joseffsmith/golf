@@ -145,6 +145,13 @@ def brs_curr_bookings():
 @flaskapp.route('/brs/clear_bookings/', methods=['GET'])
 def brs_clear_bookings():
 
+    scheduler = create_connection('brs')
+    for job in scheduler.get_jobs():
+        queue_name = scheduler.get_queue_for_job(job).name
+        logger.info(f'queue: {queue_name} job: {job.description}')
+        if queue_name == 'brs':
+            job.delete()
+
     resp = jsonify(status='ok')
     resp.headers.add('Access-Control-Allow-Origin', '*')
     return resp
