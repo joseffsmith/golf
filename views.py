@@ -1,7 +1,7 @@
 from MasterScoreboard import MasterScoreboard
 from datetime import datetime, timedelta
 import os
-from flask import Flask, request, jsonify, abort
+from flask import Flask, Response, request, jsonify, abort
 from flask_cors import CORS
 from dotenv import load_dotenv
 import logging
@@ -12,10 +12,6 @@ from q import create_connection
 import sentry_sdk
 sentry_sdk.init(
     dsn="https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664",
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
     traces_sample_rate=1.0
 )
 flaskapp = Flask(__name__)
@@ -27,11 +23,11 @@ logger.setLevel(logging.DEBUG)
 
 load_dotenv()
 API_SECRET = os.getenv('API_SECRET')
-API_KEY = os.getenv('API_KEY')
 
 
 @flaskapp.before_request
 def before_request():
+    print('before')
     if request.method == 'OPTIONS':
         return
     key = request.headers.get('X-MS-JS-API-KEY')
@@ -145,10 +141,8 @@ def brs_curr_bookings():
             jobs.append(job)
 
     resp = jsonify(status='ok', jobs=[dict(
-        description=job.description, args=list(job.args)) for job in jobs])
-    resp.headers.add('Access-Control-Allow-Origin', '*')
+        description=job.description, kwargs=job.kwargs, id=job.id) for job in jobs])
     return resp
-    # return jsonify(status='ok', jobs=[])
 
 
 @flaskapp.route('/brs/clear_bookings/', methods=['GET'])
@@ -162,7 +156,22 @@ def brs_clear_bookings():
             job.delete()
 
     resp = jsonify(status='ok')
-    resp.headers.add('Access-Control-Allow-Origin', '*')
+    return resp
+
+
+@flaskapp.route('/brs/delete_booking/', methods=['POST'])
+def brs_delete_booking():
+
+    json = request.json
+    job_id = json['id']
+
+    scheduler = create_connection('brs')
+    for job in scheduler.get_jobs():
+        if job.id == job_id:
+            logger.info(f'Deleting job: {job.id}')
+            job.delete()
+
+    resp = jsonify(status='ok')
     return resp
 
 
@@ -189,10 +198,9 @@ def brs_schedule_booking():
     queue = create_connection('brs')
 
     job = queue.enqueue_at(next_run_time, brs_app.book_job,
-                           date, hour, minute, wait_until)
+                           date=date, hour=hour, minute=minute, wait_until=wait_until)
 
     response = jsonify({'status': 'ok'})
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 

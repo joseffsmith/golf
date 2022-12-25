@@ -42,13 +42,13 @@ def login(password, session=None):
     return session
 
 
-def book_job(date, hour, minute, wait=None):
+def book_job(date, hour, minute, wait_until=None):
     book_time = f"{str(hour).zfill(2)}:{minute}"
 
     session = login(PASSWORD)
-    if wait:
+    if wait_until:
         logger.info(f'Checking for wait')
-        while datetime.now() < wait:
+        while datetime.now() < wait_until:
             time.sleep(.01)
             logger.info(f'Waiting...')
             continue

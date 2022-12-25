@@ -11,12 +11,12 @@ import {
 } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { errors } from "../atoms";
 import { loggedIn } from "./atoms";
 
 export const Login = () => {
-  const setIsLoggedIn = useSetRecoilState(loggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedIn);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [password, _setPassword] = useState(
     localStorage.getItem("brs-password") ?? ""
@@ -50,7 +50,7 @@ export const Login = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
+    <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2, opacity: isLoggedIn ? .5 : 1 }}>
       <Box height={4}>{isLoggingIn && <LinearProgress />}</Box>
       <CardHeader title="BRS password" />
       <form
@@ -79,7 +79,7 @@ export const Login = () => {
           <Button
             variant="contained"
             onClick={handleLogin}
-            disabled={password === "" || isLoggingIn}
+            disabled={password === "" || isLoggingIn || isLoggedIn}
           >
             Login
           </Button>
