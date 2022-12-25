@@ -5,6 +5,7 @@ import os
 import logging
 import time
 from datetime import datetime
+import sentry_sdk
 load_dotenv()
 
 logging.basicConfig()
@@ -92,3 +93,4 @@ def book_job(date, hour, minute, wait=None):
         "member_booking_form[_token]": _token
     })
     logger.info(f'Booked: {resp.status_code}')
+    sentry_sdk.capture_message('Booked')

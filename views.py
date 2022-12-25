@@ -9,6 +9,15 @@ import app
 import brs_app
 from Library import Library
 from q import create_connection
+import sentry_sdk
+sentry_sdk.init(
+    dsn="https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664",
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
 flaskapp = Flask(__name__)
 CORS(flaskapp)
 

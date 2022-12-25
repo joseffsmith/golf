@@ -4,12 +4,14 @@ import os
 from rq_scheduler import Scheduler
 from redis import Redis
 import logging
-
+import sentry_sdk
 from app import scrape_and_save_comps, scrape_and_save_players
+
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 load_dotenv()
+
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PASS = os.getenv('REDIS_PASS')
 
@@ -23,6 +25,11 @@ def create_connection(name):
     scheduler = Scheduler(name, connection=redis_conn)
 
     return scheduler
+
+
+def get_jobs_in_queue(name='test'):
+    conn = create_connection(name)
+    return [job for job in conn.get_jobs() if conn.get_queue_for_job(job).name == name]
 
 
 def main():
@@ -60,4 +67,12 @@ def main():
 
 
 if __name__ == '__main__':
+    sentry_sdk.init(
+        dsn="https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664",
+
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0
+    )
     main()
