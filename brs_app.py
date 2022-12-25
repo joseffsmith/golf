@@ -42,7 +42,7 @@ def login(password, session=None):
     return session
 
 
-def book_job(date, hour, minute, wait_until=None):
+def book_job(date, hour, minute, wait_until):
     book_time = f"{str(hour).zfill(2)}:{minute}"
 
     session = login(PASSWORD)
