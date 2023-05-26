@@ -1,16 +1,23 @@
 from typing import Dict
+import bs4
 from dotenv import load_dotenv
 import logging
 import time
 
-from MasterScoreboard import MasterScoreboard
-from Parser import Parser
-from Library import Library, DB
+# from Parser import Parser
+# from Library import Library, DB
 from datetime import datetime
+import os
+from supabase import create_client, Client
+from urllib.parse import parse_qs, urlparse
+from dateutil.parser import parse
+
+from intelligent import login
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
 
 # TODO add all needed classes to session variable
 # set up logging with papertrail, email on exceptions
@@ -19,149 +26,68 @@ logger.setLevel(logging.DEBUG)
 load_dotenv()
 
 
-def scrape_and_save_comps(parsed_test_comps=None):
-    lib = Library()
-    current_comps = {c['id']: c for c in lib.read('curr_comps', default=[])}
-    parsed_comps = parsed_test_comps
-    if not parsed_test_comps:
-        ms = MasterScoreboard()
-        ms.auth()
-        content = ms.list_comps()
-        parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
-        logger.info(f'{len(parsed_comps)} fresh comps')
-
-    if len(current_comps) == 0:
-        logger.info(
-            f"No current comps, saving {len(parsed_comps)} parsed comps as current")
-        lib.write('curr_comps', list(parsed_comps.values()))
-        return parsed_comps
-
-    skipped = []
-    saving = []
-    removed = []
-    for id, pc in parsed_comps.items():
-        if id not in current_comps:
-            # new comp we haven't seen before
-            # or the id has changed since we last viewed it
-            if 'Book from' not in pc['notes']:
-                logger.exception(
-                    f"New Comp without 'book from', don't like it - {id}, skipping")
-                skipped.append(pc)
-                continue
-
-            logger.info(
-                f"New comp with book from, adding to list - {pc['html_description']}")
-            saving.append(pc)
-            continue
-
-        cc = current_comps[id]
-
-        if cc == pc:
-            logger.info(
-                f"No change in comp, saving as normal - {pc['html_description']}")
-            saving.append(pc)
-            continue
-
-        logger.info(
-            f"Change detected in comp, patching current comp with new data - {pc['html_description']}")
-        for key, value in pc.items():
-            if not value:
-                continue
-            if key == 'book_from' and value is None:
-                continue
-            if cc[key] == value:
-                continue
-            logger.info(
-                f"Key - {key}, Newval - {pc[key]}, Oldval - {cc[key]}")
-            cc[key] = value
-        saving.append(cc)
-
-    removed = [c for c in current_comps.values() if c not in saving]
-
-    bookings: Dict = lib.read('bookings')
-    keep_bookings = {b_id: booking for b_id, booking in bookings.items(
-    ) if booking['comp']['id'] in parsed_comps.keys()}
-    lib.write('bookings', keep_bookings)
-    logger.info(f'Removed bookings: {bookings.keys() - keep_bookings.keys()}')
-
-    logger.info(
-        f"Finished with comps, parsed: {len(parsed_comps)} saving: {len(saving)}, skipped: {len(skipped)}, removed: {len(removed)}")
-
-    lib.write('curr_comps', saving)
-    return saving
-
-
 def scrape_and_save_comps_db():
-    db = DB()
-    db_comps = db.client.golf.comps
-    current_comps = {c['id']: c for c in list(db_comps.find())}
+    PASSWORD = os.getenv('INT_PASSWORD')
+    BASE_URL = os.getenv('INT_BASE_URL')
+    url: str = os.environ.get("SUPABASE_URL")
+    key: str = os.environ.get("SUPABASE_KEY")
+    supabase: Client = create_client(url, key)
+    session = login(PASSWORD)
+    resp = session.get(BASE_URL + '/competition.php?time=future')
+    b = bs4.BeautifulSoup(resp.content, features='html.parser')
+    rows = b.find_all('tr')
+    to_upsert = {}
+    for row in rows[1:]:
+        fav, comp, comp_date, comp_in, booking_opts, cal = row.find_all(
+            'td')
+        gender = 'Ladies' if comp.text.startswith('Ladies') else 'Male'
+        gender = 'Junior' if comp.text.startswith('Junior') else gender
+        params = comp.find('a').attrs['href']
+        compDate = parse(comp_date.text)
+        if compDate < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
+            raise Exception('Cannot have comp in the past')
 
-    ms = MasterScoreboard()
-    ms.auth()
-    content = ms.list_comps()
-    parsed_comps = {p['id']: p for p in Parser().parse_comps(content)}
-    logger.info(f'{len(parsed_comps)} parsed comps')
+        data = {
+            'comp_id': parse_qs((urlparse(params).query))['compid'][0],
+            'gender': gender,
+            'comp_date': compDate.isoformat(),
+            'html_description': comp.text,
+        }
+        # if there's an action we can book straight away
+        clickable = booking_opts.find('a')
+        if clickable:
+            data['action'] = clickable.attrs['href']
 
-    if db.client.golf.comps.count_documents({}) == 0:
-        logger.info(
-            f"No current comps, saving {len(parsed_comps)} parsed comps as current")
-        db_comps.insert_many(list(parsed_comps.values()))
-        return parsed_comps
+        if 'Signup Closes' in booking_opts.text:
+            # comp open, fill in bookings_close_by
+            data['bookings_close_by'] = parse(booking_opts.text.split(
+                'Signup Closes')[-1].strip().split('at')[-1].strip().rstrip(')')).isoformat()
 
-    skipped = []
-    saving = []
-    removed = []
-    for id, pc in parsed_comps.items():
-        if id not in current_comps:
-            # new comp we haven't seen before
-            # or the id has changed since we last viewed it
-            if 'Book from' not in pc['notes']:
-                logger.exception(
-                    f"New Comp without 'book from', don't like it - {id}, skipping")
-                skipped.append(pc)
-                continue
+        if 'Signup Opens' in booking_opts.text:
+            data['book_from'] = parse(booking_opts.text.split(
+                'Signup Opens')[-1].strip().split('at')[-1].strip().rstrip(')')).isoformat()
 
-            logger.info(
-                f"New comp with book from, adding to list - {pc['html_description']}")
-            saving.append(pc)
-            continue
+        to_upsert[data['comp_id']] = data
 
-        cc = current_comps[id]
+    resp = supabase.table('comps').select('comp_id').execute()
+    comp_ids = [c['comp_id'] for c in resp.data]
 
-        del cc['_id']
+    to_update = []
+    to_insert = []
 
-        if cc == pc:
-            logger.info(
-                f"No change in comp, saving as normal - {pc['html_description']}")
-            saving.append(pc)
-            continue
+    for comp_id, data in to_upsert.items():
+        if comp_id in comp_ids:
+            to_update.append(data)
+        else:
+            to_insert.append(data)
 
-        logger.info(
-            f"Change detected in comp, patching current comp with new data - {pc['html_description']}")
-        for key, value in pc.items():
-            if not value:
-                continue
-            if key == 'book_from':
-                continue
-            if cc[key] == value:
-                continue
-            logger.info(
-                f"Key - {key}, Newval - {pc[key]}, Oldval - {cc[key]}")
-            cc[key] = value
-        saving.append(cc)
+    ins_resp = supabase.table('comps').insert(to_insert).execute()
+    print(ins_resp)
 
-    removed = [c for c in current_comps.values() if c not in saving]
+    upd_resp = supabase.table('comps').update(to_update).execute()
+    print(upd_resp)
 
-    for comp in saving:
-        saved = db.client.golf.comps.replace_one(
-            {'id': comp['id']}, comp, upsert=True)
-
-    for comp in removed:
-        deleted = db.client.golf.comps.delete_one({'id': comp['id']})
-        bookings_removed = db.client.golf.bookings.delete_many(
-            {'comp': {'id': comp['id']}})
-
-    return saved
+    return
 
 
 def scrape_and_save_players(parsed_test_players=None):
