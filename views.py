@@ -10,6 +10,9 @@ import brs_app
 from Library import Library
 from q import create_connection
 import sentry_sdk
+import pytz
+bst = pytz.timezone('Europe/London')
+
 sentry_sdk.init(
     dsn="https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664",
     traces_sample_rate=1.0
@@ -27,7 +30,6 @@ API_SECRET = os.getenv('API_SECRET')
 
 @flaskapp.before_request
 def before_request():
-    print('before')
     if request.method == 'OPTIONS':
         return
     key = request.headers.get('X-MS-JS-API-KEY')
@@ -185,16 +187,19 @@ def brs_schedule_booking():
 
     # snap to 10pm
     wait_until = parsed_date.replace(hour=22) - timedelta(days=7)
+    wait_until = bst.localize(wait_until).astimezone(pytz.utc)
     next_run_time = wait_until - timedelta(seconds=10)
 
     logger.info('Booking job')
-    if wait_until < datetime.now():
+    now = pytz.UTC.localize(datetime.utcnow())
+    if wait_until < now:
         logger.info('Comp likely open, scheduling for now')
-        next_run_time = datetime.now() + timedelta(seconds=30)
+        next_run_time = now + timedelta(seconds=30)
         wait_until = None
 
     logger.info(
         f'parsed_date: {parsed_date}, wait_until: {wait_until}, next_run_time: {next_run_time}')
+
     queue = create_connection('brs')
 
     job = queue.enqueue_at(next_run_time, brs_app.book_job,

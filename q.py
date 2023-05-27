@@ -62,7 +62,7 @@ def main():
         repeat=None,
     )
     logger.info(len(list(scheduler.get_jobs())))
-
+    logger.info('Running scheduler')
     scheduler.run()
 
 

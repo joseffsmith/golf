@@ -1,3 +1,4 @@
+import pytz
 import requests
 import bs4
 from dotenv import load_dotenv
@@ -48,7 +49,7 @@ def book_job(date, hour, minute, wait_until):
     session = login(PASSWORD)
     if wait_until:
         logger.info(f'Checking for wait')
-        while datetime.now() < wait_until:
+        while pytz.UTC.localize(datetime.utcnow()) < wait_until:
             time.sleep(.01)
             logger.info(f'Waiting...')
             continue
