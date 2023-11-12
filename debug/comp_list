@@ -1,0 +1,3907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Upcoming Competitions :: Llanishen Golf Club</title>
+
+
+    <link href="/styles/bootstrap.1655723398.css" rel="stylesheet" media="screen" type="text/css">
+    <link href="/styles/bootstrap_common.1655723398.css" rel="stylesheet" media="screen" type="text/css">
+
+
+    <link href="/customcss/styles/llanishen.1672922226.css" rel="stylesheet" type="text/css" media="screen">
+
+    <link href="/print.1656928773.css" rel="stylesheet" type="text/css" media="print">
+    <script>
+        var deviceType = 'computer';
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--[if lt IE 9]>
+<script src="/javascript/html5shiv.js"></script>
+<![endif]-->
+
+
+    <script src="/javascript/jquery.min.js"></script>
+    <script src="/javascript/jquery-migrate-1.4.1.min.js"></script>
+    <link rel="stylesheet" href="/styles/fa440/css/font-awesome.min.css">
+    <script src="/javascript/jquery.mb.browser-master/jquery.mb.browser.min.js"></script>
+    <script type="text/javascript" src="/javascript/bootstrap.1655723397.js"></script>
+
+
+    <link href="/images/sites/llanishen/favicon.png" type="image/png" rel="icon" />
+
+    <meta name="revisit-after" content="1 days">
+    <meta name="robots" content="index,follow">
+    <meta name="description"
+        content="Llanishen Golf Club in North Cardiff was founded in 1905 and is noted as an extremely friendly and welcoming Club. Awarded the prestigious Golf Club Managers Association 'Team of the Year' award in November 2019, you are guaranteed a fantastic service from the minute you arrive until the minute you leave">
+    <meta name="keywords" content="Llanishen, Wales, Cardiff,Caerphilly Mountain">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv='content-language' content='en'>
+
+    <script type="text/javascript" src="/main.js"></script>
+    <link href="/styles/form.css?v=5" rel="stylesheet" type="text/css" />
+    <link href="/styles/competition2.css?v=7?v=5" rel="stylesheet" type="text/css" />
+    <script type='text/javascript' src='/javascript/json2.js'></script>
+    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <script src="/javascript/jquery-ui-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/javascript/sticky.min.js"></script>
+    <link rel="stylesheet" href="/styles/sticky.min.css" type="text/css" />
+    <script type="text/javascript" src="/javascript/jquery.tipsy.js"></script>
+    <link rel="stylesheet" href="/styles/tipsy.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/icons.css" type="text/css" />
+    <script type="text/javascript" src="/javascript/highcharts.js"></script>
+    <script type="text/javascript">
+        var useBSNns = true;</script>
+    <script type="text/javascript" src="/AutoSuggest.js"></script>
+    <link rel="stylesheet" href="/autosuggest_inquisitor.css" type="text/css">
+    <script type="text/javascript" src="/javascript/daterangepicker.jQuery.js"></script>
+    <!-- <script type="text/javascript" src="/javascript/jquery.ba-bbq.js"></script> -->
+    <link rel="stylesheet" href="/styles/ui.daterangepicker.css" type="text/css">
+    <script type="text/javascript" src="/javascript/jquery.fixTHead.js"></script>
+    <script type="text/javascript" src="/jquery.tablesorter.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("table.fixTHead").fixTableHeaders();
+        });
+    </script>
+    <script type="text/javascript" src="/javascript/plupload/js/plupload.js"></script>
+    <script type="text/javascript" src="/javascript/plupload/js/plupload.html5.js"></script>
+    <script type="text/javascript" src="/javascript/plupload/js/plupload.html4.js"></script>
+    <script type="text/javascript" src="/javascript/plupload/js/plupload.flash.js"></script>
+
+    <script type="text/javascript" src="/javascript/multiselect/src/jquery.multiselect.min.js"></script>
+    <link rel="stylesheet" href="/javascript/multiselect/jquery.multiselect.css" type="text/css" />
+    <script type="text/javascript" src="/jquery.autogrowtextarea.js"></script>
+    <script type="text/javascript" src="/javascript/jquery.stickem.js"></script>
+
+
+    <script type="text/javascript">
+        var $ = $ || jQuery;
+
+        $.ajaxIGSaveTinyMCE = function (button) {
+            if (window.tinyMCE) window.tinyMCE.triggerSave();
+            // Strange Hack
+            if (button) {
+                target = button.attr('data-ajax-saverich');
+                if (target) {
+                    tinyMCE.get(target).save();
+                }
+            }
+        };
+        $.ajaxIGHideOnChangeEls = [];
+        $.ajaxIGValidations = {
+            standard: function (settings, onValid) {
+                onValid(settings);
+            }
+        };
+        $.ajaxIGData = {
+            common: function (settings) {
+            },
+            // The standard function serializes the containing form
+            standard: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                var d = $(settings.button).parents('form').serialize();
+                return d;
+            },
+            standardArray: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                var d = $(settings.button).parents('form').serializeArray();
+                return d;
+            },
+            standard_checkbox: function (settings) {
+                var value = 0;
+                var name = settings.button.attr('name');
+                var data = {};
+                if (settings.button.is(":checked")) value = settings.button.val();
+                data['checkbox'] = name;
+                data['value'] = value;
+                return data;
+            },
+            checkbox_withform: function (settings) {
+                var formData = $.ajaxIGData.standard(settings);
+                return formData;
+            },
+            targeted: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                return $($(settings.button).attr('data-ajax-data-targeted')).find('input,select,textarea').serialize();
+            }
+            , fieldset: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                return $(settings.button).parents('fieldset').find('input,select,textarea').serialize();
+            },
+            parentelement: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                return $(settings.button).parents($(settings.button).attr('data-ajax-data-parentelement')).find('input,select,textarea').serialize();
+            },
+            inline: function (settings) {
+                var attr = $(settings.button).attr('data-ajax-data-inline');
+                var data = $(settings.button).attr('data-ajax-data-inline-' + attr);
+                var obj = {};
+                obj[attr] = data;
+                return obj;
+            },
+            inlinemulti: function (settings) {
+                var obj = {};
+                var attrs = $(settings.button).attr('data-ajax-data-inline').split(",");
+                for (i = 0; i < attrs.length; i++) {
+                    obj[attrs[i]] = $(settings.button).attr('data-ajax-data-inline-' + attrs[i].trim());
+                }
+                return obj;
+            },
+            inlinewithtargeted: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                var attr = $(settings.button).attr('data-ajax-data-inlinewithtargeted');
+                var formdata = $(attr + " :input").serialize();
+                return formdata;
+            },
+            inlinewithform: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                var formdata = $(settings.button).parents('form').serialize();
+
+                var attr = $(settings.button).attr('data-ajax-data-inlinewithform');
+                var data = $(settings.button).attr('data-ajax-data-inlinewithform-' + attr);
+
+                var obj = {};
+                obj[attr] = data;
+                var inlinedata = $.param(obj);
+
+                return formdata + '&' + inlinedata;
+            },
+            row: function (settings) {
+                $.ajaxIGSaveTinyMCE(settings.button);
+                if (window.tinyMCE) window.tinyMCE.triggerSave();
+                return $(settings.button).parents('tr').find('input,select,textarea').serialize();
+            },
+            sortablelist: function (settings) {
+                var item = $(settings.button);
+                var list = item.parents('.sortablelist');
+                var id = list.attr('data-ajax-sortable');
+                var additionalkey = list.attr('data-ajax-data');
+                var additionalvalue = list.attr('data-ajax-data-' + additionalkey);
+                var idAttr = 'data-ajax-sortable-' + id + '-id';
+                var varname = list.attr('data-ajax-sortable-' + id + '-varname');
+                var data = list.sortable('serialize', {
+                    key: varname + '[]',
+                    attribute: idAttr
+                });
+                if (additionalkey && additionalvalue) {
+                    data += '&' + additionalkey + '=' + additionalvalue;
+                }
+                return data;
+            },
+            html: function (settings) {
+                var item = $(settings.button);
+                var target = $(item.attr('data-ajax-data-html'));
+                var html = target.clone().wrap('<div></div>').parent().html();
+                var varname = item.attr('data-ajax-data-html-varname');
+                var obj = {};
+                obj[varname] = html;
+                return obj;
+            },
+            multiinnerhtml: function (settings) {
+                var item = $(settings.button);
+                var targets = $(item.attr('data-ajax-data-multiinnerhtml'));
+                var target_varname_attr = item.attr('data-ajax-data-multiinnerhtml-varname-attr');
+                var obj = {};
+                targets.each(function () {
+                    var varname = $(this).attr(target_varname_attr);
+                    html = $(this).html();
+                    obj[varname] = html;
+                });
+                return obj;
+            },
+            htmlwithform: function (settings) {
+                var item = $(settings.button);
+                var targets = $(item.attr('data-ajax-data-htmlwithform'));
+                var html = '';
+                targets.each(function () {
+                    html = html + ($(this).clone().wrap('<div></div>').parent().html());
+                });
+                var varname = item.attr('data-ajax-data-htmlwithform-varname');
+                var obj = {};
+                obj[varname] = html;
+                return $.param(obj) + '&' + $.ajaxIGData.standard(settings);
+            }
+        };
+
+        $.ajaxIGPresends = {
+            common: function (button) {
+                // width:auto messes up the layout3
+                if (!layout3) button.addClass('inprogress').width('auto');
+                if (button.attr('data-ajax-showinprogress-target')) {
+                    $(button.attr('data-ajax-showinprogress-target')).addClass('inprogress');
+                }
+            },
+            // Will eventually show ajax spinner, or change text etc
+            standard: function (settings) { }
+        };
+
+        $.ajaxIGDialogs = {};
+
+        $.ajaxIGRemoveSpinners = function (settings) {
+            if (settings.button) {
+                var spinners = settings.button.data('ajaxspinners');
+                if (spinners) {
+                    $.each(spinners, function () {
+                        $(this).remove();
+                    });
+                    settings.button.removeData('ajaxspinners');
+                }
+            }
+        };
+
+        $.ajaxIGSuccess = {
+            common: function (settings, response) {
+                if (!response) $.sticky("<p>An error occured.</p>");
+                // Sometimes if there are spaces, jquery won't decode it automatically
+                if (typeof response == 'string') {
+                    try {
+                        response = jQuery.parseJSON($.trim(response));
+                    } catch (e) {
+                        $.sticky('An error occured');
+                        return;
+                    }
+                }
+
+                if (!response) return;
+                if (!response.actions) return;
+                $.each(response.actions, function (i, params) {
+                    if (params.type == "message") {
+                        if (params.data) $.sticky(params.data);
+                        if (params.shortmessage) settings.button.find('span.ui-button-text').text(params.shortmessage);
+                    }
+
+                    if (params.type == "redirect") {
+                        var url = params.data;
+                        window.location.href = url;
+                    }
+
+                    if (params.type == "reload") {
+                        var url = params.data;
+                        window.location.reload();
+                    }
+
+                    if (params.type == "newtab") {
+                        var url = params.data;
+                        window.open(url);
+                    }
+
+                    if (params.type == "select") {
+                        var el = $(params.selector);
+                        el.select();
+                    }
+
+                    if (params.type == "tip") {
+                        var el = $(params.selector);
+                        var text = params.text;
+                        var gravity = el.attr('data-tip-gravity') || 's';
+                        var className = params.tipClass;
+                        el.attr('data-fancy-tip', text);
+                        el.attr('data-hastip', '1');
+                        if (params.hideon && params.hideon == 'onformchange') {
+                            $.ajaxIGHideOnChangeEls.push(el);
+                        }
+                        el.tipsy({ title: function () { return el.attr('data-fancy-tip') }, trigger: 'manual', gravity: gravity, fade: true, className: className }).tipsy('show');
+                    }
+
+                    if (params.type == "removeTip") {
+                        var el = $(params.selector);
+                        $.each(el, function () {
+                            $(this).tipsy("hide");
+                            $(this).removeAttr('data-hastip');
+                        })
+                    }
+
+                    if (params.type == "css") {
+                        var target = $(params.selector);
+
+                        target.each(function () {
+                            var ttarget = $(this);
+                            ttarget.css(params.key, params.value);
+                        });
+                    }
+
+                    if (params.type == "attr") {
+                        var target = $(params.selector);
+
+                        target.each(function () {
+                            var ttarget = $(this);
+                            if (params.value == 'false') {
+                                ttarget.removeAttr(params.key);
+                            } else {
+                                ttarget.attr(params.key, params.value);
+                            }
+                        });
+                    }
+
+                    if (params.type == "remove") {
+                        var target = $(params.selector);
+                        var background = 'background' in params ? params.background : '#d84747';
+                        var color = 'color' in params ? params.color : '#ffffff';
+
+                        target.each(function () {
+                            var ttarget = $(this);
+                            ttarget.css('background', background);
+                            ttarget.css('color', color);
+                            target.addClass('row-danger');
+                            window.setTimeout(function () {
+                                var parent = ttarget.parents('.ajaxchangetriggerer');
+                                ttarget.remove();
+                                parent.trigger('ajaxremove').trigger('ajaxchange', []);
+                            }, 500);
+                        });
+                    }
+
+                    if (params.type == "replaceanimate") {
+                        var target = $(params.selector);
+                        var background = 'background' in params ? params.background : '#950000';
+                        var color = 'color' in params ? params.color : '#ffffff';
+                        $.ajaxIGRemoveSpinners(settings);
+
+                        $(params.selector).replaceWith(params.html);
+                        $(params.selector + ' span').animate({ backgroundColor: "" }, 1000).queue(function () {
+                            $(params.selector + ' span').contents().unwrap();
+                        });
+                        $(params.selector).trigger('ajaxreplace', []).trigger('ajaxchange', []);
+                    }
+
+                    if (params.type == "hide") {
+                        var target = $(params.selector);
+
+                        target.each(function () {
+                            var ttarget = $(this);
+                            ttarget.hide();
+                        });
+                    }
+
+                    if (params.type == "show") {
+                        var target = $(params.selector);
+                        target.each(function () {
+                            var ttarget = $(this);
+                            ttarget.show();
+                        });
+                    }
+
+                    if (params.type == "fastremove") {
+                        var target = $(params.selector);
+
+                        target.each(function () {
+                            var ttarget = $(this);
+                            ttarget.remove();
+                        });
+                    }
+
+                    if (params.type == "opendialog") {
+                        var html = params.html;
+                        var el = $(html);
+                        if (params.buttons) $.each(params.buttons, function (key, button) {
+                            button.click = function () { };
+                        });
+                        var opt = {};
+                        opt.modal = true;
+                        opt.zIndex = 9999;
+                        if (params.title) opt.title = params.title;
+                        if (params.width) opt.width = params.width;
+                        if (params.height) opt.height = params.height;
+                        if (params.buttons) opt.buttons = params.buttons;
+                        if (params.icons) opt.icons = params.icons;
+                        if (params.class) opt.dialogClass = params.class;
+                        opt.closeText = '';
+
+                        if (params.destroyOnClose) {
+                            opt.close = function (event, ui) {
+                                $(this).dialog("close");
+                                $(this).remove();
+                            }
+                        }
+
+                        $.ajaxIGDialogs[params.id] = el.not('script').dialog(opt);
+                        // Hack to ensure close icon when bootstrap enabled
+                        $('.ui-dialog-titlebar-close').html('<i class="fa fa-times"></i>');
+                        el.filter('script').appendTo('body');
+                    }
+
+                    // What if hitting ESC?
+
+                    if (params.type == "closedialog") {
+                        $.ajaxIGRemoveSpinners(settings);
+                        var d = $.ajaxIGDialogs[params.id];
+                        var timeout = 0;
+                        $(d).find('.richWrapper textarea').each(function () {
+                            timeout = 50;
+                            var textareaID = $(this).attr('id');
+                            for (edId in tinyMCE.editors) {
+                                var tinyID = tinyMCE.editors[edId].id;
+                                if (tinyID == textareaID) {
+                                    tinyMCE.editors[edId].remove();
+                                }
+                            }
+
+                        });
+                        if ($.ajaxIGDialogs[params.id]) {
+                            setTimeout(function () {
+                                $.ajaxIGDialogs[params.id].dialog('destroy').remove();
+                            }, timeout);
+                        }
+                    }
+
+                    if (params.type == "replace") {
+                        $.ajaxIGRemoveSpinners(settings);
+
+                        $(params.selector).replaceWith(params.html);
+                        $(params.selector).trigger('ajaxreplace', []).trigger('ajaxchange', []);
+
+                        $('body').trigger('refreshSlateHeaders', { selector: params.selector });
+                    }
+
+                    if (params.type == "replacecontent") {
+                        if (settings.button != undefined) {
+                            var spinners = settings.button.data('ajaxspinners');
+                            if (spinners) {
+                                $.each(spinners, function () {
+                                    $(this).remove();
+                                });
+                                settings.button.removeData('ajaxspinners');
+                            }
+                        }
+
+                        $(params.selector).each(function () {
+                            $(this).html(params.html);
+                            //this.innerHTML = params.html;
+                        });
+                        $(params.selector).trigger('ajaxreplacecontent', []).trigger('ajaxchange', []);
+
+                        $('body').trigger('refreshSlateHeaders', { selector: params.selector });
+                    }
+
+                    if (params.type == "clickEl") {
+                        $(params.selector).trigger('click');
+                    }
+
+                    if (params.type == "injectbefore") {
+                        $.ajaxIGRemoveSpinners(settings);
+
+                        $(params.selector).each(function () {
+                            $(this).before(params.html);
+                            //this.innerHTML = params.html;
+                        });
+                        $(params.selector).trigger('ajaxreplacecontent', []).trigger('ajaxchange', []);
+                    }
+
+                    if (params.type == "injectafter") {
+                        $.ajaxIGRemoveSpinners(settings);
+
+                        $(params.selector).each(function () {
+                            $(this).after(params.html);
+                            //this.innerHTML = params.html;
+                        });
+                        $(params.selector).trigger('ajaxreplacecontent', []).trigger('ajaxchange', []);
+                    }
+
+                    if (params.type == "clearvalue") {
+                        $(params.selector).val('');
+                        $(params.selector).trigger('ajaxreplacecontent', []).trigger('ajaxchange', []);
+                    }
+                    if (params.type == "setvalue") {
+                        $(params.selector).val(params.value);
+                        $(params.selector).trigger('ajaxreplacecontent', []).trigger('ajaxchange', []);
+                    }
+                    if (params.type == "disablebutton") {
+                        var buttons = $(params.selector);
+                        buttons.button('disable');
+                    }
+                    if (params.type == "enablebutton") {
+                        var buttons = $(params.selector);
+                        buttons.button('enable');
+                    }
+                    if (params.type == "addclass") {
+                        $(params.selector).addClass(params['class']);
+                    }
+                    if (params.type == "openurlinnewwindow") {
+                        setTimeout(function () {
+                            window.open(params['url']);
+                        }, 500);
+                    }
+                    if (params.type == "removeclass") {
+                        $(params.selector).removeClass(params['class']);
+                    }
+                    if (params.type == "highlight") {
+                        var previousColor = $(params.selector).css('background-color');
+                        $(params.selector).css('background', previousColor).effect("highlight", {}, 2000);
+                    }
+                    if (params.type == "highlightwhite") {
+                        $(params.selector).css('background', '#ffffff').effect("highlight", {}, 1500);
+                    }
+                    if (params.type == "focus") {
+                        $(params.selector)[0].focus();
+                        $(params.selector)[0].select();
+                    }
+                    if (params.type == "triggerevent") {
+                        $(params.selector).trigger(params.event);
+                    }
+                    if (params.type == "animatetofullheight") {
+                        var el = $(params.selector);
+                        var currentHeight = el.height();
+                        el.css('height', 'auto');
+                        var newHeight = el.height();
+                        el.css('height', currentHeight);
+                        el.animate({ 'height': newHeight }, function () {
+                            if (params.onComplete) window[params.OnComplete]();
+                        });
+                    }
+
+                    if (params.type == "function") {
+                        if (params.name) window[params.name]();
+                    }
+
+                    if (params.type == "scrollto") {
+                        var marginTop = params.marginTop || 0;
+                        var speed = params.speed || 800;
+
+                        $('html, body').animate({
+                            scrollTop: $(params.selector).offset().top - marginTop
+                        }, speed);
+                    }
+
+                    if (params.type == "showerrors") {
+                        var errors = params.errors;
+                        var selector = params.selector;
+                        var errorsClass = 'has-errors';
+
+                        $('.' + errorsClass, selector).removeClass(errorsClass);
+
+                        errors.forEach(function (elem) {
+                            var el = $(elem.selector);
+                            var text = elem.text;
+
+                            el.addClass(errorsClass);
+
+                            var gravity = el.attr('data-tip-gravity') || 's';
+
+                            el.attr('data-fancy-tip', text);
+                            el.attr('data-hastip', '1');
+                            if (params.hideon && params.hideon == 'onformchange') {
+                                $.ajaxIGHideOnChangeEls.push(el);
+                            }
+                            el.tipsy({ title: function () { return el.attr('data-fancy-tip') }, trigger: 'manual', gravity: gravity, fade: true, className: 'tipsy-error' }).tipsy('show');
+                        });
+
+                    }
+                });
+                $('table.sortableTable').trigger('update');
+            },
+            standard: function (settings, response) { }
+        };
+
+        $.ajaxIGComplete = {
+            common: function (settings, textStatus) {
+                // Wait to return text to original
+                window.setTimeout(function () {
+                    var target = settings.button.data('in-progress-text-target') || settings.button;
+                    var originalText = target.attr('data-ajax-originaltext');
+                    if (originalText) {
+                        if (layout3) {
+                            target.html(originalText);
+                        } else {
+                            target.find('span.ui-button-text').text(originalText);
+                        }
+                        target.width('auto');
+                    }
+                    settings.button.removeAttr('data-ajax-isinprogress');
+                    settings.button.removeClass('inprogress');
+                    if (settings.button.attr('data-ajax-showinprogress-target')) {
+                        $(settings.button.attr('data-ajax-showinprogress-target')).removeClass('inprogress');
+                    }
+                }, 1000);
+
+                $.ajaxIGRemoveSpinners(settings);
+            },
+            standard: function (settings) { }
+        };
+
+        $.ajaxIGError = {
+            common: function (settings) { },
+            standard: function (settings) { }
+        };
+
+        $.autocompleteIG = {
+            playersearch: {
+                options: {
+                    varname: "string",
+                    minchars: 3,
+                    timeout: 10000,
+                    cache: false,
+                    noresults: "No matching members found",
+                    callback: function (obj) {
+                        if (isNaN(obj.id)) {
+                            window.location = "/membership_search.php?string=" + obj.id;
+                        } else {
+                            window.location = "/member.php?memberid=" + obj.id;
+                        }
+                    },
+                    //script: '/backend.php?action=membershipadmin&incnon=1&'
+                    script: function () {
+                        return $.autocompletePathsIG.playersearch + ($('#autoplayersearch').attr('data-include-inactive') == '1' ? 'incleavers=1&' : '') + 'string=' + $('#autoplayersearch').val();
+                    }
+                }
+            },
+            playersearchprioritylist: {
+                options: {
+                    varname: "string",
+                    minchars: 3,
+                    timeout: 10000,
+                    cache: false,
+                    noresults: "No matching members found",
+                    callback: function (obj) {
+                        $('#player_id').val(obj.id);
+                    },
+                    script: function () {
+                        return $.autocompletePathsIG.playersearchprioritylist + 'string=' + $('#autoplayersearch').val();
+                    }
+                }
+            },
+            groupmemberlookup: {
+                options: {
+                    varname: "string",
+                    minchars: 3,
+                    timeout: 10000,
+                    cache: false,
+                    noresults: "No matching members found",
+                    callback: function (obj) {
+                        $('#user_id').val(obj.id).trigger('change');
+                    },
+                    script: function () {
+                        var memberid = this.memberid ? 'memberid=' + this.memberid + '&' : '';
+                        return $.autocompletePathsIG.groupmemberlookup + memberid + 'string=' + $('#groupmemberlookup').val();
+                    }
+                }
+            },
+            helpsearch: {
+                options: {
+                    script: "backend.php?action=helpsearch&",
+                    varname: "string",
+                    minchars: 3,
+                    timeout: 10000,
+                    cache: false,
+                    noresults: "No matching entries found",
+                    callback: function (obj) {
+                        if (isNaN(obj.id)) {
+                            window.location = "/help.php?search=" + obj.id;
+                        } else {
+                            window.location = "/help.php?helpitem=" + obj.id;
+                        }
+                    }
+                }
+            },
+            leaderidsearch: {
+                options: {
+                    varname: "string",
+                    minchars: 3,
+                    timeout: 10000,
+                    cache: false,
+                    noresults: "No matching members found",
+                    callback: function (obj) {
+                        var memberIdTarget = $('#autoplayersearch').attr('data-member-id-target');
+
+                        $(memberIdTarget).val(obj.id);
+                        $(memberIdTarget).trigger('change');
+                    },
+                    script: function () {
+                        return $.autocompletePathsIG.leaderidsearch + ($('#autoplayersearch').attr('data-include-inactive') == '1' ? 'incleavers=1&' : '') + 'string=' + $('#autoplayersearch').val();
+                    }
+                }
+            },
+        };
+
+        $.autocompletePathsIG = {
+            playersearch: '/backend.php?action=membershipadmin&incnon=1&',
+            playersearchprioritylist: '/backend.php?action=membershipadmin&excprioritylist=1&excnohandicap=1&',
+            groupmemberlookup: '/backend.php?action=groupmemberlookup&incnon=1&',
+            leaderidsearch: '/backend.php?action=groupmemberlookup&incnon=0&leadersonly=1&',
+        };
+
+        $(function () {
+            var processButton = function (button, exists) {
+                var isBtn = $(button).hasClass('btn');
+                var faIcon = $(button).attr('data-fa');
+
+                if (isBtn) {
+                    $(button).removeClass(function (index, className) {
+                        return (className.match(/(^|\s)ui-\S+/g) || []).join(' ');
+                    });
+
+                    if (faIcon) {
+                        $(button).prepend('<i class="fa ' + faIcon + '"></i>')
+                    }
+                } else {
+                    var iconObj = {};
+                    iconObj.primary = $(button).attr('data-icon');
+                    iconObj.secondary = $(button).attr('data-icon-secondary');
+                    var icon = iconObj.primary || iconObj.secondary;
+                    var keepText = $(button).attr('data-keep-text') == "1";
+
+                    if (!exists) {
+                        $(button).button({
+                            icons: iconObj,
+                            text: !icon || keepText
+                        });
+                    }
+
+                    if (exists) {
+                        $(button).button("option", "icons", iconObj).button('refresh');
+                    }
+                }
+
+            }
+
+
+            //var processMenu = function(menu) {
+            //  menu.menu();
+            //};
+
+            //$("ul.button-menu").each(function() {
+            //  processMenu($(this));
+            //});
+
+            // Make fancy buttons
+            $("button.fancybutton, a.fancybutton, input.fancybutton").each(function () {
+                processButton(this);
+            });
+
+            $(document.body).delegate('div.ui-dialog', 'dialogopen', function (e) {
+                $(this).find('button.ui-button').each(function () {
+                    processButton(this);
+                });
+
+                if (window['tinyMCEGlobalOptions'] && window['tinyMCE']) {
+                    var theseOptions = jQuery.extend(true, {}, tinyMCEGlobalOptions);
+                    theseOptions.mode = 'exact';
+                    theseOptions.setupcontent_callback = function () { };
+                    $(this).find('.richWrapper textarea').each(function () {
+                        theseOptions.elements = $(this).attr('id');
+                        tinyMCE.init(theseOptions);
+                    });
+                }
+            });
+
+            $(document.body).delegate('.ui-keep-active', 'mouseleave', function (e) {
+                $(this).addClass('ui-state-active');
+            });
+
+            $(".buttonset").each(function () {
+                // The repeat sorts issues with icons
+                //$(this).find('label.fancybutton').each(function () {
+                //  processButton(this)
+                //});
+                $(this).find('input[type=radio]').each(function () {
+                    processButton(this)
+                });
+                $(this).buttonset();
+            });
+
+            $(document.body).bind('ajaxchange', function () {
+                $(this).find(".buttonset").each(function () {
+                    $(this).find('label.fancybutton').each(function () {
+                        processButton(this);
+                    });
+                    // Note: fancyselect inside a buttonset will break here
+                    $(this).buttonset();
+                    $(this).find('label.fancybutton').each(function () {
+                        processButton(this)
+                    });
+                });
+            });
+
+            var processButtonDropdown = function (wrapper) {
+                var menu = $(wrapper).find('ul').menu().hide();
+                var button = $(wrapper).find('button,a.dropdown-trigger');
+                var open = false;
+                button.bind('click', function (e) {
+                    if (!open) {
+                        menu.show();
+                        // The double call is necessary for some reason, otherwise buggy
+                        menu.position({
+                            my: "left top-2",
+                            at: "left bottom",
+                            of: button
+                        });
+                        menu.position({
+                            my: "left top-2",
+                            at: "left bottom",
+                            of: button
+                        });
+                        $(document.body).one("click", function () {
+                            open = false;
+                            menu.hide();
+                        });
+                    } else {
+                        menu.hide();
+                    }
+                    open = !open;
+                    if (open) {
+                        button.trigger('button-dropdown-open');
+                    }
+
+                    // e.preventDefault failes the button, as I think the above click event is triggered
+                    // Might need to figure out a way to allow propagation, but not trigger the close
+                    return false;
+                });
+
+                // Only one menu at t atime
+                $(document.body).on('button-dropdown-open', function (e) {
+                    if (e.target != button[0]) {
+                        open = false;
+                        menu.hide();
+                    }
+                });
+            };
+
+
+            // The request might have inserted new requests
+            $(document.body).bind('ajaxchange', function () {
+                $(this).find('.ajaxnewrequest').each(onloadfunction);
+            });
+
+            $(document.body).bind('ajaxchange', function () {
+                $('button.fancybutton, a.fancybutton, input.fancybutton').each(function () {
+                    processButton(this);
+                });
+            });
+
+            $(".buttonset .checked").each(function () {
+                //$(this).prop('checked', true).button('refresh');
+            });
+
+            $(document.body).delegate('div.ui-dialog', 'dialogopen', function (e) {
+                var inputs = $(this).find('input.datepicker');
+                var target = $($(this).attr("data-date-target"));
+                var format = $(this).attr('data-date-format') || "dd/mm/yy";
+
+                target = target[0];
+                inputs.each(function () {
+                    $(this).datepicker({
+                        showOn: layout3 ? 'focus' : 'both',
+                        dateFormat: format,
+                        buttonImage: '/img/cal.gif',
+                        buttonImageOnly: true,
+                        firstDay: 1,
+                        altField: target,
+                        altFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                });
+            });
+
+            function daterange_setup() {
+                var input = $(this);
+                var yearRange = 'c-10:c+10';
+                $(this).daterangepicker({
+                    presetRanges: [{
+                        text: 'Last Quarter',
+                        dateStart: '',
+                        dateEnd: ''
+                    }, {
+                        text: 'This Quarter',
+                        dateStart: '',
+                        dateEnd: ''
+                    }, {
+                        text: 'Last Month',
+                        dateStart: '2023-10-01',
+                        dateEnd: '2023-10-31'
+                    }, {
+                        text: 'This Month',
+                        dateStart: '2023-11-01',
+                        dateEnd: '2023-11-30'
+                    }, {
+                        text: 'Yesterday',
+                        dateStart: '2023-11-11',
+                        dateEnd: '2023-11-11'
+                    }, {
+                        text: 'Today',
+                        dateStart: '2023-11-12',
+                        dateEnd: '2023-11-12'
+                    }, {
+                        text: 'Tomorrow',
+                        dateStart: '2023-11-13',
+                        dateEnd: '2023-11-13'
+                    }
+                    ],
+                    presets: {
+                        dateRange: "Date Range",
+                        specificDate: "Single Day"
+                    },
+                    dateFormat: 'dd/mm/yy',
+                    datepickerOptions: {
+                        yearRange: yearRange,
+                        changeMonth: true,
+                        changeYear: true
+                    },
+                    onClose: function () {
+                        // Hack as onClose happens before both dates changed
+                        window.setTimeout(function () {
+                            var checkbox = $(input);
+                            if (checkbox.val() == checkbox.attr('data-previous-value')) return;
+                            checkbox.attr('data-previous-value', checkbox.val());
+
+                            var action = checkbox.attr('data-ajax-action');
+                            var data = checkbox.attr('data-ajax-data');
+                            var validation = checkbox.attr('data-ajax-validation');
+                            var presend = checkbox.attr('data-ajax-presend');
+                            var success = checkbox.attr('data-ajax-success');
+                            var error = checkbox.attr('data-ajax-fail');
+                            var complete = checkbox.attr('data-ajax-complete');
+
+                            var spinnertarget = checkbox.attr('data-ajax-spinner-' + action);
+                            if (spinnertarget) {
+                                var targets = $(spinnertarget);
+                                var spinners = [];
+                                targets.each(function () {
+                                    var height = $(this).height();
+                                    var width = $(this).width();
+                                    var offset = $(this).offset();
+                                    var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                                    $(document.body).append(spinner);
+                                    spinner.css('z-index', 5000)
+                                        .css('top', offset.top + height / 2 - spinner.height() / 2)
+                                        .css('left', offset.left + width + 10);
+                                    spinners.push(spinner);
+                                });
+                                $.merge(spinners, checkbox.data('ajaxspinners') || []);
+                                checkbox.data('ajaxspinners', spinners);
+                            }
+
+                            $.ajaxIG({
+                                button: checkbox,
+                                action: action,
+                                data: data,
+                                validation: validation,
+                                presend: presend,
+                                success: success,
+                                complete: complete
+                            });
+                        }, 1)
+                    }
+                });
+            }
+            $('input.daterange').each(daterange_setup);
+            $.igDaterangeSetup = daterange_setup;
+
+            $(document.body).bind('ajaxchange', function (e) {
+                var inputs = $(this).find('input.datepicker');
+                var target = $($(this).attr("data-date-target"));
+                var format = $(this).attr('data-date-format') || "dd/mm/yy";
+
+                target = target[0];
+                inputs.each(function () {
+                    $(this).datepicker({
+                        showOn: layout3 ? 'focus' : 'both',
+                        dateFormat: format,
+                        buttonImage: 'img/cal.gif',
+                        buttonImageOnly: true,
+                        firstDay: 1,
+                        altField: target,
+                        altFormat: "yy-mm-dd",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                });
+            });
+            // Make combo boxes
+            var makeComboBox = function (select) {
+                $(select).combobox();
+            };
+            $("select.comboSelect").each(function () {
+                makeComboBox(this);
+            });
+
+            $(document.body).delegate('div.ui-dialog', 'dialogclose', function (e) {
+                $(".tipsy").remove();
+            });
+
+            $(document.body).delegate('div.ui-dialog', 'dialogclose', function (e, ui) {
+                var id = e.target.id;
+                if ($.ajaxIGDialogs[e.target.id]) {
+                    $.ajaxIGDialogs[e.target.id].dialog('destroy').remove();
+                }
+            });
+
+
+            $(document.body).delegate('input,select', 'keyup change', function (e) {
+                var changed = $(this);
+                var listenersSelector = $(this).attr('data-listeners');
+                var listeners = $(listenersSelector);
+
+                if (changed.val() != changed.attr('data-original-value') || changed.attr('type') == 'checkbox') changed.attr('data-has-changed', 1);
+                listeners.each(function () {
+                    var listener = $(this);
+
+                    // Listeners that are listening for changed
+                    var onChangeSelector = $(this).attr('data-enable-on-change');
+                    var onChangeEls = $(onChangeSelector);
+                    onChangeEls.each(function () {
+                        if ($(this).attr('data-has-changed')) {
+                            listener.button('enable');
+                        }
+                    });
+
+                    // Fill based on another element
+                    var fillSelector = $(this).attr('data-fill-selector');
+                    var fillAttr = $(this).attr('data-fill-attr');
+                    var fillEl = $(fillSelector);
+                    if (fillEl.length) {
+                        var fillVal = fillEl.attr(fillAttr);
+                        $(this).val(fillVal);
+                    }
+
+                });
+            });
+
+            // Do via delegation
+            $("button[data-enable-on-min]").each(function () {
+                var button = $(this);
+                var selector = $(this).attr('data-enable-on-min');
+                var length = $(this).attr('data-enable-on-min-length');
+                var els = $(selector);
+                els.each(function () {
+                    var el = $(this);
+                    $(this).bind('change keyup', function () {
+                        if ($.trim((el).val()).length >= 3) button.button('enable');
+                        else button.button('disable');
+                    });
+                });
+            });
+
+            // Wrapper for all Ajax Calls
+            // Allows a callback once are valid (validation may include ajax calls in a complex case);
+            $.ajaxIG = function (settings) {
+                // Validate
+                settings.validation = settings.validation || 'standard';
+
+                settings.validation = settings.validation || 'standard';
+                settings.validation = typeof settings.validation == "string" ? $.ajaxIGValidations[settings.validation] : settings.validation;
+                settings.validation(settings, $.ajaxIGValid);
+            };
+
+            $.ajaxIGValid = function (settings) {
+
+                var conf = $(settings.button).attr('data-ajax-confirm');
+                if (conf) {
+                    var allowed = confirm(conf);
+                    if (!allowed) return;
+                }
+
+                // Presend Method
+                settings.presend = settings.presend || 'standard';
+                settings.presend = typeof settings.presend == "string" ? $.ajaxIGPresends[settings.presend] : settings.presend;
+                $.ajaxIGPresends.common(settings.button, settings.action);
+                settings.presend(settings.button, settings.action);
+
+                // Get data
+                settings.data = settings.data || ((settings.button.attr('type') == 'checkbox') ? 'standard_checkbox' : 'standard');
+
+                settings.data = typeof settings.data == "string" ? $.ajaxIGData[settings.data] : settings.data;
+                var data = settings.data(settings);
+
+                if (settings.button.attr('type') == 'checkbox') data.checked = settings.button[0].checked;
+
+                // Path
+                var originalpath = "\/competition2.php?time=future";
+                var path = (settings.path || originalpath) + "&requestType=ajax";
+                if (settings.action) path += "&ajaxaction=" + settings.action;
+
+                settings.success = settings.success || "standard";
+                settings.success = typeof settings.success == "string" ? $.ajaxIGSuccess[settings.success] : settings.success;
+
+                settings.error = settings.error || 'standard';
+                settings.error = typeof settings.error == "string" ? $.ajaxIGError[settings.error] : settings.error;
+
+                settings.complete = settings.complete || 'standard';
+                settings.complete = typeof settings.complete == "string" ? $.ajaxIGComplete[settings.complete] : settings.complete;
+
+                // Send it
+                $.ajax({
+                    url: path,
+                    data: data,
+                    type: settings.method || 'post',
+                    timeout: 1000 * 60 * 10,
+                    success: function (response) {
+                        $.ajaxIGSuccess.common(settings, response);
+                        settings.success(settings, response);
+                    },
+                    complete: function (obj, textStatus) {
+                        $.ajaxIGComplete.common(settings, textStatus);
+                        settings.complete(settings);
+                    },
+                    error: function () {
+                        $.ajaxIGComplete.common(settings);
+                        settings.error(settings);
+                    }
+                });
+            };
+
+            // General handler for ajax buttons
+            $(document.body).delegate('button.ajaxbutton, a.ajaxbutton, tr.ajaxbutton, td.ajaxbutton, th.ajaxbutton, span.ajaxbutton, label.ajaxbutton', 'click', function (e) {
+                if ($(this).is('a') || $(this).is('button')) e.preventDefault();
+                var button = $(this);
+                if (button.attr('data-ajax-isinprogress')) return;
+                //if (button.attr('data-ajax-noprop')) e.stopPropagation();
+
+                var action = button.attr('data-ajax-action');
+                var data = button.attr('data-ajax-data');
+                var validation = button.attr('data-ajax-validation');
+                var presend = button.attr('data-ajax-presend');
+                var success = button.attr('data-ajax-success');
+                var error = button.attr('data-ajax-fail');
+                var complete = button.attr('data-ajax-complete');
+                var method = button.attr('data-ajax-method');
+                var path = button.attr('data-ajax-path');
+                var replaceonclick = button.attr('data-ajax-replace');
+
+                // Change text if defined
+                var inProgressText = button.attr('data-ajax-inprogress-' + action);
+                var inProgressTextTarget = button.attr('data-ajax-inprogress-' + action + '-target');
+                inProgressTextTarget = inProgressTextTarget ? $(inProgressTextTarget) : button;
+                if (inProgressText) {
+                    button.data('in-progress-text-target', inProgressTextTarget);
+                    if (layout3) {
+                        var span = inProgressTextTarget;
+                        inProgressTextTarget.attr('data-ajax-originaltext', span.html());
+                    } else {
+                        var span = inProgressTextTarget.find('span.ui-button-text');
+                        inProgressTextTarget.attr('data-ajax-originaltext', span.text());
+                    }
+                    var originalWidth = button.outerWidth() + 2; // Gives 2 px too small
+                    button.css('width', originalWidth + 'px');//.text(sendingText);
+                    span.text(inProgressText);
+                }
+
+                // Disable Button
+                button.attr('data-ajax-isinprogress', '1');
+
+
+                // Show spinner if required
+                var spinnertarget = button.attr('data-ajax-spinner-' + action);
+                if (spinnertarget) {
+                    var targets = $(spinnertarget);
+                    var spinners = [];
+                    targets.each(function () {
+                        var height = $(this).height();
+                        var width = $(this).width();
+                        var offset = $(this).offset();
+                        var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                        $(document.body).append(spinner);
+                        spinner.css('z-index', 5000)
+                            .css('top', offset.top + height / 2 - spinner.height() / 2)
+                            .css('left', offset.left + width + 10);
+                        spinners.push(spinner);
+                    });
+                    $.merge(spinners, button.data('ajaxspinners') || []);
+                    button.data('ajaxspinners', spinners);
+                }
+
+                $.ajaxIG({
+                    button: button,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete,
+                    method: method,
+                    path: path
+                });
+
+                if (replaceonclick) {
+                    if (replaceonclick == 'flat') {
+                        $(this).replaceWith('<img src="/images/flatspinner-dadada-trans.gif" />');
+                    }
+                }
+            });
+
+            // General handler for ajax buttons
+            $(document.body).delegate('input.ajaxradio', 'change', function (e) {
+                if ($(this).is('a')) e.preventDefault();
+                var button = $(this);
+                if (button.attr('data-ajax-isinprogress')) return;
+
+                var action = button.attr('data-ajax-action');
+                var data = button.attr('data-ajax-data');
+                var validation = button.attr('data-ajax-validation');
+                var presend = button.attr('data-ajax-presend');
+                var success = button.attr('data-ajax-success');
+                var error = button.attr('data-ajax-fail');
+                var complete = button.attr('data-ajax-complete');
+                var method = button.attr('data-ajax-method');
+                var path = button.attr('data-ajax-path');
+
+                // Change text if defined
+                var inProgressText = button.attr('data-ajax-inprogress-' + action);
+                if (inProgressText) {
+                    var span = button.find('span.ui-button-text');
+                    button.attr('data-ajax-originaltext', span.text());
+                    var originalWidth = button.width() + 2; // Gives 2 px too small
+                    button.css('width', originalWidth + 'px');//.text(sendingText);
+                    span.text(inProgressText);
+                }
+
+                // Disable Button
+                button.attr('data-ajax-isinprogress', '1');
+
+                // Show spinner if required
+                var spinnertarget = button.attr('data-ajax-spinner-' + action);
+                if (spinnertarget) {
+                    var targets = $(spinnertarget);
+                    var spinners = [];
+                    targets.each(function () {
+                        var height = $(this).height();
+                        var width = $(this).width();
+                        var offset = $(this).offset();
+                        var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                        $(document.body).append(spinner);
+                        spinner.css('z-index', 5000)
+                            .css('top', offset.top + height / 2 - spinner.height() / 2)
+                            .css('left', offset.left + width + 10);
+                        spinners.push(spinner);
+                    });
+                    $.merge(spinners, button.data('ajaxspinners') || []);
+                    button.data('ajaxspinners', spinners);
+                }
+
+                $.ajaxIG({
+                    button: button,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete,
+                    method: method,
+                    path: path
+                });
+            });
+
+            // General Handler for ajax checkboxes
+            // General handler for ajax buttons
+            $(document.body).delegate('input.ajaxcheckbox', 'click', function (e) {
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+                var validation = checkbox.attr('data-ajax-validation');
+                var presend = checkbox.attr('data-ajax-presend');
+                var success = checkbox.attr('data-ajax-success');
+                var error = checkbox.attr('data-ajax-fail');
+                var complete = checkbox.attr('data-ajax-complete');
+
+                $.ajaxIG({
+                    button: checkbox,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete
+                });
+            });
+
+            $(document.body).delegate('input[type="checkbox"].ajaxonchange', 'switchChange.bootstrapSwitch', function (event, state) {
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+                var validation = checkbox.attr('data-ajax-validation');
+                var presend = checkbox.attr('data-ajax-presend');
+                var success = checkbox.attr('data-ajax-success');
+                var error = checkbox.attr('data-ajax-fail');
+                var complete = checkbox.attr('data-ajax-complete');
+
+                // Show spinner if required
+                var spinnertarget = checkbox.attr('data-ajax-spinner-' + action);
+                if (spinnertarget) {
+                    var targets = $(spinnertarget);
+                    var spinners = [];
+                    targets.each(function () {
+                        var height = $(this).height();
+                        var width = $(this).width();
+                        var offset = $(this).offset();
+                        var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                        $(document.body).append(spinner);
+                        spinner.css('z-index', 5000)
+                            .css('top', offset.top + height / 2 - spinner.height() / 2)
+                            .css('left', offset.left + width + 10);
+                        spinners.push(spinner);
+                    });
+                    $.merge(spinners, checkbox.data('ajaxspinners') || []);
+                    checkbox.data('ajaxspinners', spinners);
+                }
+
+                $.ajaxIG({
+                    button: checkbox,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete
+                });
+            });
+
+            $(document.body).delegate('input.ajaxtext', 'keydown', function (e) {
+                if (e.keyCode != 13) return;
+                e.preventDefault();
+
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+            });
+
+            $(document.body).delegate('select.ajaxselect, input.ajaxonchange', 'change', function (e) {
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+                var validation = checkbox.attr('data-ajax-validation');
+                var presend = checkbox.attr('data-ajax-presend');
+                var success = checkbox.attr('data-ajax-success');
+                var error = checkbox.attr('data-ajax-fail');
+                var complete = checkbox.attr('data-ajax-complete');
+
+                // Show spinner if required
+                var spinnertarget = checkbox.attr('data-ajax-spinner-' + action);
+                if (spinnertarget) {
+                    var targets = $(spinnertarget);
+                    var spinners = [];
+                    targets.each(function () {
+                        var height = $(this).height();
+                        var width = $(this).width();
+                        var offset = $(this).offset();
+                        var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                        $(document.body).append(spinner);
+                        spinner.css('z-index', 5000)
+                            .css('top', offset.top + height / 2 - spinner.height() / 2)
+                            .css('left', offset.left + width + 10);
+                        spinners.push(spinner);
+                    });
+                    $.merge(spinners, checkbox.data('ajaxspinners') || []);
+                    checkbox.data('ajaxspinners', spinners);
+                }
+
+                $.ajaxIG({
+                    button: checkbox,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete
+                });
+            });
+
+            $(document.body).delegate('input.ajaxtext', 'keydown', function (e) {
+                if (e.keyCode != 13) return;
+                e.preventDefault();
+
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+                var validation = checkbox.attr('data-ajax-validation');
+                var presend = checkbox.attr('data-ajax-presend');
+                var success = checkbox.attr('data-ajax-success');
+                var error = checkbox.attr('data-ajax-fail');
+                var complete = checkbox.attr('data-ajax-complete');
+
+                // Show spinner if required
+                var spinnertarget = checkbox.attr('data-ajax-spinner-' + action);
+                if (spinnertarget) {
+                    var targets = $(spinnertarget);
+                    var spinners = [];
+                    targets.each(function () {
+                        var height = $(this).height();
+                        var width = $(this).width();
+                        var offset = $(this).offset();
+                        var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                        $(document.body).append(spinner);
+                        spinner.css('z-index', 5000)
+                            .css('top', offset.top + height / 2 - spinner.height() / 2)
+                            .css('left', offset.left + width + 10);
+                        spinners.push(spinner);
+                    });
+                    $.merge(spinners, checkbox.data('ajaxspinners') || []);
+                    checkbox.data('ajaxspinners', spinners);
+                }
+
+                $.ajaxIG({
+                    button: checkbox,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete
+                });
+            });
+
+            var delayedTimer = null;
+            $(document.body).delegate('input.ajaxonchangedelayed, textarea.ajaxonchangedelayed', 'keyup', function (e) {
+                var delay = 200;
+                var inp = $(this);
+                if (delayedTimer) window.clearTimeout(delayedTimer);
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $(this).trigger('delaychange');
+                    return;
+                }
+                delayedTimer = window.setTimeout(function () {
+                    inp.trigger('delaychange');
+                }, delay);
+
+            });
+
+
+            $(document.body).delegate('input.ajaxonchangedelayed', 'keypress', function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                }
+            });
+
+
+            $(document.body).delegate('input.ajaxonchangedelayed, textarea.ajaxonchangedelayed', 'delaychange', function (e) {
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+                var validation = checkbox.attr('data-ajax-validation');
+                var presend = checkbox.attr('data-ajax-presend');
+                var success = checkbox.attr('data-ajax-success');
+                var error = checkbox.attr('data-ajax-fail');
+                var complete = checkbox.attr('data-ajax-complete');
+
+                // Show spinner if required
+                var spinnertarget = checkbox.attr('data-ajax-spinner-' + action);
+                if (spinnertarget) {
+                    var targets = $(spinnertarget);
+                    var spinners = checkbox.data('ajaxspinners') || [];
+                    targets.each(function () {
+                        var height = $(this).height();
+                        var width = $(this).width();
+                        var offset = $(this).offset();
+                        var spinner = $('<div class="ajaxspinner" />').css('position', 'absolute');
+                        $(document.body).append(spinner);
+                        spinner.css('z-index', 5000)
+                            .css('top', offset.top + height / 2 - spinner.height() / 2)
+                            .css('left', offset.left + width + 10);
+                        spinners.push(spinner);
+                    });
+                    //var existingspinners = checkbox.data('ajaxspinners');
+                    //if (existingspinners) {
+                    //  $.each(existingspinners, function() {
+                    //    $(this).remove();
+                    //  });
+                    //}
+                    $.merge(spinners, checkbox.data('ajaxspinners') || []);
+                    checkbox.data('ajaxspinners', spinners);
+                }
+                $.ajaxIG({
+                    button: checkbox,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete
+                });
+            });
+
+
+
+            // Handler for automatic ajax
+            var onloadfunction = function () {
+                if ($(this).attr('data-ajax-onload-done') == 'done') return;;
+                var div = $(this);
+
+                var action = div.attr('data-ajax-action');
+                var data = div.attr('data-ajax-data');
+                var validation = div.attr('data-ajax-validation');
+                var presend = div.attr('data-ajax-presend');
+                var success = div.attr('data-ajax-success');
+                var error = div.attr('data-ajax-fail');
+                var complete = div.attr('data-ajax-complete');
+                var method = div.attr('data-ajax-method');
+                var path = div.attr('data-ajax-path');
+
+                $.ajaxIG({
+                    button: div,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete,
+                    method: method,
+                    path: path
+                });
+                $(this).attr('data-ajax-onload-done', 'done');
+            };
+
+            $(window).load(function () {
+                window.setTimeout(function () {
+                    $('.ajaxonload').each(onloadfunction);
+                }, 5)
+            });
+
+            // Handler for automatic ajaxrepeted
+            $(window).load(function () {
+                window.setTimeout(function () {
+                    $('.ajaxrepeat').each(function () {
+
+                        var div = $(this);
+                        var time = parseInt(div.attr('data-ajax-repeat-time'));
+
+                        window.setInterval(function () {
+                            var action = div.attr('data-ajax-action');
+                            var data = div.attr('data-ajax-data');
+                            var validation = div.attr('data-ajax-validation');
+                            var presend = div.attr('data-ajax-presend');
+                            var success = div.attr('data-ajax-success');
+                            var error = div.attr('data-ajax-fail');
+                            var complete = div.attr('data-ajax-complete');
+                            var method = div.attr('data-ajax-method');
+                            var path = div.attr('data-ajax-path');
+
+                            $.ajaxIG({
+                                button: div,
+                                action: action,
+                                data: data,
+                                validation: validation,
+                                presend: presend,
+                                success: success,
+                                complete: complete,
+                                method: method,
+                                path: path
+                            });
+                        }, time);
+                    })
+
+
+                }, 5)
+            });
+
+
+            // Handler for key sensitive inputs
+            $(document.body).delegate('input.ajaxkey', 'keyup change', function (e) {
+                var checkbox = $(this);
+
+                var action = checkbox.attr('data-ajax-action');
+                var data = checkbox.attr('data-ajax-data');
+                var validation = checkbox.attr('data-ajax-validation');
+                var presend = checkbox.attr('data-ajax-presend');
+                var success = checkbox.attr('data-ajax-success');
+                var error = checkbox.attr('data-ajax-fail');
+                var complete = checkbox.attr('data-ajax-complete');
+
+                $.ajaxIG({
+                    button: checkbox,
+                    action: action,
+                    data: data,
+                    validation: validation,
+                    presend: presend,
+                    success: success,
+                    complete: complete
+                });
+            });
+
+            // Hide tips on change of inputs
+            $(document.body).delegate('input[data-hastip=1],span[data-hastip=1],div[data-hastip=1],textarea[data-hastip=1],select[data-hastip=1]', 'change keyup click', function (e) {
+                var el = $(this);
+                el.tipsy("hide");
+                el.removeAttr('data-hastip');
+            });
+
+            $(document.body).delegate('table td.clickable_cell, table th.clickable_cell', 'click', function (e) {
+                if ($(this).hasClass('ajaxbutton')) return;
+                e.preventDefault();
+                window.location.href = href;
+            });
+
+            $(document.body).delegate('table tr.clickable td.clickable_row', 'click', function (e) {
+                var href = $(this).parents('tr.clickable').attr('data-clickable-href');
+                if ($(this).parents('tr.clickable').hasClass('ajaxbutton')) return;
+                e.preventDefault();
+                window.location.href = href;
+            });
+
+            $(document.body).delegate('table tr.clickable[data-hover-group]', 'mouseenter', function (e) {
+                var group = $(this).attr('data-hover-group');
+                var rows = $(this).parents('table').find('tr.hover-group-' + group);
+                rows.addClass('hovering');
+            });
+            $(document.body).delegate('table tr.clickable[data-hover-group]', 'mouseleave', function (e) {
+                var group = $(this).attr('data-hover-group');
+                var rows = $(this).parents('table').find('tr.hover-group-' + group);
+                rows.removeClass('hovering');
+            });
+
+            $(document.body).delegate('table tr.clickradio td.clickradio_row', 'click', function (e) {
+                if ($(e.target).attr('type') == 'radio') return;
+                e.preventDefault();
+                var radio = $($(this).parents('tr.clickradio').attr('data-clickradio-target'));
+                var name = radio.attr('name');
+                var radios = $('input[name=' + name + ']').prop('checked', false);
+                radio.prop('checked', true);
+                radio.trigger('change');
+            });
+
+
+            $(document.body).delegate('input', 'change keyup', function (e) {
+                $($.ajaxIGHideOnChangeEls).each(function () {
+                    $(this).tipsy('hide');
+                    $(this).removeAttr('data-hastip');
+                });
+                $.ajaxIGHideOnChangeEls = [];
+            });
+
+            $(document.body).delegate('button', 'click', function (e) {
+                $($.ajaxIGHideOnChangeEls).each(function () {
+                    $(this).tipsy('hide');
+                    $(this).removeAttr('data-hastip');
+                });
+                $.ajaxIGHideOnChangeEls = [];
+            });
+
+            $(document.body).delegate('a[data-toggle]', 'click', function (e) {
+                e.preventDefault();
+                var target = $(this).attr('data-toggle');
+                target = $(target);
+                var text = $(this).text();
+                var alterText = $(this).attr('data-toggle-text');
+                if (alterText) {
+                    $(this).text(alterText);
+                    $(this).attr('data-toggle-text', text);
+                }
+                var beforeFun = $(this).attr('data-toggle-before');
+                if (beforeFun) window[beforeFun](this);
+                target.slideToggle();
+            });
+
+            $(document.body).delegate('select[data-showsingle]', 'change', function () {
+                var wrapper = $($(this).attr('data-showsingle'));
+                wrapper.css('width', wrapper.width() + 'px');
+                //wrapper.css('height', wrapper.height() + 'px');
+                var selected = $(this).find(":selected");
+                var target = $(selected.attr('data-showsingle-target'));
+                wrapper.find(".showsingle").css('display', 'none');
+                target.css('display', 'block');
+            });
+
+            $('.sortablelist').each(function () {
+                var list = $(this);
+                var id = list.attr('data-ajax-sortable');
+                list.sortable({
+                    handle: '.data-ajax-sortable-' + id + '-handle',
+                    items: '.data-ajax-sortable-' + id + '-item',
+                    forceHelperSize: true,
+                    opacity: 1,
+                    zIndex: 99999
+                }).disableSelection();
+            });
+
+            $(document.body).delegate('.sortablelist', 'sortstop', function (e, ui) {
+                var list = ui.item.parents('.sortablelist');
+                var id = list.attr('data-ajax-sortable');
+                $.ajaxIG({
+                    button: ui.item,
+                    data: 'sortablelist',
+                    action: id
+                });
+            });
+
+            $(document.body).bind('ajaxchange', function () {
+                $('.sortablelist').sortable();
+                $('.sortablelist').sortable('refresh');
+            });
+
+            $(document.body).delegate('input.enterclick', 'keydown', function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $($(this).attr('data-enterclick-target')).trigger('click');
+                }
+            });
+
+
+            // Autosuggest
+            $('input.autocomplete').each(function () {
+                var input = $(this);
+                var autoType = input.attr('data-autocomplete');
+                var autoOpts = $.autocompleteIG[autoType];
+                var extra = $(input.attr('data-autocomplete-extravars'));
+                if (extra.attr('data-toggle-state') == 'on') autoOpts.options.script = autoOpts.options.script + extra.attr('name') + '=' + extra.attr('value') + '&';
+                var id = input.attr('id');
+                var obj = new bsn.AutoSuggest(id, autoOpts.options);
+            });
+
+            // Toggle Buttons
+            $(document.body).delegate('.buttontoggle', 'click', function (e) {
+                e.preventDefault();
+                var button = $(this);
+                var state = button.attr('data-toggle-state');
+                var newstate = (state == 'on') ? 'off' : 'on';
+                button.attr('data-toggle-state', newstate);
+                var icon = button.attr('data-toggle-' + newstate + '-icon');
+                button.button('option', { icons: { primary: icon } });
+                /* label = $('label[for="'+button.attr('id')+'"]');
+                label.removeClass('ui-state-active'); */
+                //button.prop('checked', true).refresh();
+                //if (newstate == 'on') button.addClass('ui-state-active');
+                //if (newstate == 'off') button.removeClass('ui-state-active');
+            });
+
+            // Focus
+            //var focusEl = $('input[data-onload-focus=1]');
+            //var placeholder = focusEl.attr('placeholder');
+            //if (placeholder) {
+            //  focusEl.val(placeholder).select();
+            //}
+            $('input[data-onload-focus=1]').focus();
+
+            $.tablesorter.addParser({
+                id: 'sec2time',
+                is: function (s) {
+                    return false;
+                },
+                format: function (s) {
+                    // sort text such as "2 days, 3 hours, 2 mins, 23 secs"
+                    var arr = s.match(/\d+/g);
+                    if (arr == null) return null;
+                    var secs = 0, mins = 0, hours = 0, days = 0
+                    if (arr.length > 0) secs = parseInt(arr.pop());
+                    if (arr.length > 0) mins = parseInt(arr.pop());
+                    if (arr.length > 0) hours = parseInt(arr.pop());
+                    if (arr.length > 0) days = parseInt(arr.pop());
+                    secs += (mins * 60);
+                    secs += (hours * 60 * 60)
+                    secs += (days * 24 * 60 * 60)
+                    return secs;
+                },
+                type: 'numeric'
+            });
+
+
+            // TableSort parser for date format: 6 Jan 1987
+            $.tablesorter.addParser({
+                id: 'daymonthyear',
+                is: function (s) {
+                    return false;
+                },
+                format: function (s) {
+                    var months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+
+                    var date = s.split(' ');
+                    var month = months[date[1]];
+                    var day = String(date[0]); if (day.length == 1) { day = "0" + day; }
+                    var year = date[2];
+                    return sortableDate = '' + year + month + day;
+                },
+                type: 'text'
+            });
+
+            $.tablesorter.addParser({
+                id: 'daymonthtime',
+                is: function (s) {
+                    return false;
+                },
+                format: function (s) {
+                    var months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+
+                    var date = s.split(' ');
+                    var month = months[date[1]];
+                    var day = String(date[0]); if (day.length == 1) { day = "0" + day; }
+                    var time = date[2];
+                    return sortableDate = '' + month + day + time;
+                },
+                type: 'text'
+            });
+
+            $.tablesorter.addParser({
+                id: 'name',
+                is: function (s) {
+                    return false;
+                },
+                format: function (s) {
+                    var arr = s.toLowerCase().split(' ');
+                    if (arr.length == 3) {
+                        arr = [arr[0] + ' ' + arr[1], arr[2]];
+                    }
+                    arr = arr.reverse().join(', ');
+                    return arr;
+                },
+                type: 'text'
+            });
+
+            $.tablesorter.addParser({
+                id: 'nicedate',
+                is: function (s) {
+                    return false;
+                },
+                format: function (s) {
+                    return s.split('/').reverse().join('-');
+                },
+                type: 'text'
+            });
+
+            $.tablesorter.addParser({
+                id: 'digitemptylast',
+                is: function (s) {
+                    return false;
+                },
+                format: function (s) {
+                    // Hack: parser will fail for anything but numbers
+                    return s == '' ? '99999999999999' : s;
+                },
+                type: 'numeric'
+            });
+
+            $.tablesorter.addParser({
+                id: 'customtext',
+                is: function (s) {
+                    //return false;
+                },
+                format: function (s, table, cell) {
+                    var $cell = $(cell);
+                    return $cell.attr("data-customtext");
+                },
+                type: 'text'
+            });
+
+
+            var fold_table_setup = function (table, folded) {
+                "use strict";
+                var ftable;
+                var folded = folded !== false;
+                var oldState;
+
+                function fold(event) {
+                    if (!$(event.target).hasClass("noFold")) {
+                        $(this).toggleClass('ig-unfolded');
+                        $(' > td > i', this).toggleClass('fa-chevron-down').toggleClass('fa-chevron-right');
+                        var $r = $(' + tr', this);
+                        do {
+                            $r.toggle().toggleClass('ig-unfolded');
+                            $r = $(' + tr', $r);
+                        } while ($r.length && !$r.hasClass('foldHere'));
+                        stateChange();
+                    }
+                };
+
+                function expandAll() {
+                    $(' > tbody > tr.foldHere:not(.ig-unfolded)', ftable).each(function () {
+                        $(this).trigger('click');
+                    });
+                    stateChange();
+                }
+
+                function collapseAll() {
+                    $(' > tbody > tr.foldHere.ig-unfolded', ftable).each(function () {
+                        $(this).trigger('click');
+                    });
+                    stateChange();
+                }
+
+                function stateChange() {
+                    var state;
+                    if ($(' > tbody > tr.foldHere:not(.ig-unfolded)', ftable).length == 0) state = 'all unfolded';
+                    else if ($(' > tbody > tr.foldHere.ig-unfolded', ftable).length == 0) state = 'all folded';
+                    else state = 'mixed';
+
+                    // if (oldState != state && typeof(action) === 'function') action(state, oldState);
+                    ftable.trigger('igFoldTableChange', [state]);
+                    oldState = state;
+                }
+
+                ftable = $(table);
+
+                if (folded) oldState = 'all folded';
+                else oldState = 'all unfolded';
+
+                function setup() {
+                    $(' > tbody > tr:not(.ig-js-folded)', table).each(function () {
+                        var $r = $(this),
+                            $variables = $(this).data('ajax-variables'),
+                            variablesForTD = '';
+
+                        if ($variables) {
+                            $.each($variables, function (key, value) {
+                                variablesForTD += ' ' + key + '="' + value + '" ';
+                            });
+                        }
+
+                        if ($r.hasClass('foldHere')) {
+                            $r.addClass('ajaxbutton');
+                            if ($variables) {
+                                $.each($variables, function (key, value) {
+                                    $r.attr(key, value);
+                                });
+                            }
+                            if (folded) {
+                                $r.prepend('<td data-csv-ignore="ignore"><i class="fa fa-chevron-right"></i></td>');
+                            } else {
+                                $r.prepend('<td class="ig-fold-icon" data-csv-ignore="ignore"><i class="fa fa-chevron-down"></i></td>');
+                                $r.addClass('ig-unfolded');
+                            }
+                            $r.on('click', fold);
+                        } else {
+                            $r.prepend('<td class="ig-fold-icon" data-csv-ignore="ignore" ' + variablesForTD + '></td>');
+                            $r.addClass('tablesorter-childRow');
+                            if (folded) {
+                                $r.hide();
+                            } else {
+                                $r.addClass('ig-unfolded');
+                            }
+                        }
+                        $r.addClass('ig-js-folded');
+                    });
+                }
+                setup();
+
+                $(' > thead > tr:not(.ig-js-folded)', table).each(function () {
+                    $(this).addClass('ig-js-folded').prepend('<th data-csv-ignore="ignore" class="tablesorter-noSort"></th>');
+                });
+
+                $(' > tfoot > tr:not(.ig-js-folded)', table).each(function () {
+                    $(this).addClass('ig-js-folded').prepend('<td data-csv-ignore="ignore"></td>');
+                });
+
+                return {
+                    expandAll: expandAll,
+                    collapseAll: collapseAll,
+                    reload: setup
+                };
+            };
+
+            $.igFoldTable = fold_table_setup;
+
+            var processSortableTable = function (table) {
+                if (table.hasClass('initialisedSortableTable')) return;
+                var opts = {};
+                opts.dateFormat = "ddmmyyyy";
+                opts.textExtraction = {};
+                headers = table.find('thead th');
+                headers.each(function (i, header) {
+                    var sorter = $(header).attr('data-sortable-sorter');
+                    var extractor = $(header).attr('data-text-extractor');
+                    if (sorter) {
+                        opts.headers = opts.headers || {};
+                        opts.headers[i] = (sorter == 'false')
+                            ? { sorter: false }
+                            : { sorter: sorter };
+                    }
+                    if (extractor) {
+                        opts.textExtraction[i] = eval(extractor);
+                    }
+                });
+                table.tablesorter(opts);
+                table.addClass('initialisedSortableTable');
+            };
+
+            $.igSortableTable = processSortableTable;
+
+            function surnameExtractor(node, table, cellIndex) {
+                return $(node).attr('data-surname');
+            }
+
+            function unixTimeExtractor(node, table, cellIndex) {
+                return $(node).attr('data-time-unix');
+            }
+
+            function numberExtractor(node, table, cellIndex) {
+                return $(node).attr('data-sort-number');
+            }
+
+            //** fold_table_setup must be called before processSortableTable. **
+            $('.sortableTable, .foldableTable').each(function () {
+                var table = $(this);
+                if (table.hasClass('foldableTable')) fold_table_setup(table);
+                if (table.hasClass('sortableTable')) processSortableTable(table);
+            });
+            $(document.body).bind('ajaxchange', function () {
+                $('.sortableTable, .foldableTable').each(function () {
+                    var table = $(this);
+                    if (table.hasClass('foldableTable')) fold_table_setup(table);
+                    if (table.hasClass('sortableTable')) processSortableTable(table);
+                });
+            });
+
+            $('textarea.autogrow').each(function () {
+                $(this).autogrow({});
+            });
+
+            $('.button-dropdown').each(function () { processButtonDropdown(this); });
+
+            $('div.ig-switch button').on('click', function (e) {
+                e.preventDefault();
+                $(this).parent().children('button').removeClass('btn-selected');
+                $(this).addClass('btn-selected');
+            });
+
+            var buttonRadio = function (sel, action) {
+                "use strict";
+                var div = $(sel);
+                var only;
+
+                function click(e) {
+                    var id = $(this).attr('id');
+                    e.preventDefault();
+                    if (only && only != id) return;
+                    div.children('button').removeClass('btn-selected');
+                    $(this).addClass('btn-selected');
+                    div.trigger('igButtonRadioChange', [id]);
+                }
+                function set(id) {
+                    only = id;
+                    div.children('button').removeClass('btn-selected');
+                    $('#' + id, div).addClass('btn-selected');
+                }
+                function clear() {
+                    only = false;
+                    div.children('button').removeClass('btn-selected');
+                }
+                $('button', div).on('click', click);
+                return {
+                    click: click,
+                    set: set,
+                    clear: clear,
+                    action: action
+                }
+            }
+
+            $.igButtonRadio = buttonRadio;
+        });
+
+        var processUploadButton;
+
+        // Upload
+        $(function () {
+
+            processUploadButton = function (button) {
+                button = $(button);
+                if (button.attr('data-ajax-upload-initialised') == '1') return;
+                var action = button.attr('data-ajax-action');
+                var path = button.attr('data-ajax-path');
+                button.attr('data-ajax-upload-initialised', '1');
+
+                path = (path || "/competition2.php?time=future") + "&requestType=ajax";
+                if (action) path += "&ajaxaction=" + action;
+
+                var buttonid = button.attr('data-ajax-upload-browseid');
+                var wrapperid = button.attr('data-ajax-upload-wrapper');
+                var dropid = button.attr('data-ajax-upload-dropid');
+                var fileListSelector = button.attr('data-ajax-upload-list');
+                var filterType = button.attr('data-ajax-upload-filters');
+                var filters = null;
+                if (filterType == 'stylefiles') {
+                    filters = [
+                        { title: "Image files", extensions: "jpg,jpeg,gif,png,pdf,svg,ttf,eot,woff,mp4,otf" },
+                        { title: "Javascript", extensions: "js,htc" },
+                        { title: "Stylesheets", extensions: "css" }
+                    ];
+                }
+                if (filterType == 'files') {
+                    filters = [
+                        { title: "Documents", extensions: "doc,docx,xls,xlsx,pdf,txt,htm,html,ppt,pttx,swf,mov,mp4,otf" }
+                    ];
+                }
+                if (filterType == 'images') {
+                    filters = [
+                        { title: "Image files", extensions: "jpg,jpeg,gif,png" }
+                    ];
+                }
+                if (filterType == 'csv') {
+                    filters = [
+                        { title: "CSV files", extensions: "csv,txt" }
+                    ];
+                }
+                if (filterType == 'clientupload') {
+                    filters = [
+                        { title: "Images, documents and ZIP files", extensions: "csv,jpg,jpeg,gif,png,doc,docx,xls,xlsx,pdf,txt,zip,eps,tiff,tif" }
+                    ];
+                }
+                var data = {};
+
+                // Get data
+                var datafuncname = button.attr('data-ajax-data') || ((button.attr('type') == 'checkbox') ? 'standard_checkbox' : 'standardArray');
+                var datafunc = (typeof datafuncname == "string") ? $.ajaxIGData[datafuncname] : datafuncname;
+                var data = datafunc({ button: button });
+
+                // Not sure if pluupload supports multiple params of the same name
+                var dataObj = {};
+                // Standard array return serializeArray of form
+                if (datafuncname == 'standardArray') {
+                    for (var i in data) {
+                        var d = data[i];
+                        dataObj[d.name] = d.value;
+                    }
+                } else {
+                    dataObj = data;
+                }
+
+                var onstartaction = button.attr('data-ajax-upload-onstart') || 'nothing';
+                var options = {
+                    runtimes: 'html5,flash,html4',
+                    max_file_size: '100mb',
+                    url: path,
+                    flash_swf_url: '/javascript/plupload/js/plupload.flash.swf',
+                    filters: filters,
+                    multipart_params: dataObj,
+                    browse_button_hover: 'hover',
+                    browse_button_active: 'hover'
+                };
+                if (buttonid) options['browse_button'] = buttonid;
+                if (dropid) options['drop_element'] = dropid;
+                //if (wrapperid) options['container'] = wrapperid;
+                var uploader = new plupload.Uploader(options);
+
+                uploader.bind('FilesAdded', function (up, files) {
+                    if (onstartaction == 'emptyprogress') $(fileListSelector).empty();
+                    $.each(files, function (i, file) {
+                        $(fileListSelector).append(
+                            '<div class="fileUpload" id="' + file.id + '">' +
+                            '<span class="fileUploadName">' + file.name + '</span>'
+                            + '<div class="progressBar"></div>' +
+                            '</div>');
+                        $('#' + file.id + ' .progressBar').progressbar({ value: 0 });
+                    });
+                    $('#' + dropid).removeClass('hover');
+                    window.setTimeout(function () { uploader.start(); }, 1); // A bug somewhere foreces this
+                });
+
+                uploader.bind('UploadProgress', function (up, file) {
+                    $('#' + file.id + " .progressBar").progressbar({ value: file.percent });
+                });
+
+                uploader.bind('Error', function (up, error) {
+                    alert((error.file ? error.file.name + ': ' : '') + error.message);
+                });
+
+                $('#' + dropid).bind('dragover drop', function (e) {
+                    $(this).addClass('hover');
+                });
+
+                $('#' + dropid).bind('dragleave dragexit', function (e) {
+                    $(this).removeClass('hover');
+                });
+
+                var settings = {
+                    button: button
+                };
+
+                uploader.bind('FileUploaded', function (up, file, response) {
+                    $('#' + file.id + " .progressBar").progressbar('widget').css('border-color', '#8cd28f').find('div').css('background', '#a7eeaa');
+                    $.ajaxIGSuccess.common(settings, jQuery.parseJSON(response.response));
+                });
+
+                uploader.init();
+                button.data('uploader', uploader);
+                window.setTimeout(function () { uploader.refresh(); }, 1); // A bug somewhere foreces this
+                if (!uploader.features.dragdrop) {
+                    $('#' + dropid + ' .uploadLabel span').text('Click to browse');
+                }
+            };
+
+            $('.ajaxUpload').each(function () {
+                processUploadButton(this);
+            });
+
+            $(document.body).bind('ajaxchange', function () {
+                $('.ajaxUpload').each(function () {
+                    processUploadButton(this);
+                });
+            });
+        });
+
+        $(function () {
+            var processSelect = function (sel) {
+                var noneSelectedText = $(sel).attr('data-fancyselect-noneselecttext') || 'Select options';
+                var selectedList = $(sel).attr('data-fancyselect-selectedList') || 1;
+                $(sel).multiselect({
+                    selectedText: '# of # selected',
+                    selectedList: selectedList,
+                    noneSelectedText: noneSelectedText
+                });
+            };
+
+            $('.fancyselect').each(function () {
+                processSelect(this);
+            });
+
+            $(document.body).bind('ajaxchange', function () {
+                $(this).find(".buttonset").each(function () {
+                    $(this).find('select.fancyselect').each(function () {
+                        processSelect(this);
+                    });
+                });
+            });
+
+
+            $(document.body).delegate('div.ui-dialog', 'dialogopen', function (e) {
+                $(this).find('select.fancyselect').each(function () {
+                    processSelect(this);
+                });
+            });
+        });
+
+        $(function () {
+            $(document.body).delegate('.checkboxList.autoDisable input[type=radio]', 'change', function () {
+                $($(this).parents('.checkboxList')).find('input[type=text]').each(function () {
+                    $(this).prop('disabled', true);
+                });
+                $($(this).parents('.checkboxList')).find('input[type=radio]:checked').each(function () {
+                    $(this).parents('.checkboxLine').find('input[type=text]').prop('disabled', false);
+                });
+            });
+        });
+        $(function () {
+            $(document.body).delegate('.checkboxAutoDisableLine input[type=radio]', 'change', function () {
+                $($(this).parents('.checkboxAutoDisableLine')).find('input[type=text]').each(function () {
+                    $(this).prop('disabled', true);
+                });
+                $($(this).parents('.checkboxAutoDisableLine')).find('input[type=radio]:checked').each(function () {
+                    $(this).parents('.checkboxItem').find('input[type=text]').prop('disabled', false);
+                });
+            });
+        });
+
+        $(function () {
+            var showOnlyActiveTab = function () {
+                var active = $('.fieldset-tabs li a.active');
+                var id = active.attr('data-fieldset-tab-target');
+                var set = active.attr('data-fieldset-tab-set');
+                $('.' + set).css('display', 'none');
+                $('#' + id).css('display', 'block');
+
+            };
+
+            var activateTab = function (clicked) {
+                clicked = $(clicked);
+                clicked.parents('.fieldset-tabs').find('li a').removeClass('active');
+                clicked.addClass('active');
+                showOnlyActiveTab();
+            };
+
+            $(document.body).delegate('.fieldset-tabs > li > a', 'click', function (e) {
+                e.preventDefault();
+                activateTab(this);
+            });
+
+            $('.fieldset-tabs a.active').each(function () {
+                activateTab(this);
+            });
+
+            $(document.body).bind('ajaxchange', function () {
+                showOnlyActiveTab();
+            });
+        });
+
+        /*
+        $.ctrl = function(key, callback, args) {
+            var isCtrl = false;
+            $(document).keydown(function(e) {
+                if(!args) args=[];
+        
+                if(e.ctrlKey || e.metaKey) isCtrl = true;
+                if(e.keyCode == key.charCodeAt(0) && isCtrl) {
+                    callback.apply(this, args);
+                    return false;
+                }
+            }).keyup(function(e) {
+                if(e.ctrlKey || e.metaKey) isCtrl = false;
+            });
+        };*/
+    </script>
+    <!-- Source http://jqueryui.com/demos/autocomplete/#combobox -->
+    <style type="text/css">
+        .combowrapper .ui-button {
+            margin-left: -1px;
+        }
+
+        .combowrapper .ui-button-icon-only .ui-button-text {
+            padding: 0.35em;
+        }
+
+        .combowrapper .ui-autocomplete-input {
+            margin: 0;
+            padding: 0.48em 0 0.47em 0.45em;
+        }
+    </style>
+    <script type="text/javascript">
+        (function ($) {
+            $.widget("ui.combobox", {
+                _create: function () {
+                    var self = this,
+                        select = this.element.hide(),
+                        selected = select.children(":selected"),
+                        placeholder = this.element.attr('placeholder'),
+                        value = selected.val() ? selected.text() : "";
+                    var input = this.input = $("<input type='text'>")
+                        .insertAfter(select)
+                        .val(value)
+                        .autocomplete({
+                            delay: 0,
+                            minLength: 0,
+                            source: function (request, response) {
+                                var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+                                response(select.children("option").map(function () {
+                                    var text = $(this).text();
+                                    if (this.value && (!request.term || matcher.test(text)))
+                                        return {
+                                            label: text.replace(
+                                                new RegExp(
+                                                    "(?![^&;]+;)(?!<[^<>]*)(" +
+                                                    $.ui.autocomplete.escapeRegex(request.term) +
+                                                    ")(?![^<>]*>)(?![^&;]+;)", "gi"
+                                                ), "<strong>$1</strong>"),
+                                            value: text,
+                                            option: this
+                                        };
+                                }));
+                            },
+                            select: function (event, ui) {
+                                ui.item.option.selected = true;
+                                self._trigger("selected", event, {
+                                    item: ui.item.option
+                                });
+                                // added by Bronwen - want to add onchange event to the combobox
+                                select.trigger("change");
+                            },
+                            change: function (event, ui) {
+                                if (!ui.item) {
+                                    var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex($(this).val()) + "$", "i"),
+                                        valid = false;
+                                    select.children("option").each(function () {
+                                        if ($(this).text().match(matcher)) {
+                                            this.selected = valid = true;
+                                            return false;
+                                        }
+                                    });
+                                    if (!valid) {
+                                        // remove invalid value, as it didn't match anything
+                                        $(this).val("");
+                                        select.val("");
+                                        input.data("autocomplete").term = "";
+                                        return false;
+                                    }
+                                }
+                            }
+                        });
+                    input.addClass("ui-widget ui-widget-content");
+                    input.attr('placeholder', placeholder);
+                    if (select.attr('data-combo-size')) input.attr('size', select.attr('data-combo-size'));
+
+                    input.data("ui-autocomplete")._renderItem = function (ul, item) {
+                        return $("<li></li>")
+                            .data("ui-autocomplete-item", item)
+                            .append("<a>" + item.label + "</a>")
+                            .appendTo(ul);
+                    };
+
+                    this.button = $("<button type='button' class='autocompletebutton'><i class='fa fa-angle-down'></i></button>")
+                        .attr("tabIndex", -1)
+                        .attr("title", "Show All Items")
+                        .insertAfter(input)
+                        .removeClass("ui-corner-all")
+                        .addClass("ui-corner-right ui-button-icon")
+                        .click(function () {
+                            // close if already visible
+                            if (input.autocomplete("widget").is(":visible")) {
+                                input.autocomplete("close");
+                                return;
+                            }
+
+                            // work around a bug (likely same cause as #5265)
+                            $(this).blur();
+
+                            // pass empty string as value to search for, displaying all results
+                            input.autocomplete("search", "");
+                            input.focus();
+                        });
+                },
+
+                destroy: function () {
+                    this.input.remove();
+                    this.button.remove();
+                    this.element.show();
+                    $.Widget.prototype.destroy.call(this);
+                }
+            });
+
+        })(jQuery);
+
+        jQuery(document).ready(function () {
+            $("a#default_layout3").click(function () {
+                $.post("backend.php", { action: "layout3style", style: "normal" }).done(function (data) {
+                    location.reload();
+                });
+            });
+
+            $("a#hicontrast_layout3").click(function () {
+                $.post("backend.php", { action: "layout3style", style: "hicontrast" }).done(function (data) {
+                    location.reload();
+                });
+            });
+
+            $('form[data-prevent-leave="true"]').preventLeaving();
+
+        });
+
+
+        $.fn.smoothScroll = function () {
+            $(this).on('click', function (e) {
+                e.preventDefault();
+                var target = $(this.hash);
+
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 1000);
+            })
+        }
+
+        $.fn.textareaPreview = function () {
+            var self = this;
+            var data = $(self).data();
+            var previewArea = $(self).find(data['previewArea']);
+            var editArea = $(self).find(data['editArea']);
+            var contentTarget = $(self).find(data['targetClass']);
+            var editBtn = $(self).find(data['editBtn']);
+            var previewBtn = $(self).find(data['previewBtn']);
+            var placeholder = data['placeholder'];
+
+            var getValue = function () {
+                var textarea = $(self).find('textarea');
+                var tinyMceInst = tinyMCE.get(textarea.attr('id'));
+
+                if (tinyMceInst) {
+                    var value = tinyMceInst.getContent();
+                } else {
+                    var value = textarea.val();
+                }
+
+                return value;
+            }
+
+            var setPlaceholder = function () {
+                if (getValue().length === 0) {
+                    contentTarget.html('<span style="opacity: 0.7">' + placeholder + '</span>');
+                }
+            }
+
+            setPlaceholder();
+
+            editBtn.on('click', function (e) {
+                e.preventDefault();
+                editArea.show();
+                previewArea.hide();
+            });
+
+            previewBtn.on('click', function (e) {
+                e.preventDefault();
+                var value = getValue();
+
+                if (value.length > 0) {
+                    value = value.replace("<script>", "");
+                    value = value.replace("<\/script>", "");
+                    contentTarget.html(value);
+                } else {
+                    setPlaceholder();
+                }
+
+                editArea.hide();
+                previewArea.show();
+            });
+        }
+
+
+        $.fn.preventLeaving = function (opts) {
+            var preventExit = false;
+            var options = $(this).data();
+            if (options != null) {
+                var ignoredElements = $(options['ignored']);
+            }
+
+            if (opts != null) {
+                var ignoredElements = $(opts.ignored);
+            }
+
+            $('input, textarea, select', this).on('change', function () {
+                preventExit = true;
+            });
+
+            window.onbeforeunload = function () {
+                if (preventExit) { return false; }
+            }
+
+            if (ignoredElements != null) {
+                ignoredElements.on('click', function () {
+                    preventExit = false;
+                });
+            }
+        }
+
+        $.fn.treed = function (o) {
+
+            var openedClass = 'fa-minus-square';
+            var closedClass = 'fa-plus-square';
+
+            if (typeof o != 'undefined') {
+                if (typeof o.openedClass != 'undefined') {
+                    openedClass = o.openedClass;
+                }
+                if (typeof o.closedClass != 'undefined') {
+                    closedClass = o.closedClass;
+                }
+            };
+
+            //initialize each of the top levels
+            var tree = $(this);
+
+            tree.addClass("tree");
+            tree.find('li').has("ul").each(function () {
+                var branch = $(this); //li with children ul
+                branch.prepend("<i class='indicator fa " + closedClass + "'></i>");
+                branch.addClass('branch');
+                branch.on('click', function (e) {
+                    if (this == e.target) {
+                        var icon = $(this).children('i:first');
+                        icon.toggleClass(openedClass + " " + closedClass);
+                        $(this).children().children().toggle();
+                    }
+                })
+                branch.children().children().toggle();
+            });
+            //fire event from the dynamically added icon
+            tree.find('.branch .indicator').each(function () {
+                $(this).on('click', function () {
+                    $(this).closest('li').click();
+                });
+            });
+            //fire event to open branch if the li contains an anchor instead of text
+            tree.find('.branch>a').each(function () {
+                $(this).on('click', function (e) {
+                    $(this).closest('li').click();
+                    e.preventDefault();
+                });
+            });
+            //fire event to open branch if the li contains a button instead of text
+            tree.find('.branch>button').each(function () {
+                $(this).on('click', function (e) {
+                    $(this).closest('li').click();
+                    e.preventDefault();
+                });
+            });
+        };
+
+
+    </script>
+
+    <script>
+        function refreshAt(hours, minutes, seconds) {
+            var now = new Date();
+            var then = new Date();
+
+            if (now.getHours() > hours ||
+                (now.getHours() == hours && now.getMinutes() > minutes) ||
+                now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
+                then.setDate(now.getDate() + 1);
+            }
+            then.setHours(hours);
+            then.setMinutes(minutes);
+            then.setSeconds(seconds);
+
+            var timeout = (then.getTime() - now.getTime());
+            setTimeout(function () { window.location.reload(true); }, timeout);
+        }
+
+        function refreshCompetitionRowAt(hours, minutes, seconds, selector) {
+            var now = new Date();
+            var then = new Date();
+
+            if (now.getHours() > hours ||
+                (now.getHours() == hours && now.getMinutes() > minutes) ||
+                now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
+                then.setDate(now.getDate() + 1);
+            }
+            then.setHours(hours);
+            then.setMinutes(minutes);
+            then.setSeconds(seconds);
+
+            var timeout = (then.getTime() - now.getTime());
+            setTimeout(function () {
+                $(selector).click();
+            }, timeout);
+        }
+    </script>
+    <script type='text/javascript'> var layout3 = false; </script>
+</head>
+
+<body
+    class="body-class-members body-root-competition.php body-nav-current-2 body-nav-current-has-2   php&#45;competition2   ">
+
+    <div style='display:none;'>
+        <p><a style='display:none;' href='/extlink.php' rel='nofollow'>More</a></p>
+    </div>
+    <div id="outerborder">
+        <div id="outleft"></div>
+        <div id="container">
+            <!--sphider_noindex-->
+            <div id="printbanner">
+                <p class="clubname"><span class='clubnametext'>Llanishen Golf Club</span><img
+                        src="/images/resources/llanishen/llanishen-tssm.png" align="right" alt=""></p>
+            </div><!-- Default Header Code!--->
+            <div class="header-wrapper noprint" id="header">
+                <div class="main-navigation">
+                    <div class="container">
+                        <div class="main-logo">
+                            <a href="/"><img src="/images/resources/llanishen/llanishen-ts.png"></a>
+                        </div>
+                        <div class="navbar navbar-static-top navbar-inverse">
+                            <button type="button" data-toggle="collapse" class="menu menu-trigger"
+                                data-target="#myNavbar" id="hamburger-icon" title="Menu">
+                                <span class="line line-1"></span>
+                                <span class="line line-2"></span>
+                                <span class="line line-3"></span>
+                                <!--<span class="menu-text">MENU</span>-->
+                            </button>
+                            <div id="myNavbar" class="nav-collapse collapse">
+                                <div class="navbar-inner">
+                                    <div id="topmenu">
+                                        <ul id="nav" class="nav">
+                                            <li class="first nav-level-1 nav-menu-home"><a
+                                                    href="/"><span>Home</span></a></li>
+                                            <li class="dropdown nav-level-1 nav-haslevel-2 nav-menu-news.php"><a
+                                                    href="/news.php" class="moredown dropdown-toggle"
+                                                    data-toggle="dropdown"><span>News</span></a>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                    <li class=" nav-level-2 nav-menu-news.php?tag=7"><a
+                                                            href="/news.php?tag=7"><span>Alpinists</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-news.php?tag=4"><a
+                                                            href="/news.php?tag=4"><span>Juniors</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-news.php?tag=2"><a
+                                                            href="/news.php?tag=2"><span>Ladies</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-news.php?tag=1"><a
+                                                            href="/news.php?tag=1"><span>Men</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-newsletters.php"><a
+                                                            href="/newsletters.php"><span>Newsletters</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-weatherfg.php"><a
+                                                            href="/weatherfg.php"><span>Weather</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li
+                                                class="dropdown nav-level-1 nav-haslevel-2 active top-menu-active nav-menu-competition.php">
+                                                <a href="/competition.php" class="moredown dropdown-toggle"
+                                                    data-toggle="dropdown"><span>Competitions</span></a>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                    <li class=" nav-level-2 nav-menu-competition2.php"><a
+                                                            href="/competition2.php"><span>Past</span></a></li>
+                                                    <li
+                                                        class=" nav-level-2 current nav-menu-competition2.php?time=future">
+                                                        <a
+                                                            href="/competition2.php?time=future"><span>Upcoming</span></a>
+                                                    </li>
+                                                    <li class=" nav-level-2 nav-menu-knockout.php"><a
+                                                            href="/knockout.php"><span>Knockouts</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-matchfixtures/"><a
+                                                            href="/matchfixtures/"><span>Matches</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-ongoing.php"><a
+                                                            href="/ongoing.php"><span>Ongoing</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-boardcomps.php"><a
+                                                            href="/boardcomps.php"><span>Board Competitions</span></a>
+                                                    </li>
+                                                    <li class=" nav-level-2 nav-menu-hcaplist.php"><a
+                                                            href="/hcaplist.php"><span>Handicaps</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown nav-level-1 nav-haslevel-2 nav-menu-roundmgmt.php"><a
+                                                    href="/roundmgmt.php" class="moredown dropdown-toggle"
+                                                    data-toggle="dropdown"><span>My Golf</span></a>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                    <li class=" nav-level-2 nav-menu-roundmgmt.php"><a
+                                                            href="/roundmgmt.php"><span>My Rounds</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-analysis.php"><a
+                                                            href="/analysis.php"><span>Analysis</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-hcapcertificate.php"><a
+                                                            href="/hcapcertificate.php"><span>Handicap
+                                                                Certificate</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-myeposaccount.php"><a
+                                                            href="/myeposaccount.php"><span>My Account</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-friends.php"><a
+                                                            href="/friends.php"><span>Friends</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-prefs.php"><a
+                                                            href="/prefs.php"><span>Preferences</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-directory.php"><a
+                                                            href="/directory.php"><span>Directory</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-messages.php"><a
+                                                            href="/messages.php"><span>Messages</span></a></li>
+                                                    <li class=" nav-level-2 nav-menu-memberbooking/"><a
+                                                            href="/memberbooking/"><span>Book Teetime</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="memberdiary nav-level-1 nav-menu-diary.php"><a
+                                                    href="/diary.php"><span>Diary</span></a></li>
+                                            <li class=" nav-level-1 nav-menu-?action=logout"><a href="/?action=logout"
+                                                    id="logoutbtn"><span>Logout</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div id="globalwrap">
+                    <!--/sphider_noindex-->
+                    <form id="compsFilters">
+                        <div class="row-fluid comps-list-header">
+                            <div class="span4">
+                                <h3>
+                                    Upcoming competitions
+                                    <span class="comp-interested-info-filter">
+                                        <input type="radio" name="filterinterested" value="1" class="ajaxonchange"
+                                            data-ajax-action="compsfilter"> <i class="fa fa-star"></i>
+                                        <input type="radio" name="filterinterested" value="0" class="ajaxonchange"
+                                            data-ajax-action="compsfilter" checked> <i class="fa fa-star"></i>
+                                        </label>
+
+
+                                </h3>
+                            </div>
+                            <div class="span8 text-right">
+                                <div class="comps-filters">
+                                    <div class="comps-filter-item">
+                                        <label>Start Date:</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-calendar"></i>
+                                            <input type="text" name="fromdate" class="datepicker ajaxonchange"
+                                                data-ajax-action="compsfilter" value="">
+                                        </div>
+                                    </div>
+                                    <div class="comps-filter-item">
+                                        <label>End Date:</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-calendar"></i>
+                                            <input type="text" name="todate" class="datepicker ajaxonchange"
+                                                data-ajax-action="compsfilter" value="">
+                                        </div>
+                                    </div>
+                                    <div class="comps-filter-item">
+                                        <label>Entrants Type:</label>
+                                        <select class="ajaxselect" name="entrants" id="entrantsMultiselect"
+                                            data-ajax-action="compsfilter">
+                                            <option value="all">All</option>
+                                            <option value="men" selected>Men</option>
+                                            <option value="ladies">Ladies</option>
+                                            <option value="juniors">Juniors</option>
+                                            <option value="seniors">Seniors</option>
+                                        </select>
+                                    </div>
+                                    <a href="#" class="comps-filters-clear-button" style="display: none;">
+                                        Clear Filters <i class="fa fa-times"></i>
+                                    </a>
+                                    <input type="hidden" name="offset" value="20">
+                                    <input type="hidden" name="all_loaded" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="compsTableWrapper">
+                        <table class="table comps-list-table future-comps-list-table">
+                            <tr id="comp_row_57">
+                                <input type="hidden" name="compid" value="57">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=57">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=57">5 Club Challenge</a>
+
+                                    </div>
+                                    <div class="comp-date">Saturday 18th November</div>
+
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <a href="/competition2.php?tab=details&compid=57&go=signup"
+                                            class="btn btn-success button entered"><i class="fa fa-check"></i>
+                                            Entered</a>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=57" class="ical-link"
+                                        title="Click to save 5 Club Challenge to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_861">
+                                <input type="hidden" name="compid" value="861">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=861">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=861">4BBB Stableford - Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="861"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="861" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 24th November</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 17/11/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=861" class="ical-link"
+                                        title="Click to save 4BBB Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_58">
+                                <input type="hidden" name="compid" value="58">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=58">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=58">4BBB Stableford - Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="58"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="58" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 25th November</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 17/11/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=58" class="ical-link"
+                                        title="Click to save 4BBB Stableford - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_862">
+                                <input type="hidden" name="compid" value="862">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=862">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=862">Singles Stableford -
+                                            Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="862"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="862" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 1st December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 24/11/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=862" class="ical-link"
+                                        title="Click to save Singles Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_59">
+                                <input type="hidden" name="compid" value="59">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=59">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=59">Singles Stableford -
+                                            Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="59"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="59" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 2nd December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 24/11/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=59" class="ical-link"
+                                        title="Click to save Singles Stableford - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_74">
+                                <input type="hidden" name="compid" value="74">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=74">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=74">Men's Veterans - Xmas 9 Hole
+                                            Stableford</a>
+
+                                    </div>
+                                    <div class="comp-date">Tuesday 5th December</div>
+
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=74" class="ical-link"
+                                        title="Click to save Men's Veterans - Xmas 9 Hole Stableford to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_866">
+                                <input type="hidden" name="compid" value="866">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=866">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=866">Bowmaker - Teams of 4 -
+                                            Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="866"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="866" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 8th December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 01/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=866" class="ical-link"
+                                        title="Click to save Bowmaker - Teams of 4 -  Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_60">
+                                <input type="hidden" name="compid" value="60">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=60">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=60">Bowmaker - Teams of 4 -
+                                            Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="60"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="60" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 9th December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 01/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=60" class="ical-link"
+                                        title="Click to save Bowmaker - Teams of 4 -  Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_863">
+                                <input type="hidden" name="compid" value="863">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=863">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=863">Singles Stableford -
+                                            Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="863"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="863" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 15th December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 08/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=863" class="ical-link"
+                                        title="Click to save Singles Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_61">
+                                <input type="hidden" name="compid" value="61">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=61">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=61">Singles Stableford -
+                                            Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="61"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="61" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 16th December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 08/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=61" class="ical-link"
+                                        title="Click to save Singles Stableford - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_62">
+                                <input type="hidden" name="compid" value="62">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=62">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=62">Singles Stableford
+                                            (Men/Ladies)</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="62"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="62" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 23rd December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 15/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=62" class="ical-link"
+                                        title="Click to save Singles Stableford (Men/Ladies) to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_864">
+                                <input type="hidden" name="compid" value="864">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=864">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=864">4BBB Stableford - Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="864"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="864" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 29th December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 22/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=864" class="ical-link"
+                                        title="Click to save 4BBB Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_64">
+                                <input type="hidden" name="compid" value="64">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=64">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=64">4BBB Stableford - Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="64"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="64" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 30th December</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 22/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=64" class="ical-link"
+                                        title="Click to save 4BBB Stableford - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_543">
+                                <input type="hidden" name="compid" value="543">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=543">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=543">4BBB Stableford - Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="543"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="543" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 5th January 2024</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 12:00 am on 29/12/2023
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=543" class="ical-link"
+                                        title="Click to save 4BBB Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_544">
+                                <input type="hidden" name="compid" value="544">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=544">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=544">4BBB Stableford -
+                                            Saturday</a>
+
+                                    </div>
+                                    <div class="comp-date">Saturday 6th January 2024</div>
+
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=544" class="ical-link"
+                                        title="Click to save 4BBB Stableford - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_545">
+                                <input type="hidden" name="compid" value="545">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=545">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=545">Singles Stableford -
+                                            Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="545"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="545" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 12th January 2024</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 05/01/2024
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=545" class="ical-link"
+                                        title="Click to save Singles Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_546">
+                                <input type="hidden" name="compid" value="546">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=546">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=546">Singles Stableford -
+                                            Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="546"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="546" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 13th January 2024</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 05/01/2024
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=546" class="ical-link"
+                                        title="Click to save Singles Stableford - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_547">
+                                <input type="hidden" name="compid" value="547">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=547">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=547">Rumble - Teams of 4 -
+                                            Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="547"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="547" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 19th January 2024</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 4:00 pm on 15/01/2024
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=547" class="ical-link"
+                                        title="Click to save Rumble - Teams of 4 - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_548">
+                                <input type="hidden" name="compid" value="548">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=548">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=548">Rumble - Teams of 4 -
+                                            Saturday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="548"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="548" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Saturday 20th January 2024</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 12/01/2024
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=548" class="ical-link"
+                                        title="Click to save Rumble - Teams of 4 - Saturday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr id="comp_row_549">
+                                <input type="hidden" name="compid" value="549">
+
+                                <td class="comp-image-td">
+                                    <a href="/competition2.php?tab=details&compid=549">
+                                        <img src="/images/resources/llanishen/llanhishensplash.jpg" class="comp-image">
+                                    </a>
+                                </td>
+                                <td class="comp-name-td">
+                                    <div class="comp-name">
+                                        <a href="/competition2.php?tab=details&compid=549">Singles Stableford -
+                                            Friday</a>
+
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle interested"
+                                            title="You are interested in this competition" data-compid="549"
+                                            style="display:none;">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                        <a href="#" class="comp-interested-info comp-interested-info-toggle"
+                                            title="Click to show interest" data-compid="549" style="">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+                                    </div>
+                                    <div class="comp-date">Friday 26th January 2024</div>
+
+                                    <div class="comp-signup-time-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        Signup Opens at 7:00 pm on 19/01/2024
+                                    </div>
+
+                                </td>
+                                <td class="comp-fees-td">
+                                </td>
+                                <td class="comp-signup-td">
+                                    <div>
+                                        <div class="comp-signup-text">Signup Not Yet Open</div>
+
+                                    </div>
+                                </td>
+                                <td class="comp-ical-td">
+                                    <a href="ical.php?type=1&id=549" class="ical-link"
+                                        title="Click to save Singles Stableford - Friday to your calendar">
+                                        <i class="fa fa-calendar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="compsAjaxLoader" class="text-center hide"><small>Loading...</small></div>
+
+                    <script>
+
+                        $(function () {
+
+                            // Hack for safari caching form input values
+                            setTimeout(function () {
+                                $('#compsFilters [name=all_loaded]').val(0);
+                                $('#compsFilters [name=offset]').val(20);
+                            }, 10);
+
+                            var lastScrollTop = sessionStorage.getItem('lastScrollTop');
+                            setTimeout(function () {
+                                window.scrollTo(0, lastScrollTop);
+                            }, 300);
+
+                            $('.future-comps-list-table a').click(function () {
+                                sessionStorage.setItem('lastScrollTop', window.scrollY);
+                            })
+
+                            toggleClearFiltersButton();
+
+                            $('.datepicker').datepicker({
+                                dateFormat: 'dd/mm/yy',
+                                changeMonth: true,
+                                changeYear: true
+                            });
+
+                            $('.comps-filters input, .comps-filters select').change(function () {
+                                toggleClearFiltersButton()
+                            });
+
+                            $('.comps-filters-clear-button').click(function (e) {
+                                e.preventDefault();
+                                $('.comps-filters input').val('');
+                                $('option', $('#entrantsMultiselect')).each(function (element) {
+                                    $(this).removeAttr('selected').prop('selected', false);
+                                });
+
+                                $('#entrantsMultiselect option[value="all"]').prop('selected', true);
+                                $('#entrantsMultiselect').change();
+                                $(this).hide();
+                            });
+
+                            $(document.body).delegate('.comp-interested-info-toggle', 'click', onInterestedClick);
+
+                            function toggleClearFiltersButton() {
+                                var entrants = $('select[name=entrants]').val();
+                                var fromDate = $('input[name=fromdate]').val();
+                                var toDate = $('input[name=todate]').val();
+
+                                if (entrants !== 'all' || fromDate !== '' || toDate !== '') {
+                                    $('.comps-filters-clear-button').css({ display: 'inline-block' });
+                                } else {
+                                    $('.comps-filters-clear-button').hide();
+                                }
+                            }
+
+                            function onInterestedClick(e) {
+                                e.preventDefault();
+
+                                var compid = $(this).attr('data-compid');
+                                var isInterested = $(this).hasClass('interested');
+
+                                toggleInterest(compid);
+
+                                $(this).hide();
+
+                                if (isInterested) {
+                                    $('.comp-interested-info-toggle[data-compid=' + compid + ']:not(.interested)').show();
+                                } else {
+                                    $('.comp-interested-info-toggle.interested[data-compid=' + compid + ']').show();
+                                }
+                            }
+
+                            function toggleInterest(compid) {
+                                $.get('/competition.php', { interested: compid, src: 'list' }, function (data) {
+                                    var result = data;
+                                    return (data);
+                                });
+                            }
+                        });
+
+                        var processing;
+
+                        $(window).scroll(function () {
+                            if (processing)
+                                return false;
+
+                            var allLoaded = parseInt($('#compsFilters [name=all_loaded]').val());
+
+                            if (allLoaded)
+                                return false;
+
+                            var compsTableWrapper = $('#compsTableWrapper');
+                            var endOfPage = window.innerHeight + window.pageYOffset >= compsTableWrapper.height() + compsTableWrapper.offset().top;
+
+                            if (endOfPage) {
+                                processing = true;
+                                var postData = $('#compsFilters').serializeArray();
+                                var currentUrl = window.location.href;
+
+                                postData.push({ name: 'loadmore', value: 1 });
+                                postData.push({ name: 'requestType', value: 'ajax' });
+                                postData.push({ name: 'ajaxaction', value: 'compsfilter' });
+
+                                $('#compsAjaxLoader').show();
+
+                                console.log(postData);
+
+                                $.ajax({
+                                    method: "POST",
+                                    url: currentUrl,
+                                    data: postData
+                                }).done(function (data) {
+                                    var html = data.html;
+
+                                    if (html !== "") {
+                                        var offset = parseInt($('#compsFilters [name=offset]').val());
+                                        var newOffset = offset + 20;
+                                        $('#compsFilters [name=offset]').val(newOffset);
+
+                                        $('#compsTableWrapper table tr:last').after(html);
+                                    } else {
+                                        console.log('all loaded 1');
+                                        $('#compsFilters [name=all_loaded]').val(1);
+                                    }
+
+                                    $('#compsAjaxLoader').hide();
+                                    processing = false;
+                                }).fail(function () {
+                                    processing = false;
+                                });
+                            }
+                        });
+
+                    </script>
+                    <div id="printfooter"><br><img src="/images/resources/llanishen/llanishen-tssm.png"
+                            style="float:left;" class="footerClubLogo"><br>
+                        <p class=\"para\" style=\"text-align:center;\">Created by intelligentgolf version
+                            10.1.2.<br><br>
+                    </div>
+                </div>
+                <script>
+                    var userID = '1093-10684';
+                    var properties = {
+                        id: userID,
+                        name: 'Tony Smith',
+                        user_level: '1',
+                        membertype: 'Full',
+                    };
+                </script> <!--sphider_noindex-->
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-outerborder">
+            <div class="container ig-footer">
+                <div class="row">
+                    <div class="span8">
+                        <div class="footer-left">
+                            <p>Llanishen Golf Club</p>
+                        </div>
+                    </div>
+                    <div class="span4 ig-logo">
+                        <a class target="_blank" href="http://www.intelligentgolf.co.uk/"><img
+                                title="Powered by intelligentgolf" alt="Powered by intelligentgolf" style="width:100px;"
+                                src="/images/darkbg_ig_logo.png">
+                        </a>
+                        <p>&copy; 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#hamburger-icon").click(function () {
+            $("#hamburger-icon").toggleClass("active");
+        });
+    </script>
+
+    <!--/sphider_noindex--> </div>
+    </div>
+    <div id="outright"></div>
+    </div>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMB3K55GY4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+
+        gtag("config", "G-EMB3K55GY4", {
+            "auth": "Logged In",
+            "userLevel": "1",
+            "memberType": "Full"
+        });</script><!-- Page generated by 10.0.0.92 -->
+    <!--sphider_noindex--> <!--/sphider_noindex--> <!-- Generated in 0.0771 seconds -->
+</body>
+
+</html>

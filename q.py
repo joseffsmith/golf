@@ -1,10 +1,12 @@
-from datetime import datetime
-from dotenv import load_dotenv
-import os
-from rq_scheduler import Scheduler
-from redis import Redis
 import logging
+import os
+from datetime import datetime
+
 import sentry_sdk
+from dotenv import load_dotenv
+from redis import Redis
+from rq_scheduler import Scheduler
+
 from app import scrape_and_save_comps, scrape_and_save_players
 
 logging.basicConfig()
@@ -16,12 +18,21 @@ REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PASS = os.getenv('REDIS_PASS')
 
 
+def get_redis_conn():
+    return Redis(
+        host=REDIS_HOST,
+        port=16836,
+        password=REDIS_PASS
+    )
+
+
 def create_connection(name):
     redis_conn = Redis(
         host=REDIS_HOST,
         port=16836,
         password=REDIS_PASS
     )
+
     scheduler = Scheduler(name, connection=redis_conn)
 
     return scheduler

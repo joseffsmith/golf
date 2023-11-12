@@ -67,9 +67,13 @@ def curr_players():
 
 @flaskapp.route('/curr_bookings/', methods=['GET'])
 def curr_bookings():
-    lib = Library()
-    bookings = lib.read('bookings', default={})
-    return jsonify(status='ok', bookings=list(bookings.values()))
+    # lib = Library()
+    # bookings = lib.read('bookings', default={})
+    # return jsonify(status='ok', bookings=list(bookings.values()))
+    db = DB()
+    db_comps = db.client.golf.comps
+    print(db_comps)
+    return jsonify(status='ok')
 
 
 @flaskapp.route('/scrape_comps/', methods=['POST'])
@@ -115,6 +119,9 @@ def schedule_booking():
                            comp, booking_time, player_ids, username, password, wait_until)
 
     return jsonify(status='ok', bookings=[])
+
+
+# BRS
 
 
 @flaskapp.route('/brs/login/', methods=['GET'])
