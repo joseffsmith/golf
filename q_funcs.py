@@ -23,14 +23,15 @@ PASSWORD = os.getenv('INT_PASSWORD')
 
 
 def main():
-    connection = Redis(host=REDIS_HOST, port=16836, password=REDIS_PASS)
+    connection = Redis(host=REDIS_HOST, port=16836,
+                       password=REDIS_PASS)  # type: ignore
     logger.info('Creating scheduler')
     scheduler = Scheduler('recurring', connection=connection, interval=5)
     for job in scheduler.get_jobs():
         queue_name = scheduler.get_queue_for_job(job).name
         logger.info(f'queue: {queue_name} job: {job.description}')
         if queue_name == 'recurring' or queue_name == 'default':
-            logger.info(f'cancelling job {job.description}')
+            logger.info(f'cancelling job {job.description}')  # type: ignore
             scheduler.cancel(job)
 
     scheduler.schedule(

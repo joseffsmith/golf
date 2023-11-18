@@ -243,6 +243,6 @@ def book_job(comp_id, partnerIds, hour, minute, wait_until):
         bookPartner(session, comp_id, sids[idx], partnerId)
 
 
-if __name__ == "__main__":
-    content = get_comp_page_debug()
-    get_comps_from_page(content)
+# if __name__ == "__main__":
+#     content = get_comp_page_debug()
+#     get_comps_from_page(content)

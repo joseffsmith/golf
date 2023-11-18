@@ -25,7 +25,7 @@ PASSWORD = os.getenv('INT_PASSWORD')
 
 def get_redis_conn():
     return Redis(
-        host=REDIS_HOST,
+        host=REDIS_HOST,  # type: ignore
         port=16836,
         password=REDIS_PASS
     )
@@ -33,7 +33,7 @@ def get_redis_conn():
 
 def create_connection(name):
     redis_conn = Redis(
-        host=REDIS_HOST,
+        host=REDIS_HOST,  # type: ignore
         port=16836,
         password=REDIS_PASS
     )
@@ -62,9 +62,8 @@ def upsertComps(newComps):
     conn = get_redis_conn()
 
     dbCompDict = selectComps()
-
     if not dbCompDict:
-        conn.mset(compDict)
+        conn.mset(compDict)  # type: ignore
         return
 
     for key, newComp in compDict.items():

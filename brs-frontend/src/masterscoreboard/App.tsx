@@ -93,7 +93,11 @@ const Comps = () => {
               fullWidth
               value={comp}
               onChange={(e, val) => setCurrComp(val)}
-              options={compsAtom.contents}
+              options={[...compsAtom.contents].sort(
+                (a, b) =>
+                  (a["signup-date"] ?? 100000000001) -
+                  (b["signup-date"] ?? 100000000001)
+              )}
               getOptionLabel={(opt) => `${opt.date} - ${opt.name}`}
               renderInput={(params) => (
                 <TextField {...params} label="Select comp" />
