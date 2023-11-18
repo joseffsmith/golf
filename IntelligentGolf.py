@@ -29,9 +29,10 @@ SIGNUP_URL = "https://llanishen.intelligentgolf.co.uk/online_signup_ajax_api.php
 rhys = "10671"
 steffan = "10468"
 tony = "10970"
+jeff = "10846"
 
 players = [{"name": "Rhys", "id": rhys}, {
-    "name": "Steffan", "id": steffan}, {"name": "Tony", "id": tony}]
+    "name": "Steffan", "id": steffan}, {"name": "Tony B", "id": tony}, {"name": "Jeff", "id": jeff}]
 
 
 def intLogin(password, session=None):

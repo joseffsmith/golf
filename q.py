@@ -105,7 +105,7 @@ def main():
 
     scheduler.schedule(
         # Time for first execution, in UTC timezone
-        scheduled_time=datetime.now() + timedelta(seconds=30),
+        scheduled_time=datetime.now() + timedelta(minutes=5),
         func=scrape_and_save_comps,                     # Function to be queued
         # Keyword arguments passed into function when executed
         # Time before the function is called again, in seconds
