@@ -63,7 +63,7 @@ def upsertComps(newComps):
 
     dbCompDict = selectComps()
 
-    if not dbComps:
+    if not dbCompDict:
         conn.mset(compDict)
         return
 
