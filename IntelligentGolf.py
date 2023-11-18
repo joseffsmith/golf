@@ -1,8 +1,10 @@
+import html
 import json
 import logging
 import os
 import time
 from datetime import datetime, timedelta
+from urllib.parse import parse_qs
 
 import bs4
 import dateutil.parser as dateutils
@@ -10,8 +12,6 @@ import pytz
 import requests
 import sentry_sdk
 from dotenv import load_dotenv
-
-from q import get_redis_conn
 
 bst = pytz.timezone('Europe/London')
 
@@ -24,9 +24,17 @@ logger.setLevel(logging.DEBUG)
 USERNAME = os.getenv('INT_USERNAME')
 PASSWORD = os.getenv('INT_PASSWORD')
 BASE_URL = os.getenv('INT_BASE_URL')
+SIGNUP_URL = "https://llanishen.intelligentgolf.co.uk/online_signup_ajax_api.php"
+
+rhys = "10671"
+steffan = "10468"
+tony = "10970"
+
+players = [{"name": "Rhys", "id": rhys}, {
+    "name": "Steffan", "id": steffan}, {"name": "Tony", "id": tony}]
 
 
-def int_login(password=None, session=None):
+def intLogin(password, session=None):
     if not session:
         session = requests.Session()
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
@@ -37,7 +45,7 @@ def int_login(password=None, session=None):
         "task": "login",
         "topmenu": 1,
         "memberid": USERNAME,
-        "pin": PASSWORD,
+        "pin": password,
         "cachemid": 1,
         "Submit": "Login",
     })
@@ -46,21 +54,20 @@ def int_login(password=None, session=None):
     return session
 
 
-def get_comp_page():
-    session = int_login()
+def getHtmlCompPage(session):
     logger.info(f'Getting comps...')
     resp = session.get(f'{BASE_URL}competition2.php?time=future')
     resp.raise_for_status()
     return resp.content
 
 
-def get_comp_page_debug():
+def getHtmlCompPage_debug():
     with open('debug/comp_list', "r") as f:
         content = f.read()
     return content
 
 
-def get_comps_from_page(content):
+def getCompsFromHtml(content):
     b = bs4.BeautifulSoup(content, features='html.parser')
     comp_table = b.find('div', attrs={'id': 'compsTableWrapper'})
 
@@ -68,83 +75,172 @@ def get_comps_from_page(content):
     for t in comp_table.find_all('tr'):
         raw_signupDatetime = t.find(
             'div', attrs={'class': 'comp-signup-time-info'})
-        if raw_signupDatetime:
 
-            signupDatetime = dateutils.parse(raw_signupDatetime.get_text(
-                strip=True).replace('Signup Opens at ', '').replace('on ', ''))
+        if raw_signupDatetime and ('Signup Closes at' in raw_signupDatetime.get_text(
+                strip=True)):
 
+            date = raw_signupDatetime.get_text(
+                strip=True).replace('Signup Closes at ', '').replace('on ', '')
+
+            closeTime = dateutils.parse(date)
+            close = (bst.localize(closeTime).astimezone(
+                pytz.utc)).timestamp()
+        else:
+            close = None
+
+        if raw_signupDatetime and ('Signup Opens at' in raw_signupDatetime.get_text(
+                strip=True)):
+            date = raw_signupDatetime.get_text(
+                strip=True).replace('Signup Opens at ', '').replace('on ', '')
+
+            signupDatetime = dateutils.parse(date)
             wait_until = bst.localize(signupDatetime).astimezone(pytz.utc)
             next_run_time = (wait_until - timedelta(seconds=10)).timestamp()
-
         else:
             next_run_time = None
+
         comp = {
             'id': int(t.find('input', attrs={'name': 'compid'}).get('value')),
             'name': t.find('div', attrs={'class': 'comp-name'}).find('a').get_text(strip=True).replace('\n', ' '),
             'date': t.find('div', attrs={'class': 'comp-date'}).get_text(strip=True),
             'signup-date': next_run_time,
+            'signup-close': close
         }
         comps.append(comp)
 
     return comps
 
 
-# def test():
-    # conn = get_redis_conn()
-    # print(json.loads(conn.get('joe_test')))
+def getHtmlSlots_debug():
+    with open('debug/2-slots-file', "r") as f:
+        content = f.read()
+    return content
 
-# def book_job(date, hour, minute, wait_until):
-#     book_time = f"{str(hour).zfill(2)}:{minute}"
 
-#     session = login(PASSWORD)
-#     if wait_until:
-#         logger.info(f'Checking for wait')
-#         while pytz.UTC.localize(datetime.utcnow()) < wait_until:
-#             time.sleep(.01)
-#             logger.info(f'Waiting...')
-#             continue
+def getHtmlSlots(session, compId):
+    logger.info(f'Getting slots...')
+    resp = session.get(SIGNUP_URL, params={
+        "go": "signup",
+        "compid": compId,
+        "accept": "1",
+        "team": "-1",
+        "requestType": "ajax"
+    })
+    resp.raise_for_status()
+    return resp.content
 
-#     # wait until it's the time specified
-#     logger.info(f'Getting tee times for {date}...')
-#     resp = session.get(
-#         f'https://members.brsgolf.com/thevalehotelspa/tee-sheet/data/1/{date}')
-#     logger.info(f'Got tee times: {resp.status_code}')
-#     data = resp.json()
 
-#     times = data['times']
+def getSlotsFromHTML(content, partners=1):
+    c = json.loads(content)['html']
+    b = bs4.BeautifulSoup(c, features='html.parser')
+    rows = b.find_all('tr')
+    times = {}
 
-#     booking = times[book_time]['tee_time']
-#     if not booking['bookable']:
-#         raise Exception('Cannot book, is booked')
+    for row in rows:
 
-#     if booking['reservation']:
-#         raise Exception("Part booking, don't do it")
+        if not row.find('a'):
+            continue
 
-#     logger.info(f'Booking: ${booking}')
+        cells = [r.get_text(strip=True)
+                 for r in row.find_all('td', {'class': 'slot'})]
+        empties = [c for c in cells if not c]
 
-#     url = BASE_URL + booking['url']
+        if (len(empties) < partners):
+            continue
 
-#     logger.info(f'Getting booking page...')
-#     resp = session.get(url)
-#     logger.info(f'Got booking page: {resp.status_code}')
+        time = row.find('td', {"class": 'startsheet_time'}
+                        ).get_text(strip=True)
+        r = row.find('a')
+        times[time] = r.attrs['href']
 
-#     b = bs4.BeautifulSoup(resp.content, features='html.parser')
+    return times
 
-#     token = b.find(attrs={'name': 'member_booking_form[token]'}).get('value')
-#     _token = b.find(attrs={'id': 'member_booking_form__token'}).get('value')
 
-#     logger.info(f'Booking...')
-#     resp = session.post(f"https://members.brsgolf.com/thevalehotelspa/bookings/store/1/{date.replace('/', '')}/{book_time.replace(':', '')}", data={
-#         "member_booking_form[token]": token,
-#         "member_booking_form[player_1]": 1102,
-#         "member_booking_form[player_2]": 1103,
-#         "member_booking_form[player_3]": 1104,
-#         "member_booking_form[player_4]": 1105,
-#         "member_booking_form[vendor-tx-code]": "",
-#         "member_booking_form[_token]": _token
-#     })
-#     logger.info(f'Booked: {resp.status_code}')
-#     sentry_sdk.capture_message('Booked')
+def getHtmlPartnerSlots_debug():
+    with open('debug/3-signUp', "r") as f:
+        content = f.read()
+    return content
+
+
+def getHtmlPartnerSlots(session, href):
+    resp = session.get(SIGNUP_URL + href)
+    resp.raise_for_status()
+    return resp.content
+
+
+def getPartnerSlots(content):
+    c = json.loads(content)['html']
+    b = bs4.BeautifulSoup(c, features='html.parser')
+
+    slots = [r.attrs['href'] for r in b.find('table').find_all('a')]
+    sids = [parse_qs(a)['sid'][0] for a in slots]
+    return sids
+
+
+def bookPartner(session, compId, sid, partnerId):
+    logger.info(f'Booking partner...')
+    resp = session.get(
+        SIGNUP_URL, params={
+            'compid': compId,
+            'go': 'signup',
+            'partners': 1,
+            'sid': sid,
+            'partnerid': partnerId,
+            'requestType': 'ajax'
+        })
+    resp.raise_for_status()
+
+
+def searchPlayer(session, name):
+    resp = session.post(SIGNUP_URL, params={
+        "requestType": "ajax",
+        "compid": "861"
+    }, data={
+        "partner": name,
+        "sid": "223842",
+        "compid": "861",
+        "partners": "1"
+    })
+    resp.raise_for_status()
+    return resp.content
+
+
+def searchPlayer_debug():
+    with open('debug/brow', "r") as f:
+        content = f.read()
+    return content
+
+
+def getPlayerIdsFromContent(content):
+    c = json.loads(content)['html']
+    b = bs4.BeautifulSoup(c, features='html.parser')
+    print(b.prettify())
+
+
+def book_job(comp_id, partnerIds, hour, minute, wait_until):
+    book_time = f"{str(hour).zfill(2)}:{minute}"
+
+    session = intLogin(PASSWORD)
+    if wait_until:
+        logger.info(f'Checking for wait')
+        while pytz.UTC.localize(datetime.utcnow()) < wait_until:
+            time.sleep(.01)
+            logger.info(f'Waiting...')
+            continue
+
+    logger.info(f'Getting tee times for {comp_id}...')
+    content = getHtmlSlots(session, comp_id)
+    slots = getSlotsFromHTML(content, len(partnerIds))
+    logger.info(f'Got tee times: ${len(slots)}')
+
+    href = slots[book_time]
+    content = getHtmlPartnerSlots(session, href)
+    sids = getPartnerSlots(content)
+
+    for idx, partnerId in enumerate(partnerIds):
+        logger.info('Booking partner' + partnerId)
+        bookPartner(session, comp_id, sids[idx], partnerId)
+
 
 if __name__ == "__main__":
     content = get_comp_page_debug()

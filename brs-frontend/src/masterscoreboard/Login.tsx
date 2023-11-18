@@ -1,20 +1,19 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Card,
   Box,
-  LinearProgress,
-  CardHeader,
-  CardContent,
-  TextField,
-  IconButton,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  LinearProgress,
+  TextField,
 } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { errors } from "../atoms";
-import { Partner } from "./App";
-import { loggedIn, passWord, userName } from "./atoms";
+import { loggedIn, passWord } from "./atoms";
 
 export const Login = () => {
   const setIsLoggedIn = useSetRecoilState(loggedIn);
@@ -22,7 +21,7 @@ export const Login = () => {
   const [password, _setPassword] = useRecoilState(passWord);
   const [passwordVisible, setPasswordVisibility] = useState(false);
   const setErrors = useSetRecoilState(errors);
-  const [username, changeUsername] = useRecoilState(userName);
+  // const [username, changeUsername] = useRecoilState(userName);
 
   const setPassword = (password: string) => {
     localStorage.setItem("ms-password", password);
@@ -34,7 +33,7 @@ export const Login = () => {
     }
     setIsLoggingIn(true);
     axios
-      .post("/test_pass/", { username, password })
+      .get("/int/login/", { params: { password } })
       .then(() => {
         setIsLoggedIn(true);
       })
@@ -62,12 +61,12 @@ export const Login = () => {
       ></form>
       <CardContent>
         <Box p={2}>
-          <Partner
+          {/* <Partner
             label="Username"
             partner={username}
             setPartner={changeUsername}
             current_players={[username]}
-          />
+          /> */}
 
           <TextField
             fullWidth

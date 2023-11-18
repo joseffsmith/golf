@@ -1,0 +1,14 @@
+{
+    "html": "<div id=\"onlineSignupContainer\">\n  <input type=\"hidden\" name=\"signup_view[go]\" value=\"signup\">\n  <input type=\"hidden\" name=\"signup_view[stage]\" value=\"\">\n  <h3>\n  Online Signup\n<\/h3>\n\n\n<div class=\"steps-nav\">\n            <a href=\"?go=signup&compid=861&stage=confirmentry\"\n         class=\"step-item \">\n      <span class=\"circle\">1<\/span>\n            <span class=\"text\">Rules<\/span>\n                                  <\/a>\n                <a href=\"?go=signup&compid=861&stage=timepref\"\n         class=\"step-item \">\n      <span class=\"circle\">2<\/span>\n                    <span class=\"text\">\n          Your Teetime        <\/span>\n                            <\/a>\n                <span\n         class=\"step-item active\">\n      <span class=\"circle\">3<\/span>\n                          <span class=\"text\">Partners<\/span>\n                      <\/span>\n      <\/div>\n\n\n\n  \n      <p>Click on the available buttons to add your partners.<\/p>\n    <table class=\"table\">\n    <thead>\n    <tr>\n      <th>Time<\/th>\n      <th>Slot 1<\/th><th>Slot 2<\/th><th>Slot 3<\/th><th>Slot 4<\/th>    <\/tr>\n    <\/thead>\n    <tbody>\n    <tr>\n      <td>10:30<\/td>\n                    <td>\n          Tony Smith        <\/td>\n              <td>\n          <a href=\"?compid=861&go=signup&partners=1&sid=223842\" class=\"button\\ btn btn-info\">Available<\/a>        <\/td>\n              <td>\n          Tony Paul Brown        <\/td>\n              <td>\n          <a href=\"?compid=861&go=signup&partners=1&sid=223844\" class=\"button\\ btn btn-info\">Available<\/a>        <\/td>\n                <\/tr>\n    <\/tbody>\n  <\/table>\n\n<script>\n  $(document).ready(function () {\n    $('input[name=partner]').focus();\n  });\n<\/script>\n  <br>\n\n  <div class=\"bottom-nav\">\n        <a href=\"?go=signup&finish=1\" class=\"button btn\">Finish<\/a>\n  <\/div>\n\n<\/div>",
+    "request": "https://llanishen.intelligentgolf.co.uk/online_signup_ajax_api.php?go=signup&accept=1&teeconf=1&sid=223841&compid=861&contactok=&team=-1&requestType=ajax",
+    "payload": {
+        "go": "signup",
+        "accept": "1",
+        "teeconf": "1",
+        "sid": "223841",
+        "compid": "861",
+        "contactok": "",
+        "team": "-1",
+        "requestType": "ajax"
+    }
+}

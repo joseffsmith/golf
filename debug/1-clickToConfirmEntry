@@ -1,0 +1,8 @@
+{
+    "payload": {
+        "go": "signup",
+        "compid": "861",
+        "requestType": "ajax"
+    },
+    "request": "https://llanishen.intelligentgolf.co.uk/online_signup_ajax_api.php?go=signup&compid=861&requestType=ajax"
+}

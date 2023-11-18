@@ -3,13 +3,16 @@ import { atom, selector } from "recoil";
 
 export type Comp = {
   id: string;
-  comp_date: number;
-  gender: string;
-  notes: string;
-  action: string;
-  html_description: string;
-  book_from: number | null;
-  bookings_close_by: number | null;
+  date: string;
+  name: string;
+  "signup-date": number | null;
+  "signup-close": number | null;
+  // gender: string;
+  // notes: string;
+  // action: string;
+  // html_description: string;
+  // book_from: number | null;
+  // bookings_close_by: number | null;
 };
 
 export type Booking = {
@@ -22,8 +25,10 @@ export type Booking = {
 export const comps = selector<Comp[]>({
   key: "MScomps",
   get: async () => {
-    const resp = await axios.get<{ comps: Comp[] }>("/curr_comps/");
-    return resp.data.comps;
+    const resp = await axios.get<{ comps: { [key: string]: Comp } }>(
+      "/curr_comps/"
+    );
+    return Object.values(resp.data.comps);
   },
 });
 
@@ -34,12 +39,12 @@ export const bookings = selector<Booking[]>({
     return resp.data.bookings;
   },
 });
-export const players = selector<{ [id: string]: string }>({
+export const players = selector<Array<{ id: string; name: string }>>({
   key: "MSplayers",
   get: async () => {
-    const resp = await axios.get<{ players: { [id: string]: string } }>(
-      "/curr_players/"
-    );
+    const resp = await axios.get<{
+      players: Array<{ id: string; name: string }>;
+    }>("/curr_players/");
     return resp.data.players;
   },
 });
@@ -74,27 +79,28 @@ export const sortedPlayers = selector({
   get: ({ get }) => {
     const ps = get(players);
 
-    return Object.fromEntries(
-      Object.entries(ps)
-        .filter((v: any) => {
-          const [key, val] = v;
-          if (val.length > 200) {
-            return false;
-          }
-          return true;
-        })
-        .sort((a, b) => {
-          const [keya, vala] = a;
-          const [keyb, valb] = b;
-          if (vala < valb) {
-            return -1;
-          }
-          if (vala > valb) {
-            return 1;
-          }
-          return 0;
-        })
-    );
+    return ps;
+    // return Object.fromEntries(
+    //   Object.entries(ps)
+    //     .filter((v: any) => {
+    //       const [key, val] = v;
+    //       if (val.length > 200) {
+    //         return false;
+    //       }
+    //       return true;
+    //     })
+    //     .sort((a, b) => {
+    //       const [keya, vala] = a;
+    //       const [keyb, valb] = b;
+    //       if (vala < valb) {
+    //         return -1;
+    //       }
+    //       if (vala > valb) {
+    //         return 1;
+    //       }
+    //       return 0;
+    //     })
+    // );
   },
 });
 
@@ -122,16 +128,14 @@ export const testPass = async (username, password) => {
 
 export const book_comp = async (
   comp_id: string,
-  booking_times: string[],
-  player_ids: string[],
-  username,
-  password
+  hour: string,
+  minute: string,
+  partnerIds: string[]
 ) => {
-  return await axios.post("/scheduler/booking/", {
+  return await axios.post("/int/scheduler/booking/", {
     comp_id,
-    booking_times,
-    player_ids,
-    username,
-    password,
+    hour,
+    minute,
+    partnerIds,
   });
 };

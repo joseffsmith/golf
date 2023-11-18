@@ -1,0 +1,11 @@
+{
+
+    "request": "https://llanishen.intelligentgolf.co.uk/online_signup_ajax_api.php?go=signup&compid=861&accept=1&team=-1&requestType=ajax",
+    "payload": {
+        "go": "signup",
+        "compid": "861",
+        "accept": "1",
+        "team": "-1",
+        "requestType": "ajax"
+    }
+}

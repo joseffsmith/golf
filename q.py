@@ -6,8 +6,10 @@ import sentry_sdk
 from dotenv import load_dotenv
 from redis import Redis
 from rq_scheduler import Scheduler
+import json
+from IntelligentGolf import getCompsFromHtml, getHtmlCompPage, intLogin
 
-from app import scrape_and_save_comps, scrape_and_save_players
+# from app import scrape_and_save_comps, scrape_and_save_players
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -16,6 +18,8 @@ load_dotenv()
 
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PASS = os.getenv('REDIS_PASS')
+
+PASSWORD = os.getenv('INT_PASSWORD')
 
 
 def get_redis_conn():
@@ -63,18 +67,62 @@ def main():
         # Repeat this number of times (None means repeat forever)
         repeat=None,
     )
-    scheduler.schedule(
-        scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
-        func=scrape_and_save_players,                     # Function to be queued
-        # Keyword arguments passed into function when executed
-        # Time before the function is called again, in seconds
-        interval=60*60*24,
-        # Repeat this number of times (None means repeat forever)
-        repeat=None,
-    )
+    # scheduler.schedule(
+    #     scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
+    #     func=scrape_and_save_players,                     # Function to be queued
+    #     # Keyword arguments passed into function when executed
+    #     # Time before the function is called again, in seconds
+    #     interval=60*60*24,
+    #     # Repeat this number of times (None means repeat forever)
+    #     repeat=None,
+    # )
     logger.info(len(list(scheduler.get_jobs())))
     logger.info('Running scheduler')
     scheduler.run()
+
+
+def scrape_and_save_comps():
+    session = intLogin(PASSWORD)
+    content = getHtmlCompPage(session)
+    comps = getCompsFromHtml(content)
+    upsertComps(comps)
+    logger.info('Saved comps')
+
+
+def upsertComps(newComps):
+    compDict = {f"comp:{obj['id']}": obj for obj in newComps}
+
+    conn = get_redis_conn()
+
+    dbCompDict = selectComps()
+
+    if not dbComps:
+        conn.mset(compDict)
+        return
+
+    for key, newComp in compDict.items():
+        if key not in dbCompDict:
+            conn.set(key, json.dumps(newComp))
+            continue
+
+        dbComp = dbCompDict[key]
+        if not dbComp.get('signup-date'):
+            dbComp['signup-date'] = newComp['signup-date']
+        if not dbComp.get('signup-close'):
+            dbComp['signup-close'] = newComp['signup-close']
+        if not dbComp.get('name'):
+            dbComp['name'] = newComp['name']
+
+        conn.set(key, json.dumps(dbComp))
+
+
+def selectComps():
+    conn = get_redis_conn()
+
+    keys = conn.keys('comp:*')
+    dbComps = [json.loads(val) for val in conn.mget(keys) if val]
+    dbCompDict = {f"comp:{obj['id']}": obj for obj in dbComps}
+    return dbCompDict
 
 
 if __name__ == '__main__':
