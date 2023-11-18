@@ -128,12 +128,14 @@ export const testPass = async (username, password) => {
 
 export const book_comp = async (
   comp_id: string,
+  signup_date: number,
   hour: string,
   minute: string,
   partnerIds: string[]
 ) => {
   return await axios.post("/int/scheduler/booking/", {
     comp_id,
+    wait_until: signup_date,
     hour,
     minute,
     partnerIds,

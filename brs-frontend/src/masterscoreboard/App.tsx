@@ -54,6 +54,7 @@ const Comps = () => {
     }
     book_comp(
       comp.id,
+      comp["signup-date"]!,
       tee_times[0].hour,
       tee_times[0].minute,
       [partner1, partner2, partner3].filter((v) => v !== null) as string[]
