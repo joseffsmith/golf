@@ -1,12 +1,13 @@
+import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import sentry_sdk
 from dotenv import load_dotenv
 from redis import Redis
 from rq_scheduler import Scheduler
-import json
+
 from IntelligentGolf import getCompsFromHtml, getHtmlCompPage, intLogin
 
 # from app import scrape_and_save_comps, scrape_and_save_players
@@ -47,40 +48,6 @@ def get_jobs_in_queue(name='test'):
     return [job for job in conn.get_jobs() if conn.get_queue_for_job(job).name == name]
 
 
-def main():
-    connection = Redis(host=REDIS_HOST, port=16836, password=REDIS_PASS)
-    logger.info('Creating scheduler')
-    scheduler = Scheduler('recurring', connection=connection, interval=5)
-    for job in scheduler.get_jobs():
-        queue_name = scheduler.get_queue_for_job(job).name
-        logger.info(f'queue: {queue_name} job: {job.description}')
-        if queue_name == 'recurring' or queue_name == 'default':
-            logger.info(f'cancelling job {job.description}')
-            scheduler.cancel(job)
-
-    scheduler.schedule(
-        scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
-        func=scrape_and_save_comps,                     # Function to be queued
-        # Keyword arguments passed into function when executed
-        # Time before the function is called again, in seconds
-        interval=60*60*4,
-        # Repeat this number of times (None means repeat forever)
-        repeat=None,
-    )
-    # scheduler.schedule(
-    #     scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
-    #     func=scrape_and_save_players,                     # Function to be queued
-    #     # Keyword arguments passed into function when executed
-    #     # Time before the function is called again, in seconds
-    #     interval=60*60*24,
-    #     # Repeat this number of times (None means repeat forever)
-    #     repeat=None,
-    # )
-    logger.info(len(list(scheduler.get_jobs())))
-    logger.info('Running scheduler')
-    scheduler.run()
-
-
 def scrape_and_save_comps():
     session = intLogin(PASSWORD)
     content = getHtmlCompPage(session)
@@ -106,11 +73,11 @@ def upsertComps(newComps):
             continue
 
         dbComp = dbCompDict[key]
-        if not dbComp.get('signup-date'):
+        if not newComp.get('signup-date'):
             dbComp['signup-date'] = newComp['signup-date']
-        if not dbComp.get('signup-close'):
+        if not newComp.get('signup-close'):
             dbComp['signup-close'] = newComp['signup-close']
-        if not dbComp.get('name'):
+        if not newComp.get('name'):
             dbComp['name'] = newComp['name']
 
         conn.set(key, json.dumps(dbComp))
@@ -123,6 +90,41 @@ def selectComps():
     dbComps = [json.loads(val) for val in conn.mget(keys) if val]
     dbCompDict = {f"comp:{obj['id']}": obj for obj in dbComps}
     return dbCompDict
+
+
+def main():
+    connection = Redis(host=REDIS_HOST, port=16836, password=REDIS_PASS)
+    logger.info('Creating scheduler')
+    scheduler = Scheduler('recurring', connection=connection, interval=5)
+    for job in scheduler.get_jobs():
+        queue_name = scheduler.get_queue_for_job(job).name
+        logger.info(f'queue: {queue_name} job: {job.description}')
+        if queue_name == 'recurring' or queue_name == 'default':
+            logger.info(f'cancelling job {job.description}')
+            scheduler.cancel(job)
+
+    scheduler.schedule(
+        # Time for first execution, in UTC timezone
+        scheduled_time=datetime.now() + timedelta(seconds=30),
+        func=scrape_and_save_comps,                     # Function to be queued
+        # Keyword arguments passed into function when executed
+        # Time before the function is called again, in seconds
+        interval=60*60*4,
+        # Repeat this number of times (None means repeat forever)
+        repeat=None,
+    )
+    # scheduler.schedule(
+    #     scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
+    #     func=scrape_and_save_players,                     # Function to be queued
+    #     # Keyword arguments passed into function when executed
+    #     # Time before the function is called again, in seconds
+    #     interval=60*60*24,
+    #     # Repeat this number of times (None means repeat forever)
+    #     repeat=None,
+    # )
+    logger.info(len(list(scheduler.get_jobs())))
+    logger.info('Running scheduler')
+    scheduler.run()
 
 
 if __name__ == '__main__':

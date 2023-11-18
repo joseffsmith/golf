@@ -191,12 +191,17 @@ def int_schedule_booking():
     #     comp_id:
     #     partnerIds
     # }
-
     json = request.json
+    comp_id = json['comp_id']
+    partnerIds = json['partnerIds']
     date = json['wait_until']
     hour = str(json['hour']).zfill(2)
     minute = str(json['minute']).zfill(2)
-    parsed = datetime.fromtimestamp(float(date))
+
+    if date:
+        parsed = datetime.fromtimestamp(float(date))
+    else:
+        parsed = datetime.now()
 
     wait_until = bst.localize(parsed).astimezone(pytz.utc)
     next_run_time = wait_until - timedelta(seconds=10)
