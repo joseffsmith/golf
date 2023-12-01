@@ -141,3 +141,10 @@ export const book_comp = async (
     partnerIds,
   });
 };
+
+export const currentBookings = selector({
+  key: "IntcurrentBookings",
+  get: async () => {
+    return (await axios.get("/int/curr_bookings/")).data;
+  },
+});

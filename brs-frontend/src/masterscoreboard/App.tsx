@@ -24,12 +24,14 @@ import {
   teeTimes,
   userName,
 } from "./atoms";
+import { Bookings } from "./Bookings";
 
 export const MasterScoreboard = () => {
   return (
     <>
       <Login />
       <Comps />
+      <Bookings />
     </>
   );
 };

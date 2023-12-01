@@ -95,8 +95,9 @@ def getCompsFromHtml(content):
                 strip=True).replace('Signup Opens at ', '').replace('on ', '')
 
             signupDatetime = dateutils.parse(date)
-            wait_until = bst.localize(signupDatetime).astimezone(pytz.utc)
-            next_run_time = (wait_until - timedelta(seconds=10)).timestamp()
+            next_run_time = bst.localize(
+                signupDatetime).astimezone(pytz.utc).timestamp()
+
         else:
             next_run_time = None
 

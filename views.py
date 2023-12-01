@@ -198,9 +198,12 @@ def int_schedule_booking():
     hour = str(json['hour']).zfill(2)
     minute = str(json['minute']).zfill(2)
 
+    logger.info(f'wait_until: {date}, hour: {hour}, minute: {minute}')
+
     if date:
         parsed = datetime.fromtimestamp(float(date))
     else:
+        logger.info("No date, using now")
         parsed = datetime.now()
 
     wait_until = bst.localize(parsed).astimezone(pytz.utc)

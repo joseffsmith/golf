@@ -62,9 +62,6 @@ def upsertComps(newComps):
     conn = get_redis_conn()
 
     dbCompDict = selectComps()
-    if not dbCompDict:
-        conn.mset(compDict)  # type: ignore
-        return
 
     for key, newComp in compDict.items():
         if key not in dbCompDict:

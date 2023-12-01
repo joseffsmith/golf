@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from redis import Redis
 from rq_scheduler import Scheduler
 
-from IntelligentGolf import getCompsFromHtml, getHtmlCompPage, intLogin
+
 from q import scrape_and_save_comps
 
 logging.basicConfig()
