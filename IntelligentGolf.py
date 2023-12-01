@@ -83,7 +83,7 @@ def getCompsFromHtml(content):
             date = raw_signupDatetime.get_text(
                 strip=True).replace('Signup Closes at ', '').replace('on ', '')
 
-            closeTime = dateutils.parse(date)
+            closeTime = dateutils.parse(date, dayfirst=True)
             close = (bst.localize(closeTime).astimezone(
                 pytz.utc)).timestamp()
         else:
@@ -94,7 +94,7 @@ def getCompsFromHtml(content):
             date = raw_signupDatetime.get_text(
                 strip=True).replace('Signup Opens at ', '').replace('on ', '')
 
-            signupDatetime = dateutils.parse(date)
+            signupDatetime = dateutils.parse(date, dayfirst=True)
             next_run_time = bst.localize(
                 signupDatetime).astimezone(pytz.utc).timestamp()
 
