@@ -4,7 +4,7 @@ import { atom, selector } from "recoil";
 export const currentBookings = selector({
   key: "currentBookings",
   get: async () => {
-    return (await axios.get("/brs/curr_bookings/")).data;
+    return (await axios.get("/api/curr_bookings/")).data;
   },
 });
 

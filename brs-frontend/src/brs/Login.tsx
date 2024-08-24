@@ -33,7 +33,7 @@ export const Login = () => {
     }
     setIsLoggingIn(true);
     axios
-      .get("/brs/login/", { params: { password } })
+      .get("/api/login/", { params: { password } })
       .then(() => {
         setIsLoggedIn(true);
       })
@@ -50,7 +50,15 @@ export const Login = () => {
   };
 
   return (
-    <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2, opacity: isLoggedIn ? .5 : 1 }}>
+    <Card
+      sx={{
+        maxWidth: "500px",
+        width: "95%",
+        overflow: "visible",
+        my: 2,
+        opacity: isLoggedIn ? 0.5 : 1,
+      }}
+    >
       <Box height={4}>{isLoggingIn && <LinearProgress />}</Box>
       <CardHeader title="BRS password" />
       <form

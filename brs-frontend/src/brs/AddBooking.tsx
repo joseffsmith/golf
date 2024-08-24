@@ -34,7 +34,7 @@ export const AddBooking = () => {
       return;
     }
     setIsBooking(true);
-    await axios.post("/brs/scheduler/booking/", {
+    await axios.post("/api/scheduler/booking/", {
       date: format(date, "yyyy/MM/dd"),
       hour,
       minute,

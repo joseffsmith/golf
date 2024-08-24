@@ -34,7 +34,7 @@ export const Bookings = () => {
   };
 
   const clearBookings = async () => {
-    await axios.get("/brs/clear_bookings/");
+    await axios.get("/api/clear_bookings/");
   };
   return (
     <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
@@ -115,7 +115,7 @@ const Booking = ({
   const cancelJob = async () => {
     setIsCancellingJob(true);
     try {
-      await axios.post("/brs/delete_booking/", { id });
+      await axios.post("/api/delete_booking/", { id });
     } finally {
       refreshBookings();
       setIsCancellingJob(false);

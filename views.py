@@ -8,11 +8,11 @@ from dotenv import load_dotenv
 from flask import Flask, Response, abort, jsonify, request
 from flask_cors import CORS
 
-import app
+# import app
 import brs_app
 import IntelligentGolf as int_app
-from Library import Library
-from MasterScoreboard import MasterScoreboard
+# from Library import Library
+# from MasterScoreboard import MasterScoreboard
 from q import create_connection, selectComps
 
 bst = pytz.timezone('Europe/London')
@@ -230,7 +230,7 @@ def int_schedule_booking():
 # BRS
 
 
-@flaskapp.route('/brs/login/', methods=['GET'])
+@flaskapp.route('/api/login/', methods=['GET'])
 def brs_login():
     password = request.args.get('password')
     if not password:
@@ -244,7 +244,7 @@ def brs_login():
     return jsonify(status='ok')
 
 
-@flaskapp.route('/brs/curr_bookings/', methods=['GET'])
+@flaskapp.route('/api/curr_bookings/', methods=['GET'])
 def brs_curr_bookings():
 
     scheduler = create_connection('brs')
@@ -260,7 +260,7 @@ def brs_curr_bookings():
     return resp
 
 
-@flaskapp.route('/brs/clear_bookings/', methods=['GET'])
+@flaskapp.route('/api/clear_bookings/', methods=['GET'])
 def brs_clear_bookings():
 
     scheduler = create_connection('brs')
@@ -274,7 +274,7 @@ def brs_clear_bookings():
     return resp
 
 
-@flaskapp.route('/brs/delete_booking/', methods=['POST'])
+@flaskapp.route('/api/delete_booking/', methods=['POST'])
 def brs_delete_booking():
 
     json = request.json
@@ -290,7 +290,7 @@ def brs_delete_booking():
     return resp
 
 
-@flaskapp.route('/brs/scheduler/booking/', methods=['POST'])
+@flaskapp.route('/api/scheduler/booking/', methods=['POST'])
 def brs_schedule_booking():
     json = request.json
     date = json['date']

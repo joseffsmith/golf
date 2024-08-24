@@ -1,9 +1,0 @@
-# flyctl launch added from .gitignore
-**/node_modules
-**/.DS_Store
-**/.env
-**/env
-**/_cache
-**/.vscode
-**/__pycache__
-**/build
