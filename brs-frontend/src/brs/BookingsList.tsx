@@ -1,4 +1,4 @@
-import { MoreVert } from "@mui/icons-material";
+import MoreVert from "@mui/icons-material/MoreVert";
 import {
   Card,
   Box,
