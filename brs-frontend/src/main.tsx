@@ -10,16 +10,19 @@ import { MasterScoreboard } from "./masterscoreboard/App";
 
 import "./index.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      { path: "brs", element: <Brs /> },
-      { path: "ms", element: <MasterScoreboard /> },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      children: [
+        { path: "brs", element: <Brs /> },
+        { path: "ms", element: <MasterScoreboard /> },
+      ],
+    },
+  ],
+  { basename: "/golf" }
+);
 const theme = createTheme({
   spacing: 4,
 });
