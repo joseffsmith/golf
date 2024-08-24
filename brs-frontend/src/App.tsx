@@ -11,6 +11,7 @@ import Layout from "./Layout";
 
 const api_url = import.meta.env.VITE_API_URL;
 const api_key = import.meta.env.VITE_API_SECRET;
+console.log(api_key);
 axios.defaults.baseURL = api_url;
 axios.defaults.headers["X-MS-JS-API-KEY"] = api_key;
 axios.defaults.headers["Content-Type"] = "application/json";
