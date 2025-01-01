@@ -85,6 +85,10 @@ def book_job(date, hour, minute, wait_until):
 
     _token = b.find(attrs={'name': '_token'}).get('value')
 
+    logger.info(f'token: {_token}')
+
+    logger.info(f'b pretty printed {b.prettify()}')
+
     logger.info(f'Booking...')
     resp = session.post(f"https://members.brsgolf.com/thevalehotelspa/bookings/store/1/{date.replace('/', '')}/{book_time.replace(':', '')}", data={
         # "member_booking_form[token]": token,
