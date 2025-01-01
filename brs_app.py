@@ -97,7 +97,7 @@ def book_job(date, hour, minute, wait_until):
         "member_booking_form[player_3]": 1104,
         "member_booking_form[player_4]": 1105,
         "member_booking_form[vendor-tx-code]": "",
-        "member_booking_form[_token]": _token
+        "_token": _token
     })
     logger.info(f'Booked: {resp.status_code}')
     sentry_sdk.capture_message('Booked')
