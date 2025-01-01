@@ -80,12 +80,12 @@ def book_job(date, hour, minute, wait_until):
 
     b = bs4.BeautifulSoup(resp.content, features='html.parser')
 
-    token = b.find(attrs={'name': 'member_booking_form[token]'}).get('value')
+    # token = b.find(attrs={'name': 'member_booking_form[token]'}).get('value')
     _token = b.find(attrs={'id': 'member_booking_form__token'}).get('value')
 
     logger.info(f'Booking...')
     resp = session.post(f"https://members.brsgolf.com/thevalehotelspa/bookings/store/1/{date.replace('/', '')}/{book_time.replace(':', '')}", data={
-        "member_booking_form[token]": token,
+        # "member_booking_form[token]": token,
         "member_booking_form[player_1]": 1102,
         "member_booking_form[player_2]": 1103,
         "member_booking_form[player_3]": 1104,
