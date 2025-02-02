@@ -113,7 +113,7 @@ def getCompsFromHtml(content):
         comp = {
             'id': int(t.find('input', attrs={'name': 'compid'}).get('value')),
             'name': t.find('div', attrs={'class': 'comp-name'}).find('a').get_text(strip=True).replace('\n', ' '),
-            'date': t.find('div', attrs={'class': 'comp-date'}).get_text(strip=True),
+            'date': t.find('div', attrs={'class': 'comp-date'}).get_text(strip=True).replace("  ", " "),
             'signup-date': next_run_time,
             'signup-close': close
         }

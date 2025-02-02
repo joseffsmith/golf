@@ -38,18 +38,18 @@ def before_request():
     if key != API_SECRET:
         abort(401)
 
-@flaskapp.route('/curr_comps/', methods=['GET'])
+@flaskapp.route('/api/int/curr_comps/', methods=['GET'])
 def curr_comps():
     comps = int_app.selectComps()
     return jsonify(status='ok', comps=comps)
 
 
-@flaskapp.route('/curr_players/', methods=['GET'])
+@flaskapp.route('/api/int/curr_players/', methods=['GET'])
 def curr_players():
     return jsonify(status='ok', players=int_app.players)
 
 
-@flaskapp.route('/int/login/', methods=['GET'])
+@flaskapp.route('/api/int/login/', methods=['GET'])
 def int_login():
     password = request.args.get('password')
     if not password:
@@ -63,7 +63,7 @@ def int_login():
     return jsonify(status='ok')
 
 
-@flaskapp.route('/int/curr_bookings/', methods=['GET'])
+@flaskapp.route('/api/int/curr_bookings/', methods=['GET'])
 def int_curr_bookings():
 
     scheduler = create_connection('int')
@@ -79,7 +79,7 @@ def int_curr_bookings():
     return resp
 
 
-@flaskapp.route('/int/clear_bookings/', methods=['GET'])
+@flaskapp.route('/api/int/clear_bookings/', methods=['GET'])
 def int_clear_bookings():
 
     scheduler = create_connection('int')
@@ -93,7 +93,7 @@ def int_clear_bookings():
     return resp
 
 
-@flaskapp.route('/int/delete_booking/', methods=['POST'])
+@flaskapp.route('/api/int/delete_booking/', methods=['POST'])
 def int_delete_booking():
 
     json = request.json
@@ -109,7 +109,7 @@ def int_delete_booking():
     return resp
 
 
-@flaskapp.route('/int/scheduler/booking/', methods=['POST'])
+@flaskapp.route('/api/int/scheduler/booking/', methods=['POST'])
 def int_schedule_booking():
     # {
     #     wait_until: timestamp
@@ -268,5 +268,5 @@ def brs_schedule_booking():
 flaskapp.debug = True
 
 if __name__ == '__main__':
-    flaskapp.run(port=5000)
+    flaskapp.run(port=8000)
     logger.info('Enqueuing jobs')

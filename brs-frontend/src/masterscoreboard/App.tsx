@@ -1,14 +1,17 @@
 import {
+  Autocomplete,
+  AutocompleteOption,
   Box,
   Card,
   CardContent,
-  // CardHeader,
-  LinearProgress,
+  ListItemContent,
+  Typography,
 } from "@mui/joy";
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import {
   book_comp,
+  Comp,
   comps,
   currComp,
   passWord,
@@ -21,7 +24,9 @@ import { Login } from "./Login";
 export const MasterScoreboard = () => {
   return (
     <>
-      <Login />
+      <Box display={"flex"} width="100%" justifyContent={"flex-end"} p={2}>
+        <Login />
+      </Box>
       <Comps />
       {/* <Bookings /> */}
     </>
@@ -39,6 +44,7 @@ const Comps = () => {
   const username = useRecoilValue(userName);
   const password = useRecoilValue(passWord);
 
+  console.log(compsAtom);
   const tee_times = useRecoilValue(teeTimes);
   const handleSubmitJob = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -54,35 +60,41 @@ const Comps = () => {
     );
   };
   return (
-    <Card
-      sx={{
-        maxWidth: "500px",
-        width: "95%",
-        overflow: "visible",
-        my: 2,
-      }}
+    <Box
+      maxWidth={450}
+      margin={"0 auto"}
+      display={"flex"}
+      flexDirection={"column"}
+      rowGap={2}
     >
-      <Box height={"4px"}>
-        {compsAtom.state === "loading" && <LinearProgress />}
-      </Box>
-      {/* <CardHeader title="Book comp" /> */}
-      <CardContent
-        sx={{
-          alignItems: "flex-start",
-          flexDirection: "column",
-          display: "flex",
-        }}
-      >
-        {compsAtom.state === "hasValue" && (
-          <>
-            {/* <FormControlLabel
+      <Card sx={{}}>
+        <Typography level="title-lg">Choose comp</Typography>
+        {/* <CardHeader title="Book comp" /> */}
+        <CardContent sx={{}}>
+          <Autocomplete
+            options={Object.values(compsAtom.contents ?? []) as Comp[]}
+            value={comp}
+            onChange={(e, val) => setCurrComp(val)}
+            getOptionLabel={(opt) => opt.date}
+            renderOption={(props, val) => (
+              <AutocompleteOption key={val.date + val.name} {...props}>
+                <ListItemContent>
+                  <Typography level="title-md">{val.date}</Typography>
+                  <Typography level="body-sm">{val.name}</Typography>
+                </ListItemContent>
+              </AutocompleteOption>
+            )}
+          />
+          {compsAtom.state === "hasValue" && (
+            <>
+              {/* <FormControlLabel
               checked={showLadiesComps}
               onChange={() => setShowLadiesComps(!showLadiesComps)}
               control={<Switch />}
               label="Show ladies comps"
               sx={{ mb: 1 }}
             /> */}
-            {/* <Autocomplete
+              {/* <Autocomplete
               fullWidth
               value={comp}
               onChange={(e, val) => setCurrComp(val)}
@@ -125,10 +137,11 @@ const Comps = () => {
                 Book
               </Button>
             </Box> */}
-          </>
-        )}
-      </CardContent>
-    </Card>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 

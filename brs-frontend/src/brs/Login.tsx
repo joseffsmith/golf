@@ -2,16 +2,16 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
   Box,
-  LinearProgress,
-  Input,
-  IconButton,
   Button,
-  ModalDialog,
-  DialogTitle,
-  DialogContent,
-  Modal,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Input,
+  LinearProgress,
+  Modal,
   ModalClose,
+  ModalDialog,
 } from "@mui/joy";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
@@ -23,9 +23,8 @@ export const Login = () => {
   const [changingPassword, setChangingPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedIn);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [password, _setPassword] = useState(
-    localStorage.getItem("brs-password") ?? ""
-  );
+  const initialPassword = localStorage.getItem("brs-password") ?? "";
+  const [password, _setPassword] = useState(initialPassword);
   const [passwordVisible, setPasswordVisibility] = useState(false);
   const setErrors = useSetRecoilState(errors);
 
@@ -40,6 +39,7 @@ export const Login = () => {
       .then(() => {
         setIsLoggedIn(true);
         localStorage.setItem("brs-password", password);
+        setChangingPassword(false);
       })
       .catch((err) => {
         setErrors((errors) => [...errors, new AxiosError("Login failed")]);
@@ -57,7 +57,7 @@ export const Login = () => {
     <>
       <Button onClick={() => setChangingPassword(true)}>Change Password</Button>
       <Modal
-        open={!password || changingPassword}
+        open={!initialPassword || changingPassword}
         onClose={() => setChangingPassword(false)}
       >
         <ModalDialog>

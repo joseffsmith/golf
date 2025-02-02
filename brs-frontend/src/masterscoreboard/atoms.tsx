@@ -26,7 +26,7 @@ export const comps = selector<Comp[]>({
   key: "MScomps",
   get: async () => {
     const resp = await axios.get<{ comps: { [key: string]: Comp } }>(
-      "/curr_comps/"
+      "/api/int/curr_comps/"
     );
     return Object.values(resp.data.comps);
   },
@@ -35,7 +35,9 @@ export const comps = selector<Comp[]>({
 export const bookings = selector<Booking[]>({
   key: "MSbookings",
   get: async () => {
-    const resp = await axios.get<{ bookings: Booking[] }>("/curr_bookings/");
+    const resp = await axios.get<{ bookings: Booking[] }>(
+      "/api/int/curr_bookings/"
+    );
     return resp.data.bookings;
   },
 });
@@ -44,7 +46,7 @@ export const players = selector<Array<{ id: string; name: string }>>({
   get: async () => {
     const resp = await axios.get<{
       players: Array<{ id: string; name: string }>;
-    }>("/curr_players/");
+    }>("/api/int/curr_players/");
     return resp.data.players;
   },
 });
@@ -104,28 +106,6 @@ export const sortedPlayers = selector({
   },
 });
 
-export const preferredPlayers = selector({
-  key: "preferredPlayers",
-  get: ({ get }) => {
-    const ps = get(players);
-    return Object.fromEntries(
-      [
-        "254:~:Smith, Tony ",
-        "101:~:Griffith, Rhys ",
-        "61:~:Davies, Jeff ",
-        "26:~:Brown, Tony Paul ",
-        "141:~:Jenkins, Andrew ",
-        "1401:~:Griffith, Steffan ",
-      ].map((a) => {
-        return [a, ps[a]];
-      })
-    );
-  },
-});
-export const testPass = async (username, password) => {
-  return await axios.post(`/test_pass/`, { username, password });
-};
-
 export const book_comp = async (
   comp_id: string,
   signup_date: number,
@@ -133,7 +113,7 @@ export const book_comp = async (
   minute: string,
   partnerIds: string[]
 ) => {
-  return await axios.post("/int/scheduler/booking/", {
+  return await axios.post("/api/int/scheduler/booking/", {
     comp_id,
     wait_until: signup_date,
     hour,
@@ -141,10 +121,3 @@ export const book_comp = async (
     partnerIds,
   });
 };
-
-export const currentBookings = selector({
-  key: "IntcurrentBookings",
-  get: async () => {
-    return (await axios.get("/int/curr_bookings/")).data;
-  },
-});
