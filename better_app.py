@@ -115,7 +115,7 @@ def tryBookSquash():
     now_london = now_utc.astimezone(london_tz)
     
     # If it’s exactly 10:00 PM in the UK, run the job
-    if now_london.hour == 22 and now_london.minute == 0:
+    if now_london.hour == 22:
         logger.info(f"[RUNNING] It's 10 PM in the UK. London time: {now_london}")
         bookTime((now_london + timedelta(days=7)).strftime("%Y-%m-%d"))
 

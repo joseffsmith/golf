@@ -48,7 +48,7 @@ def main():
             
     # schedule a job for every day at 10pm uk time to booktime
     squash_scheduler.cron(
-        cron_string="0 * * * 1-5",      # Every hour on the hour, Monday–Friday
+        cron_string="1 * * * *",# 1-5 Every hour on the hour, Monday–Friday
         func=tryBookSquash,       # The function defined above
         queue_name='squash'
     )
