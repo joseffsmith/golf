@@ -20,7 +20,7 @@ from better_app import tryBookSquash
 
 def main():
     if not REDIS_HOST:
-        raise Exception('REDIS_HOST and REDIS_PASS must be set in .env')
+        raise Exception('REDIS_HOST must be set in .env')
     
     connection = Redis(host=REDIS_HOST, port=6379, password=REDIS_PASS)
     

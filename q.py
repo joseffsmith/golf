@@ -24,7 +24,7 @@ PASSWORD = os.getenv('INT_PASSWORD')
 
 
 def get_redis_conn():
-    if not REDIS_HOST or not REDIS_PASS:
+    if not REDIS_HOST:
         raise Exception('REDIS_HOST and REDIS_PASS must be set in .env')
     return Redis(
         host=REDIS_HOST,
@@ -34,7 +34,7 @@ def get_redis_conn():
 
 
 def create_connection(name):
-    if not REDIS_HOST or not REDIS_PASS:
+    if not REDIS_HOST:
         raise Exception('REDIS_HOST and REDIS_PASS must be set in .env')
     redis_conn = Redis(
         host=REDIS_HOST,
