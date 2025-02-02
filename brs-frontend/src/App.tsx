@@ -1,9 +1,9 @@
-import "./App.css";
 import { Snackbar } from "@mui/joy";
 import axios from "axios";
-import { errors } from "./atoms";
-import { useRecoilState } from "recoil";
 import { Outlet } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import "./App.css";
+import { errors } from "./atoms";
 import Layout from "./Layout";
 
 const api_key = import.meta.env.VITE_API_SECRET;
@@ -28,9 +28,9 @@ const App = () => {
       <Layout>
         <Outlet />
       </Layout>
-      {errs.map((err) => (
+      {errs.map((err, idx) => (
         <Snackbar
-          key={err.message}
+          key={err.message + idx}
           open
           color="danger"
           variant="soft"

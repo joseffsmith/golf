@@ -1,30 +1,22 @@
 import {
-  Autocomplete,
   Box,
-  Button,
   Card,
   CardContent,
   // CardHeader,
   LinearProgress,
-  MenuItem,
-  Select,
-  Input,
 } from "@mui/joy";
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import { Login } from "./Login";
-import { TeeTimes } from "./TeeTimes";
 import {
   book_comp,
   comps,
   currComp,
-  loggedIn,
   passWord,
   sortedPlayers,
   teeTimes,
   userName,
 } from "./atoms";
-import { Bookings } from "./Bookings";
+import { Login } from "./Login";
 
 export const MasterScoreboard = () => {
   return (
@@ -46,7 +38,6 @@ const Comps = () => {
   const [partner3, setPartner3] = useState<string | null>(null);
   const username = useRecoilValue(userName);
   const password = useRecoilValue(passWord);
-  const isLoggedIn = useRecoilValue(loggedIn);
 
   const tee_times = useRecoilValue(teeTimes);
   const handleSubmitJob = (e: React.MouseEvent) => {

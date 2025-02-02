@@ -1,20 +1,17 @@
 import MoreVert from "@mui/icons-material/MoreVert";
 import {
-  Card,
   Box,
-  LinearProgress,
-  IconButton,
-  Menu,
-  MenuItem,
+  Button,
+  Card,
   CardContent,
+  Dropdown,
   List,
   ListItem,
-  Button,
-  Typography,
-  Dropdown,
-  MenuButton,
-  ListItemButton,
   ListItemContent,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Typography,
 } from "@mui/joy";
 import axios from "axios";
 import moment from "moment";
@@ -40,33 +37,36 @@ export const Bookings = () => {
   };
   return (
     <Card sx={{ position: "relative" }}>
-      <Box height={"4px"}>
-        {bookings.state === "loading" && <LinearProgress />}
-      </Box>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Typography level="title-lg">Scheduled</Typography>
+        <Dropdown>
+          <MenuButton aria-label="settings">
+            <MoreVert />
+          </MenuButton>
 
-      <Typography level="title-lg">Scheduled</Typography>
-      <Dropdown>
-        <MenuButton onClick={handleClick} aria-label="settings">
-          <MoreVert />
-        </MenuButton>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
-          <MenuItem
-            color="danger"
-            onClick={async () => {
-              await clearBookings();
-              refreshBookings();
-              handleClose();
-            }}
+          <Menu
+            id="basic-menu"
+            // anchorEl={anchorEl}
+            // open={open}
+            // onClose={handleClose}
           >
-            Clear bookings
-          </MenuItem>
-        </Menu>
-      </Dropdown>
+            <MenuItem
+              color="danger"
+              onClick={async () => {
+                await clearBookings();
+                refreshBookings();
+                // handleClose();
+              }}
+            >
+              Clear bookings
+            </MenuItem>
+          </Menu>
+        </Dropdown>
+      </Box>
 
       {bookings.state === "hasValue" && (
         <CardContent>
@@ -120,25 +120,24 @@ const Booking = ({
   };
   return (
     <ListItem
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
-      <ListItemContent>
-        <Typography>
-          Comp date: {date}, time: {hour}:{minute}
-        </Typography>
-        {waitUntil ? (
-          <Typography>`Booking ${moment(waitUntil).fromNow()}`</Typography>
-        ) : null}
-      </ListItemContent>
-      <ListItemButton>
+      endAction={
         <Button disabled={isCancellingJob} onClick={cancelJob}>
           Cancel
         </Button>
-      </ListItemButton>
+      }
+    >
+      <ListItemContent>
+        <Typography level="title-sm">
+          Comp date: {date}, time: {hour}:{minute}
+        </Typography>
+        {waitUntil ? (
+          <Typography level="body-sm">
+            `Booking ${moment(waitUntil).fromNow()}`
+          </Typography>
+        ) : (
+          "Booking within 30 seconds"
+        )}
+      </ListItemContent>
     </ListItem>
   );
 };

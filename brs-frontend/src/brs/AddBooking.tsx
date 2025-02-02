@@ -1,25 +1,23 @@
 import {
-  Card,
   Box,
-  LinearProgress,
+  Button,
+  Card,
+  CardActions,
   // CardHeader,
   CardContent,
-  Input,
-  Option,
-  Typography,
-  Button,
-  Select,
   FormControl,
   FormLabel,
-  CardActions,
+  Option,
+  Select,
+  Typography,
 } from "@mui/joy";
-import { FormControlLabel, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import axios from "axios";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
-import { currentBookings, loggedIn } from "./atoms";
+import { useRecoilRefresher_UNSTABLE } from "recoil";
+import { currentBookings } from "./atoms";
 
 export const AddBooking = () => {
   var nextWeek = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -27,11 +25,15 @@ export const AddBooking = () => {
   const [hour, setHour] = useState(8);
   const [minute, setMinute] = useState(30);
   const [isBooking, setIsBooking] = useState(false);
-  const isLoggedIn = useRecoilValue(loggedIn);
 
   const refreshBookings = useRecoilRefresher_UNSTABLE(currentBookings);
 
   const handleAddBooking = async () => {
+    const password = localStorage.getItem("brs-password");
+    if (!password) {
+      alert("Please set a password first");
+      return;
+    }
     if (isBooking) {
       return;
     }
@@ -43,13 +45,13 @@ export const AddBooking = () => {
       date: format(date, "yyyy/MM/dd"),
       hour,
       minute,
+      password: localStorage.getItem("brs-password"),
     });
     refreshBookings();
     setIsBooking(false);
   };
   return (
     <Card>
-      <Box height={"4px"}>{isBooking && <LinearProgress />}</Box>
       <Typography level="h4">Add booking</Typography>
       <CardContent>
         <form
@@ -58,19 +60,19 @@ export const AddBooking = () => {
             handleAddBooking();
           }}
         >
-          <Box>
+          <FormControl sx={{ my: 1 }}>
+            <FormLabel>Date</FormLabel>
             <DatePicker
+              InputProps={{ size: "small" }}
               value={date}
               onChange={(e) => setDate(e)}
               inputFormat={"EEEE do MMM yyyy"}
               showDaysOutsideCurrentMonth
               disableMaskedInput
               renderInput={(params) => <TextField fullWidth {...params} />}
-              // renderInput={(params) => <TextField {...params} />}
-              label="date"
             />
-          </Box>
-          <Box display="flex" alignItems="flex-end" width={"100%"}>
+          </FormControl>
+          <Box display="flex" alignItems="flex-end" width={"100%"} gap={1}>
             <FormControl sx={{ flexGrow: 1 }}>
               <FormLabel>Hour</FormLabel>
               <Select
@@ -93,7 +95,9 @@ export const AddBooking = () => {
                 <Option value={18}>18</Option>
               </Select>
             </FormControl>
-            <Typography level="body-lg">:</Typography>
+            <Typography level="body-lg" sx={{ mb: 1 }}>
+              :
+            </Typography>
             <FormControl sx={{ flexGrow: 1 }}>
               <FormLabel>Minute</FormLabel>
               <Select
@@ -111,10 +115,7 @@ export const AddBooking = () => {
             </FormControl>
           </Box>
           <CardActions>
-            <Button
-              disabled={isBooking || !isLoggedIn}
-              onClick={handleAddBooking}
-            >
+            <Button disabled={isBooking} onClick={handleAddBooking}>
               Book
             </Button>
           </CardActions>

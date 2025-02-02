@@ -278,6 +278,9 @@ def brs_clear_bookings():
 def brs_delete_booking():
 
     json = request.json
+    if not json:
+        raise Exception('No json')
+    
     job_id = json['id']
 
     scheduler = create_connection('brs')
@@ -293,6 +296,19 @@ def brs_delete_booking():
 @flaskapp.route('/api/scheduler/booking/', methods=['POST'])
 def brs_schedule_booking():
     json = request.json
+    if not json:
+        raise Exception('No json')
+    
+    password=json['password']
+    if not password:
+         abort(401, 'No password')
+    try:
+        brs_app.login(password)
+    except Exception as e:
+        logger.exception(e)
+        abort(400, 'Failed to login')
+    
+    
     date = json['date']
     hour = str(json['hour']).zfill(2)
     minute = str(json['minute']).zfill(2)
