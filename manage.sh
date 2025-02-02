@@ -1,5 +1,5 @@
 #!/bin/bash
-# manage.sh - Restart services and tail logs with prefixed service names.
+# manage.sh - Manage systemd services and view logs with prefixed output.
 
 # Define your service names and their corresponding log files.
 SERVICES=("app.service" "worker.service" "scheduler.service")
@@ -20,29 +20,31 @@ restart_services() {
   done
 }
 
-# Function to tail logs from now, prefixing each line with the service name.
+# Function to tail logs: include the last 10 lines from each log and then tail new lines,
+# prefixing each output line with the service name.
 tail_logs() {
   for i in "${!SERVICES[@]}"; do
     service="${SERVICES[$i]}"
-    # Remove the .service extension for the prefix.
+    # Remove the .service extension to use as the prefix.
     prefix="${service%%.*}"
     logfile="${LOGFILES[$i]}"
     
-    # Ensure the log file exists so tail -f doesn't exit.
+    # Ensure the log file exists so tail -f doesn't exit immediately.
     if [ ! -f "${logfile}" ]; then
       touch "${logfile}"
     fi
 
     echo "Tailing logs for [${prefix}] from ${logfile}..."
-    # tail from now (-n0), then pipe through sed to add the prefix.
-    tail -n 0 -f "${logfile}" | sed "s/^/[$prefix] /" &
+    # Tail the last 10 lines and then follow new lines, piping each line through sed
+    # to prepend the prefix.
+    tail -n 10 -f "${logfile}" | sed "s/^/[$prefix] /" &
   done
 
   # Wait for all background tail processes.
   wait
 }
 
-# Main: Check for exactly one argument.
+# Main script: Check for exactly one argument.
 if [ "$#" -ne 1 ]; then
   echo "Usage: $0 {restart|logs}"
   exit 1
