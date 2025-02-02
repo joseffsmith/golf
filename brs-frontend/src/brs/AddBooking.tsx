@@ -5,6 +5,7 @@ import {
   CardActions,
   // CardHeader,
   CardContent,
+  CircularProgress,
   FormControl,
   FormLabel,
   Option,
@@ -116,7 +117,7 @@ export const AddBooking = () => {
           </Box>
           <CardActions>
             <Button disabled={isBooking} onClick={handleAddBooking}>
-              Book
+              {isBooking ? <CircularProgress /> : "Book"}
             </Button>
           </CardActions>
         </form>
