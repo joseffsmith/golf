@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=/var/www/golf
-Environment="RQ_REDIS_URL=redis://localhost:6379"
+Environment=RQ_REDIS_URL="redis://127.0.0.1:6379"
 Environment="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
 ExecStart=/var/www/golf/.venv/bin/rq worker squash recurring golf brs int --logging_level DEBUG --url="$RQ_REDIS_URL"
 
