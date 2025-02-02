@@ -11,7 +11,7 @@ ExecStart=/var/www/golf/env/bin/gunicorn views:flaskapp
 
 # Redirect output and error logs to files:
 StandardOutput=append:/var/log/golf/app.log
-StandardError=append:/var/log/golf/app_error.log
+StandardError=append:/var/log/golf/app.log
 
 Restart=always
 

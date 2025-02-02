@@ -9,7 +9,7 @@ Environment=RQ_REDIS_URL=redis://localhost:6379
 ExecStart=/var/www/golf/env/bin/rq worker recurring squash golf brs int --url=${RQ_REDIS_URL} --sentry-dsn=https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664
 
 StandardOutput=append:/var/log/golf/worker.log
-StandardError=append:/var/log/golf/worker_error.log
+StandardError=append:/var/log/golf/worker.log
 
 Restart=always
 
