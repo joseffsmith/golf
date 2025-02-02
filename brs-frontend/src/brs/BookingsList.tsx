@@ -132,7 +132,7 @@ const Booking = ({
         </Typography>
         {waitUntil ? (
           <Typography level="body-sm">
-            `Booking ${moment(waitUntil).fromNow()}`
+            Booking {moment(waitUntil).fromNow()}
           </Typography>
         ) : (
           "Booking within 30 seconds"
