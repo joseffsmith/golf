@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 import pytz
 import sentry_sdk
 from dotenv import load_dotenv
-from flask import Flask, Response, abort, jsonify, request
+from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 import brs_app
 import IntelligentGolf as int_app
-from q import selectComps
+
 from redis_helpers import create_connection
 
 bst = pytz.timezone('Europe/London')
@@ -40,7 +40,7 @@ def before_request():
 
 @flaskapp.route('/curr_comps/', methods=['GET'])
 def curr_comps():
-    comps = selectComps()
+    comps = int_app.selectComps()
     return jsonify(status='ok', comps=comps)
 
 
