@@ -11,6 +11,7 @@
 ##############################
 SERVICES=("app.service" "worker.service" "scheduler.service")
 LOGFILES=("/var/log/golf/app.log" "/var/log/golf/worker.log" "/var/log/golf/scheduler.log")
+LOCKFILE="/tmp/manage_logs.lock"
 
 ##############################
 # Functions for systemd-based commands
@@ -29,6 +30,21 @@ restart_services() {
 }
 
 tail_logs() {
+  # Kill any existing tail processes that are tailing our log files.
+  for logfile in "${LOGFILES[@]}"; do
+    # The pattern below uses the logfile path to match running tail commands.
+    pkill -f "tail -n 10 -f ${logfile}" >/dev/null 2>&1
+  done
+
+  # Create a lock file to prevent multiple invocations.
+  if [ -e "$LOCKFILE" ]; then
+    echo "Logs are already being tailed. Please stop the existing tail process before starting a new one."
+    exit 1
+  fi
+  touch "$LOCKFILE"
+  # Ensure the lock file is removed on exit.
+  trap 'rm -f "$LOCKFILE"; exit' SIGINT SIGTERM EXIT
+
   for i in "${!SERVICES[@]}"; do
     service="${SERVICES[$i]}"
     # Use the service name (without .service extension) as the prefix.
@@ -41,10 +57,12 @@ tail_logs() {
     fi
 
     echo "Tailing logs for [${prefix}] from ${logfile}..."
-    # Show the last 10 lines and then follow new lines, prefixing each line with the service name.
+    # Start tailing in the background. The pattern in pkill above will match these commands.
     tail -n 10 -f "${logfile}" | sed "s/^/[$prefix] /" &
   done
+
   wait
+  rm -f "$LOCKFILE"
 }
 
 ##############################
