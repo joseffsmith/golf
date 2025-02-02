@@ -1,0 +1,16 @@
+[Unit]
+Description=Scheduler Service
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/var/www/golf
+ExecStart=/var/www/golf/env/bin/python q_funcs.py
+
+StandardOutput=append:/var/log/golf/scheduler.log
+StandardError=append:/var/log/golf/scheduler_error.log
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
