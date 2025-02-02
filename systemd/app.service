@@ -7,7 +7,7 @@ User=root
 WorkingDirectory=/var/www/golf
 # If your app needs environment variables, you can specify them here:
 Environment=RQ_REDIS_URL=redis://localhost:6379
-ExecStart=/var/www/golf/env/bin/gunicorn views:flaskapp
+ExecStart=/var/www/golf/.venv/bin/gunicorn views:flaskapp
 
 # Redirect output and error logs to files:
 StandardOutput=append:/var/log/golf/app.log
