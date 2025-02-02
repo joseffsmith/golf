@@ -10,7 +10,7 @@ Environment="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
 ExecStart=/bin/sh -c '/var/www/golf/.venv/bin/rq worker squash recurring golf brs int --logging_level DEBUG --url="$RQ_REDIS_URL"'
 
 StandardOutput=append:/var/log/golf/worker.log
-StandardError=append:/var/log/golf/worker.log
+StandardError=inherit
 
 Restart=always
 
