@@ -4,38 +4,48 @@ requirements
 node >= 12 (untested)
 python3 >= 3.8
 
-## Backend setup
+## Dev backend setup
 
 ```
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
-optionally remove all dependencies and let them install fresh
-
-
-## Frontend setup
-
-```
-cd Frontend
-npm i
-```
 
 ## Running dev environment
 
-Make sure env variables setup
+### API (app)
 
-### API
 ```
-FLASK_APP=views.py:flaskapp FLASK_ENV=development python -m flask run --debugger
+/var/www/golf/env/bin/gunicorn views:flaskapp
 ```
 
 ### Scheduler
-Run with `heroku local` and Procfile (comment out worker/API line, don't need gunicorn for local API)
+
+```
+/var/www/golf/env/bin/python q_funcs.py
+```
+
+### Worker
+
+runs all the different 'queues' of jobs, 'squash', 'golf', 'brs', 'int'
+
+```
+/var/www/golf/env/bin/rq worker recurring squash golf brs int --url=${RQ_REDIS_URL} --sentry-dsn=https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664
+```
 
 ### Frontend
-```
-npm start
-```
 
-available at http://localhost:3000
+in 'brs_frontend', install deps and npm run dev
+
+## Prod setup
+
+all the systemd scripts necessary are in 'systemd' folder, symlink them to /etc/systemd/system then restart systemd
+
+logs can be accessed via `./manage.sh logs`
+
+can restart services on code change via `./manage.sh restart`
+
+frontend needs to be built from `brs_frontend`
+
+an nginx is needed to connect all this together
