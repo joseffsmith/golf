@@ -7,7 +7,9 @@ import { errors } from "./atoms";
 import Layout from "./Layout";
 
 const api_key = import.meta.env.VITE_API_SECRET;
-console.log(api_key);
+if (!api_key) {
+  throw new Error("API key not found");
+}
 axios.defaults.baseURL = "/";
 axios.defaults.headers["X-MS-JS-API-KEY"] = api_key;
 axios.defaults.headers["Content-Type"] = "application/json";
