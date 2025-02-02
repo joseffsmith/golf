@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 
 load_dotenv()
 
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

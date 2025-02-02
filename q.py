@@ -12,7 +12,7 @@ from IntelligentGolf import getCompsFromHtml, getHtmlCompPage, intLogin
 
 # from app import scrape_and_save_comps, scrape_and_save_players
 
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 load_dotenv()

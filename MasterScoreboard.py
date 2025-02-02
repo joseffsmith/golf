@@ -9,7 +9,7 @@ PASSWORD = os.getenv('MS_PASSWORD')
 USERNAME = os.getenv('MS_USERNAME')
 BASE_URL = os.getenv('BASE_URL')
 COMP_URL = os.getenv('COMP_URL')
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

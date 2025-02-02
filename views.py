@@ -24,7 +24,7 @@ sentry_sdk.init(
 flaskapp = Flask(__name__)
 CORS(flaskapp)
 
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

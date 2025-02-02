@@ -9,7 +9,7 @@ from datetime import datetime
 import sentry_sdk
 load_dotenv()
 
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

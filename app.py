@@ -8,7 +8,7 @@ from Parser import Parser
 from Library import Library, DB
 from datetime import datetime
 
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

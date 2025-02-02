@@ -2,7 +2,7 @@ import bs4
 from dateutil import parser
 
 import logging
-logging.basicConfig()
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
