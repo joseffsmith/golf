@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-from datetime import datetime, timedelta
 
 import sentry_sdk
 from dotenv import load_dotenv
@@ -10,7 +9,6 @@ from rq_scheduler import Scheduler
 
 from IntelligentGolf import getCompsFromHtml, getHtmlCompPage, intLogin
 
-# from app import scrape_and_save_comps, scrape_and_save_players
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -20,7 +18,7 @@ load_dotenv()
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PASS = os.getenv('REDIS_PASS')
 
-PASSWORD = os.getenv('INT_PASSWORD')
+INT_PASSWORD = os.getenv('INT_PASSWORD')
 
 
 def get_redis_conn():
@@ -53,7 +51,7 @@ def get_jobs_in_queue(name='test'):
 
 
 def scrape_and_save_comps():
-    session = intLogin(PASSWORD)
+    session = intLogin(INT_PASSWORD)
     content = getHtmlCompPage(session)
     comps = getCompsFromHtml(content)
     upsertComps(comps)

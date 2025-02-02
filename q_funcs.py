@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import logging
 import os
 
@@ -5,6 +6,9 @@ import sentry_sdk
 from dotenv import load_dotenv
 from redis import Redis
 from rq_scheduler import Scheduler
+
+from q import scrape_and_save_comps
+from better_app import tryBookSquash
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -14,9 +18,6 @@ load_dotenv()
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PASS = os.getenv('REDIS_PASS')
 
-PASSWORD = os.getenv('INT_PASSWORD')
-
-from better_app import tryBookSquash
 
 def main():
     if not REDIS_HOST:
@@ -34,7 +35,7 @@ def main():
         if queue_name == 'recurring' or queue_name == 'default' or queue_name == 'squash':
             logger.info(f'cancelling job {job.description}')  # type: ignore
             scheduler.cancel(job)
-            
+                        
     logger.info('Creating scheduler squash')
     
     squash_scheduler = Scheduler('squash', connection=connection, interval=5)
@@ -53,16 +54,16 @@ def main():
         queue_name='squash'
     )
 
-    # scheduler.schedule(
-    #     # Time for first execution, in UTC timezone
-    #     scheduled_time=datetime.now() + timedelta(minutes=5),
-    #     func=scrape_and_save_comps,                     # Function to be queued
-    #     # Keyword arguments passed into function when executed
-    #     # Time before the function is called again, in seconds
-    #     interval=60*60*4,
-    #     # Repeat this number of times (None means repeat forever)
-    #     repeat=None,
-    # )
+    scheduler.schedule(
+        # Time for first execution, in UTC timezone
+        scheduled_time=datetime.now() + timedelta(seconds=5),
+        func=scrape_and_save_comps,                     # Function to be queued
+        # Keyword arguments passed into function when executed
+        # Time before the function is called again, in seconds
+        interval=60*60*4,
+        # Repeat this number of times (None means repeat forever)
+        repeat=None,
+    )
     
     # scheduler.schedule(
     #     scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
@@ -73,7 +74,8 @@ def main():
     #     # Repeat this number of times (None means repeat forever)
     #     repeat=None,
     # )
-    logger.info(len(list(scheduler.get_jobs())))
+    logger.info('Scheduled jobs')
+    logger.info(f"all jobs scheduled: {list(scheduler.get_jobs())}")
     logger.info('Running scheduler')
     scheduler.run()
 

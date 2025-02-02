@@ -54,6 +54,7 @@ tail_logs() {
 dev_env() {
   # Set a local Redis URL for the development environment.
   export RQ_REDIS_URL="redis://127.0.0.1:6379"
+  export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
   
   echo "Starting dev environment. Logs will be output to stdout."
   
@@ -75,7 +76,7 @@ dev_env() {
   
   # Start the app, worker, and scheduler processes using the correct Redis URL.
   run_with_prefix_stdout "app" gunicorn views:flaskapp &
-  run_with_prefix_stdout "worker" rq worker recurring golf brs int --url="$RQ_REDIS_URL" --sentry-dsn="https://3ac09515060a422c8b0fd6c72336bc6a@o4504389848137728.ingest.sentry.io/4504389849841664" &
+  run_with_prefix_stdout "worker"  rq worker squash recurring golf brs int --logging_level DEBUG --url="$RQ_REDIS_URL" &
   run_with_prefix_stdout "scheduler" python q_funcs.py &
   
   # Wait for all background processes (this will run until you interrupt with Ctrl+C).

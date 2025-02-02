@@ -8,11 +8,8 @@ from dotenv import load_dotenv
 from flask import Flask, Response, abort, jsonify, request
 from flask_cors import CORS
 
-# import app
 import brs_app
 import IntelligentGolf as int_app
-# from Library import Library
-# from MasterScoreboard import MasterScoreboard
 from q import create_connection, selectComps
 
 bst = pytz.timezone('Europe/London')
@@ -40,21 +37,6 @@ def before_request():
     if key != API_SECRET:
         abort(401)
 
-
-# @flaskapp.route('/test_pass/', methods=['POST'])
-# def test_pass():
-#     json = request.json
-#     username = json['username']
-#     password = json['password']
-#     ms = MasterScoreboard(username, password)
-#     try:
-#         ms.auth()
-#     except Exception:
-#         logger.exception('Incorrect password')
-#         abort(401)
-#     return jsonify(status='ok')
-
-
 @flaskapp.route('/curr_comps/', methods=['GET'])
 def curr_comps():
     comps = selectComps()
@@ -64,62 +46,6 @@ def curr_comps():
 @flaskapp.route('/curr_players/', methods=['GET'])
 def curr_players():
     return jsonify(status='ok', players=int_app.players)
-
-
-# @flaskapp.route('/curr_bookings/', methods=['GET'])
-# def curr_bookings():
-#     # lib = Library()
-#     # bookings = lib.read('bookings', default={})
-#     # return jsonify(status='ok', bookings=list(bookings.values()))
-#     db = DB()
-#     db_comps = db.client.golf.comps
-#     print(db_comps)
-#     return jsonify(status='ok')
-
-
-# @flaskapp.route('/scrape_comps/', methods=['POST'])
-# def scrape_and_save_comps():
-#     comps = app.scrape_and_save_comps()
-#     return jsonify(status='ok', comps=comps)
-
-
-# @flaskapp.route('/scrape_players/', methods=['POST'])
-# def scrape_and_save_players():
-#     players = app.scrape_and_save_players()
-#     return jsonify(status='ok', players=players)
-
-
-# @flaskapp.route('/scheduler/booking/', methods=['POST'])
-# def schedule_booking():
-#     json = request.json
-#     comp_id = json['comp_id']
-#     booking_time = json['booking_times']
-#     player_ids = json['player_ids']
-#     username = json['username']
-#     password = json['password']
-#     lib = Library()
-#     comps = {c['id']: c for c in lib.read('curr_comps')}
-#     if comp_id not in comps:
-#         abort(404, 'comp not found')
-
-#     comp = comps[comp_id]
-
-#     wait_until = datetime.fromtimestamp(int(comp['book_from']))
-#     # snap to 10pm
-#     next_run_time = wait_until - timedelta(seconds=10)
-
-#     logger.info('Booking job')
-#     if wait_until < datetime.now():
-#         logger.info('Comp likely open, scheduling for now')
-#         next_run_time = datetime.now() + timedelta(seconds=30)
-#         wait_until = None
-
-#     queue = create_connection('golf')
-
-#     job = queue.enqueue_at(next_run_time, app.book_job,
-#                            comp, booking_time, player_ids, username, password, wait_until)
-
-#     return jsonify(status='ok', bookings=[])
 
 
 @flaskapp.route('/int/login/', methods=['GET'])
@@ -251,8 +177,8 @@ def brs_curr_bookings():
     jobs = []
     for job in scheduler.get_jobs():
         queue_name = scheduler.get_queue_for_job(job).name
-        logger.info(f'queue: {queue_name} job: {job.description}')
         if queue_name == 'brs':
+            logger.info(f'queue: {queue_name} job: {job.description}')
             jobs.append(job)
 
     resp = jsonify(status='ok', jobs=[dict(
@@ -266,8 +192,8 @@ def brs_clear_bookings():
     scheduler = create_connection('brs')
     for job in scheduler.get_jobs():
         queue_name = scheduler.get_queue_for_job(job).name
-        logger.info(f'queue: {queue_name} job: {job.description}')
         if queue_name == 'brs':
+            logger.info(f'queue: {queue_name} job: {job.description}')
             job.delete()
 
     resp = jsonify(status='ok')

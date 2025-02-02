@@ -1,16 +1,14 @@
-import html
 import json
 import logging
 import os
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from urllib.parse import parse_qs
 
 import bs4
 import dateutil.parser as dateutils
 import pytz
 import requests
-import sentry_sdk
 from dotenv import load_dotenv
 
 bst = pytz.timezone('Europe/London')
@@ -21,9 +19,9 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-USERNAME = os.getenv('INT_USERNAME')
-PASSWORD = os.getenv('INT_PASSWORD')
-BASE_URL = os.getenv('INT_BASE_URL')
+INT_USERNAME = os.getenv('INT_USERNAME')
+INT_PASSWORD = os.getenv('INT_PASSWORD')
+INT_BASE_URL = os.getenv('INT_BASE_URL')
 SIGNUP_URL = "https://llanishen.intelligentgolf.co.uk/online_signup_ajax_api.php"
 
 rhys = "10671"
@@ -36,20 +34,31 @@ players = [{"name": "Rhys", "id": rhys}, {
 
 
 def intLogin(password, session=None):
+    if not INT_BASE_URL:
+        raise Exception('INT_BASE_URL must be set in .env')
     if not session:
         session = requests.Session()
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
-    session.headers = {'User-Agent': user_agent}
+    session.headers['User-Agent'] = user_agent
     logger.info(f'Logging in...')
 
-    resp = session.post(BASE_URL, data={
-        "task": "login",
-        "topmenu": 1,
-        "memberid": USERNAME,
-        "pin": password,
-        "cachemid": 1,
-        "Submit": "Login",
-    })
+    logger.info(f'Logging in with {INT_USERNAME}, {password}, {INT_BASE_URL}')
+
+    try: 
+        resp = session.post(INT_BASE_URL, data={
+            "task": "login",
+            "topmenu": 1,
+            "memberid": INT_USERNAME,
+            "pin": password,
+            "cachemid": 1,
+            "Submit": "Login",
+        },
+        timeout=10
+    )
+    except Exception as e:
+        logger.error(f'Error logging in: {e}')
+        raise e
+    
     resp.raise_for_status()
     logger.info(f'Logged in: {resp.status_code}')
     return session
@@ -57,7 +66,7 @@ def intLogin(password, session=None):
 
 def getHtmlCompPage(session):
     logger.info(f'Getting comps...')
-    resp = session.get(f'{BASE_URL}competition2.php?time=future')
+    resp = session.get(f'{INT_BASE_URL}competition2.php?time=future')
     resp.raise_for_status()
     return resp.content
 
@@ -222,7 +231,7 @@ def getPlayerIdsFromContent(content):
 def book_job(comp_id, partnerIds, hour, minute, wait_until):
     book_time = f"{str(hour).zfill(2)}:{minute}"
 
-    session = intLogin(PASSWORD)
+    session = intLogin(INT_PASSWORD)
     if wait_until:
         logger.info(f'Checking for wait')
         while pytz.UTC.localize(datetime.utcnow()) < wait_until:
