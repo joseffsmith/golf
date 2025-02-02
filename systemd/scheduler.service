@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=/var/www/golf
-ExecStart=/var/www/golf/.venv/bin/python q_funcs.py
+ExecStart=/var/www/golf/.venv/bin/python scheduler.py
 
 StandardOutput=append:/var/log/golf/scheduler.log
 StandardError=append:/var/log/golf/scheduler.log

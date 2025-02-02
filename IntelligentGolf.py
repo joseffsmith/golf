@@ -11,13 +11,13 @@ import pytz
 import requests
 from dotenv import load_dotenv
 
+from redis_helpers import get_redis_conn
+
 bst = pytz.timezone('Europe/London')
 
 load_dotenv()
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 INT_USERNAME = os.getenv('INT_USERNAME')
 INT_PASSWORD = os.getenv('INT_PASSWORD')
@@ -256,3 +256,43 @@ def book_job(comp_id, partnerIds, hour, minute, wait_until):
 # if __name__ == "__main__":
 #     content = get_comp_page_debug()
 #     get_comps_from_page(content)
+
+
+def scrape_and_save_comps():
+    session = intLogin(INT_PASSWORD)
+    content = getHtmlCompPage(session)
+    comps = getCompsFromHtml(content)
+    upsertComps(comps)
+    logger.info('Saved comps')
+
+
+def upsertComps(newComps):
+    compDict = {f"comp:{obj['id']}": obj for obj in newComps}
+
+    conn = get_redis_conn()
+
+    dbCompDict = selectComps()
+
+    for key, newComp in compDict.items():
+        if key not in dbCompDict:
+            conn.set(key, json.dumps(newComp))
+            continue
+
+        dbComp = dbCompDict[key]
+        if not newComp.get('signup-date'):
+            dbComp['signup-date'] = newComp['signup-date']
+        if not newComp.get('signup-close'):
+            dbComp['signup-close'] = newComp['signup-close']
+        if not newComp.get('name'):
+            dbComp['name'] = newComp['name']
+
+        conn.set(key, json.dumps(dbComp))
+
+
+def selectComps():
+    conn = get_redis_conn()
+
+    keys = conn.keys('comp:*')
+    dbComps = [json.loads(val) for val in conn.mget(keys) if val]
+    dbCompDict = {f"comp:{obj['id']}": obj for obj in dbComps}
+    return dbCompDict

@@ -4,11 +4,11 @@ import os
 
 import sentry_sdk
 from dotenv import load_dotenv
-from redis import Redis
 from rq_scheduler import Scheduler
 
-from q import scrape_and_save_comps
+from IntelligentGolf import scrape_and_save_comps
 from better_app import tryBookSquash
+from redis_helpers import get_redis_conn
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ def main():
     if not REDIS_HOST:
         raise Exception('REDIS_HOST must be set in .env')
     
-    connection = Redis(host=REDIS_HOST, port=6379, password=REDIS_PASS)
+    connection = get_redis_conn()
     
     logger.info('Creating scheduler recurring')
     
@@ -65,15 +65,6 @@ def main():
         repeat=None,
     )
     
-    # scheduler.schedule(
-    #     scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
-    #     func=scrape_and_save_players,                     # Function to be queued
-    #     # Keyword arguments passed into function when executed
-    #     # Time before the function is called again, in seconds
-    #     interval=60*60*24,
-    #     # Repeat this number of times (None means repeat forever)
-    #     repeat=None,
-    # )
     logger.info('Scheduled jobs')
     logger.info(f"all jobs scheduled: {list(scheduler.get_jobs())}")
     logger.info('Running scheduler')

@@ -10,7 +10,8 @@ from flask_cors import CORS
 
 import brs_app
 import IntelligentGolf as int_app
-from q import create_connection, selectComps
+from q import selectComps
+from redis_helpers import create_connection
 
 bst = pytz.timezone('Europe/London')
 

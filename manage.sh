@@ -77,7 +77,7 @@ dev_env() {
   # Start the app, worker, and scheduler processes using the correct Redis URL.
   run_with_prefix_stdout "app" gunicorn views:flaskapp &
   run_with_prefix_stdout "worker"  rq worker squash recurring golf brs int --logging_level DEBUG --url="$RQ_REDIS_URL" &
-  run_with_prefix_stdout "scheduler" python q_funcs.py &
+  run_with_prefix_stdout "scheduler" python scheduler.py &
   
   # Wait for all background processes (this will run until you interrupt with Ctrl+C).
   wait

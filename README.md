@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ### Scheduler
 
 ```
-/var/www/golf/env/bin/python q_funcs.py
+/var/www/golf/env/bin/python scheduler.py
 ```
 
 ### Worker
