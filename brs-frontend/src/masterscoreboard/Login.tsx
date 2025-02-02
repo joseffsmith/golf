@@ -5,11 +5,11 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   IconButton,
   LinearProgress,
-  TextField,
-} from "@mui/material";
+  Input,
+  Typography,
+} from "@mui/joy";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -53,7 +53,7 @@ export const Login = () => {
   return (
     <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
       <Box height={4}>{isLoggingIn && <LinearProgress />}</Box>
-      <CardHeader title="MasterScoreboard password" />
+      <Typography>MasterScoreboard password</Typography>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -69,23 +69,19 @@ export const Login = () => {
             current_players={[username]}
           /> */}
 
-          <TextField
+          <Input
             fullWidth
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={passwordVisible ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={setIconVisiblity}>
-                  {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              ),
-            }}
-          />
+          >
+            <IconButton onClick={setIconVisiblity}>
+              {passwordVisible ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </Input>
         </Box>
         <Box p={2} display="flex" justifyContent="flex-end">
           <Button
-            variant="contained"
             onClick={handleLogin}
             disabled={password === "" || isLoggingIn}
           >

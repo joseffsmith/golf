@@ -2,13 +2,18 @@ import {
   Card,
   Box,
   LinearProgress,
-  CardHeader,
+  // CardHeader,
   CardContent,
-  TextField,
-  MenuItem,
+  Input,
+  Option,
   Typography,
   Button,
-} from "@mui/material";
+  Select,
+  FormControl,
+  FormLabel,
+  CardActions,
+} from "@mui/joy";
+import { FormControlLabel, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import axios from "axios";
 import { format } from "date-fns";
@@ -19,8 +24,8 @@ import { currentBookings, loggedIn } from "./atoms";
 export const AddBooking = () => {
   var nextWeek = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
   const [date, setDate] = useState<Date | null>(nextWeek);
-  const [hour, setHour] = useState("8");
-  const [minute, setMinute] = useState("30");
+  const [hour, setHour] = useState(8);
+  const [minute, setMinute] = useState(30);
   const [isBooking, setIsBooking] = useState(false);
   const isLoggedIn = useRecoilValue(loggedIn);
 
@@ -43,9 +48,9 @@ export const AddBooking = () => {
     setIsBooking(false);
   };
   return (
-    <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
+    <Card>
       <Box height={"4px"}>{isBooking && <LinearProgress />}</Box>
-      <CardHeader title="Add booking" />
+      <Typography level="h4">Add booking</Typography>
       <CardContent>
         <form
           onSubmit={(e) => {
@@ -53,62 +58,66 @@ export const AddBooking = () => {
             handleAddBooking();
           }}
         >
-          <Box p={2}>
+          <Box>
             <DatePicker
               value={date}
               onChange={(e) => setDate(e)}
-              inputFormat={"dd/MM/yyyy"}
+              inputFormat={"EEEE do MMM yyyy"}
+              showDaysOutsideCurrentMonth
+              disableMaskedInput
               renderInput={(params) => <TextField fullWidth {...params} />}
+              // renderInput={(params) => <TextField {...params} />}
               label="date"
             />
           </Box>
-          <Box p={2} display="flex" alignItems="center">
-            <TextField
-              fullWidth
-              select
-              onChange={(e) => setHour(e.target.value)}
-              value={hour}
-              label="hour"
-            >
-              <MenuItem value={6}>6</MenuItem>
-              <MenuItem value={7}>7</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={9}>9</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={11}>11</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-              <MenuItem value={13}>13</MenuItem>
-              <MenuItem value={14}>14</MenuItem>
-              <MenuItem value={15}>15</MenuItem>
-              <MenuItem value={16}>16</MenuItem>
-              <MenuItem value={17}>17</MenuItem>
-              <MenuItem value={18}>18</MenuItem>
-            </TextField>
-            <Typography variant={"h5"}>:</Typography>
-            <TextField
-              fullWidth
-              select
-              onChange={(e) => setMinute(e.target.value)}
-              value={minute}
-              label="minute"
-            >
-              <MenuItem value={0}>0</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={20}>20</MenuItem>
-              <MenuItem value={30}>30</MenuItem>
-              <MenuItem value={40}>40</MenuItem>
-              <MenuItem value={50}>50</MenuItem>
-            </TextField>
+          <Box display="flex" alignItems="flex-end" width={"100%"}>
+            <FormControl sx={{ flexGrow: 1 }}>
+              <FormLabel>Hour</FormLabel>
+              <Select
+                onChange={(e, val) => setHour(val!)}
+                value={hour}
+                // label="hour"
+              >
+                <Option value={6}>6</Option>
+                <Option value={7}>7</Option>
+                <Option value={8}>8</Option>
+                <Option value={9}>9</Option>
+                <Option value={10}>10</Option>
+                <Option value={11}>11</Option>
+                <Option value={12}>12</Option>
+                <Option value={13}>13</Option>
+                <Option value={14}>14</Option>
+                <Option value={15}>15</Option>
+                <Option value={16}>16</Option>
+                <Option value={17}>17</Option>
+                <Option value={18}>18</Option>
+              </Select>
+            </FormControl>
+            <Typography level="body-lg">:</Typography>
+            <FormControl sx={{ flexGrow: 1 }}>
+              <FormLabel>Minute</FormLabel>
+              <Select
+                onChange={(e, val) => setMinute(val!)}
+                value={minute}
+                // label="minute"
+              >
+                <Option value={0}>0</Option>
+                <Option value={10}>10</Option>
+                <Option value={20}>20</Option>
+                <Option value={30}>30</Option>
+                <Option value={40}>40</Option>
+                <Option value={50}>50</Option>
+              </Select>
+            </FormControl>
           </Box>
-          <Box p={2} display="flex" justifyContent={"flex-end"}>
+          <CardActions>
             <Button
-              variant="contained"
               disabled={isBooking || !isLoggedIn}
               onClick={handleAddBooking}
             >
               Book
             </Button>
-          </Box>
+          </CardActions>
         </form>
       </CardContent>
     </Card>

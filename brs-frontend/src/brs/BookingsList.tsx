@@ -3,17 +3,19 @@ import {
   Card,
   Box,
   LinearProgress,
-  CardHeader,
   IconButton,
   Menu,
   MenuItem,
   CardContent,
   List,
   ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
   Button,
-} from "@mui/material";
+  Typography,
+  Dropdown,
+  MenuButton,
+  ListItemButton,
+  ListItemContent,
+} from "@mui/joy";
 import axios from "axios";
 import moment from "moment";
 import { useState } from "react";
@@ -37,40 +39,35 @@ export const Bookings = () => {
     await axios.get("/api/clear_bookings/");
   };
   return (
-    <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
+    <Card sx={{ position: "relative" }}>
       <Box height={"4px"}>
         {bookings.state === "loading" && <LinearProgress />}
       </Box>
-      <CardHeader
-        title="Scheduled"
-        action={
-          <>
-            <IconButton onClick={handleClick} aria-label="settings">
-              <MoreVert />
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem
-                color="error.main"
-                onClick={async () => {
-                  await clearBookings();
-                  refreshBookings();
-                  handleClose();
-                }}
-              >
-                Clear bookings
-              </MenuItem>
-            </Menu>
-          </>
-        }
-      />
+
+      <Typography level="title-lg">Scheduled</Typography>
+      <Dropdown>
+        <MenuButton onClick={handleClick} aria-label="settings">
+          <MoreVert />
+        </MenuButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuItem
+            color="danger"
+            onClick={async () => {
+              await clearBookings();
+              refreshBookings();
+              handleClose();
+            }}
+          >
+            Clear bookings
+          </MenuItem>
+        </Menu>
+      </Dropdown>
+
       {bookings.state === "hasValue" && (
         <CardContent>
           <List>
@@ -129,16 +126,19 @@ const Booking = ({
         alignItems: "flex-start",
       }}
     >
-      <ListItemText
-        secondary={waitUntil ? `Booking ${moment(waitUntil).fromNow()}` : null}
-      >
-        Comp date: {date}, time: {hour}:{minute}
-      </ListItemText>
-      <ListItemSecondaryAction>
+      <ListItemContent>
+        <Typography>
+          Comp date: {date}, time: {hour}:{minute}
+        </Typography>
+        {waitUntil ? (
+          <Typography>`Booking ${moment(waitUntil).fromNow()}`</Typography>
+        ) : null}
+      </ListItemContent>
+      <ListItemButton>
         <Button disabled={isCancellingJob} onClick={cancelJob}>
           Cancel
         </Button>
-      </ListItemSecondaryAction>
+      </ListItemButton>
     </ListItem>
   );
 };

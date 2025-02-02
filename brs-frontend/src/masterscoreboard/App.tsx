@@ -4,12 +4,12 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
+  // CardHeader,
   LinearProgress,
   MenuItem,
   Select,
-  TextField,
-} from "@mui/material";
+  Input,
+} from "@mui/joy";
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { Login } from "./Login";
@@ -31,7 +31,7 @@ export const MasterScoreboard = () => {
     <>
       <Login />
       <Comps />
-      <Bookings />
+      {/* <Bookings /> */}
     </>
   );
 };
@@ -74,7 +74,7 @@ const Comps = () => {
       <Box height={"4px"}>
         {compsAtom.state === "loading" && <LinearProgress />}
       </Box>
-      <CardHeader title="Book comp" />
+      {/* <CardHeader title="Book comp" /> */}
       <CardContent
         sx={{
           alignItems: "flex-start",
@@ -91,7 +91,7 @@ const Comps = () => {
               label="Show ladies comps"
               sx={{ mb: 1 }}
             /> */}
-            <Autocomplete
+            {/* <Autocomplete
               fullWidth
               value={comp}
               onChange={(e, val) => setCurrComp(val)}
@@ -102,7 +102,7 @@ const Comps = () => {
               )}
               getOptionLabel={(opt) => `${opt.date} - ${opt.name}`}
               renderInput={(params) => (
-                <TextField {...params} label="Select comp" />
+                <Input {...params} label="Select comp" />
               )}
             />
             <TeeTimes />
@@ -133,7 +133,7 @@ const Comps = () => {
               >
                 Book
               </Button>
-            </Box>
+            </Box> */}
           </>
         )}
       </CardContent>
@@ -155,34 +155,33 @@ export const Partner = ({ partner, setPartner, label, current_players }) => {
   if (sps.state === "loading") {
     return null;
   }
-  return (
-    <Select
-      sx={{ my: 1 }}
-      fullWidth
-      label={label}
-      value={partner === null ? "No player" : partner}
-      onChange={(e) => handlePartner(e.target.value)}
-      inputProps={{
-        label: label,
-      }}
-    >
-      <MenuItem value={"No player"}>No player chosen</MenuItem>
-      {/* {Object.entries(pps.contents).map(([key, val]) => {
-        return (
-          <MenuItem value={key} key={"pp" + key}>
-            {val}
-          </MenuItem>
-        );
-      })} */}
-      {sps.contents.map((p) => {
-        return (
-          <MenuItem value={p.id} key={p.id}>
-            {p.name}
-          </MenuItem>
-        );
-      })}
-    </Select>
-  );
+  return null;
+  // <Select
+  //   sx={{ my: 1 }}
+  //   fullWidth
+  //   label={label}
+  //   value={partner === null ? "No player" : partner}
+  //   onChange={(e) => handlePartner(e.target.value)}
+  //   inputProps={{
+  //     label: label,
+  //   }}
+  // >
+  //   <MenuItem value={"No player"}>No player chosen</MenuItem>
+  //   {/* {Object.entries(pps.contents).map(([key, val]) => {
+  //     return (
+  //       <MenuItem value={key} key={"pp" + key}>
+  //         {val}
+  //       </MenuItem>
+  //     );
+  //   })} */}
+  //   {sps.contents.map((p) => {
+  //     return (
+  //       <MenuItem value={p.id} key={p.id}>
+  //         {p.name}
+  //       </MenuItem>
+  //     );
+  //   })}
+  // </Select>
 };
 
 const formatDateTime = (time: number | null, include_time = false): string => {

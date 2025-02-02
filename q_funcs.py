@@ -1,15 +1,10 @@
-import json
 import logging
 import os
-from datetime import datetime, timedelta
 
 import sentry_sdk
 from dotenv import load_dotenv
 from redis import Redis
 from rq_scheduler import Scheduler
-
-
-from q import scrape_and_save_comps
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -21,29 +16,54 @@ REDIS_PASS = os.getenv('REDIS_PASS')
 
 PASSWORD = os.getenv('INT_PASSWORD')
 
+from better_app import tryBookSquash
 
 def main():
-    connection = Redis(host=REDIS_HOST, port=6379,
-                       password=REDIS_PASS)  # type: ignore
-    logger.info('Creating scheduler')
+    if not REDIS_HOST or not REDIS_PASS:
+        raise Exception('REDIS_HOST and REDIS_PASS must be set in .env')
+    
+    connection = Redis(host=REDIS_HOST, port=6379, password=REDIS_PASS)
+    
+    logger.info('Creating scheduler recurring')
+    
     scheduler = Scheduler('recurring', connection=connection, interval=5)
+    
     for job in scheduler.get_jobs():
         queue_name = scheduler.get_queue_for_job(job).name
         logger.info(f'queue: {queue_name} job: {job}')
-        if queue_name == 'recurring' or queue_name == 'default':
+        if queue_name == 'recurring' or queue_name == 'default' or queue_name == 'squash':
             logger.info(f'cancelling job {job.description}')  # type: ignore
             scheduler.cancel(job)
+            
+    logger.info('Creating scheduler squash')
+    
+    squash_scheduler = Scheduler('squash', connection=connection, interval=5)
 
-    scheduler.schedule(
-        # Time for first execution, in UTC timezone
-        scheduled_time=datetime.now() + timedelta(minutes=5),
-        func=scrape_and_save_comps,                     # Function to be queued
-        # Keyword arguments passed into function when executed
-        # Time before the function is called again, in seconds
-        interval=60*60*4,
-        # Repeat this number of times (None means repeat forever)
-        repeat=None,
+    for job in squash_scheduler.get_jobs():
+        queue_name = squash_scheduler.get_queue_for_job(job).name
+        logger.info(f'queue: {queue_name} job: {job}')
+        if queue_name == 'recurring' or queue_name == 'default' or queue_name == 'squash':
+            logger.info(f'cancelling job {job.description}')  # type: ignore
+            squash_scheduler.cancel(job)
+            
+    # schedule a job for every day at 10pm uk time to booktime
+    squash_scheduler.cron(
+        cron_string="0 * * * 1-5",      # Every hour on the hour, Monday–Friday
+        func=tryBookSquash,       # The function defined above
+        queue_name='squash'
     )
+
+    # scheduler.schedule(
+    #     # Time for first execution, in UTC timezone
+    #     scheduled_time=datetime.now() + timedelta(minutes=5),
+    #     func=scrape_and_save_comps,                     # Function to be queued
+    #     # Keyword arguments passed into function when executed
+    #     # Time before the function is called again, in seconds
+    #     interval=60*60*4,
+    #     # Repeat this number of times (None means repeat forever)
+    #     repeat=None,
+    # )
+    
     # scheduler.schedule(
     #     scheduled_time=datetime.now(),  # Time for first execution, in UTC timezone
     #     func=scrape_and_save_players,                     # Function to be queued

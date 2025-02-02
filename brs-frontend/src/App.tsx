@@ -1,9 +1,6 @@
-import { forwardRef } from "react";
-
 import "./App.css";
-import { Snackbar } from "@mui/material";
+import { Snackbar } from "@mui/joy";
 import axios from "axios";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { errors } from "./atoms";
 import { useRecoilState } from "recoil";
 import { Outlet } from "react-router-dom";
@@ -31,29 +28,20 @@ const App = () => {
       <Layout>
         <Outlet />
       </Layout>
-      {errs.length > 0 && (
+      {errs.map((err) => (
         <Snackbar
-          open={!!errs.length}
+          key={err.message}
+          open
+          color="danger"
+          variant="soft"
           autoHideDuration={6000}
           onClose={() => setErrors((errs) => errs.slice(1))}
         >
-          <Alert
-            onClose={() => setErrors((errs) => errs.slice(1))}
-            severity="error"
-          >
-            There was an issue, error: "{errs[0].message}".
-          </Alert>
+          Error: "{err.message}"
         </Snackbar>
-      )}
+      ))}
     </>
   );
 };
-
-const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 export default App;

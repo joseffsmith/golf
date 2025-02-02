@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Select, MenuItem } from "@mui/material";
+import { Box, Typography, Button, Select, MenuItem } from "@mui/joy";
 import { useRecoilState } from "recoil";
 import { teeTimes } from "./atoms";
 
