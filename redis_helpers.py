@@ -6,7 +6,10 @@ from redis import Redis
 from rq_scheduler import Scheduler
 
 
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
 load_dotenv()
 
 REDIS_HOST = os.getenv('REDIS_HOST')

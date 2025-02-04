@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </Link>
 
       <Link variant="soft" component={RouterLink} to="/ms">
-        MasterScoreboard
+        Intelligent Golf
       </Link>
     </Stack>
   );

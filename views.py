@@ -13,6 +13,11 @@ import IntelligentGolf as int_app
 
 from redis_helpers import create_connection
 
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
 bst = pytz.timezone('Europe/London')
 
 sentry_sdk.init(
@@ -22,9 +27,6 @@ sentry_sdk.init(
 flaskapp = Flask(__name__)
 CORS(flaskapp)
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 load_dotenv()
 API_SECRET = os.getenv('API_SECRET')
