@@ -8,8 +8,10 @@ from dotenv import load_dotenv
 from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
+import KnolePark
 import brs_app
 import IntelligentGolf as int_app
+import KnolePark as knole_app
 
 from redis_helpers import create_connection
 
@@ -40,24 +42,32 @@ def before_request():
     if key != API_SECRET:
         abort(401)
 
-@flaskapp.route('/api/int/curr_comps/', methods=['GET'])
-def curr_comps():
-    comps = int_app.selectComps()
-    return jsonify(status='ok', comps=comps)
+# @flaskapp.route('/api/int/curr_comps/', methods=['GET'])
+# def curr_comps():
+#     comps = int_app.selectComps()
+#     return jsonify(status='ok', comps=comps)
 
 
-@flaskapp.route('/api/int/curr_players/', methods=['GET'])
-def curr_players():
-    return jsonify(status='ok', players=int_app.players)
+# @flaskapp.route('/api/int/curr_players/', methods=['GET'])
+# def curr_players():
+#     return jsonify(status='ok', players=int_app.players)
+
 
 
 @flaskapp.route('/api/int/login/', methods=['GET'])
 def int_login():
+    username = request.args.get('username')
     password = request.args.get('password')
+    courseName = request.args.get('courseName')
+    if not courseName:
+        abort(401, 'No courseName')
     if not password:
         abort(401, 'No password')
+    if not username:
+        abort(401, 'No username')
+
     try:
-        int_app.intLogin(password)
+        int_app.intLogin(username, password, courseName)
     except Exception as e:
         logger.exception(e)
         abort(400, 'Failed to login')
@@ -113,32 +123,38 @@ def int_delete_booking():
 
 @flaskapp.route('/api/int/scheduler/booking/', methods=['POST'])
 def int_schedule_booking():
-    # {
-    #     wait_until: timestamp
-    #     hour: stirng
-    #     minute:
-    #     comp_id:
-    #     partnerIds
-    # }
+    #   date: format(date, "dd-MM-yyyy"),
+    #   time,
+    #   password,
+    #   courseName,
+    #   username,
+
     json = request.json
-    comp_id = json['comp_id']
-    partnerIds = json['partnerIds']
-    date = json['wait_until']
-    hour = str(json['hour']).zfill(2)
-    minute = str(json['minute']).zfill(2)
+    if not json:
+        raise Exception('No json')
+    
+    username = json['username']
+    password=json['password']
+    courseName = json['courseName']
+    if not password:
+         abort(401, 'No password')
+    try:
+        int_app.intLogin(username, password, courseName)
+    except Exception as e:
+        logger.exception(e)
+        abort(400, 'Failed to login')
+    
+    date = json['date']
+    time=json['time'] + ":00"
+    
+    parsed_date = datetime.strptime(date, '%d-%m-%Y')
 
-    logger.info(f'wait_until: {date}, hour: {hour}, minute: {minute}')
-
-    if date:
-        parsed = datetime.fromtimestamp(float(date))
-    else:
-        logger.info("No date, using now")
-        parsed = datetime.now()
-
-    wait_until = bst.localize(parsed).astimezone(pytz.utc)
+    # snap to 10pm
+    wait_until = parsed_date.replace(hour=6, minute=30) - timedelta(days=7)
+    wait_until = bst.localize(wait_until).astimezone(pytz.utc)
     next_run_time = wait_until - timedelta(seconds=10)
 
-    logger.info('Booking job')
+    logger.info(f'Booking job: {username} {password} {courseName} {date} {time}')
     now = pytz.UTC.localize(datetime.utcnow())
     if wait_until < now:
         logger.info('Comp likely open, scheduling for now')
@@ -146,13 +162,13 @@ def int_schedule_booking():
         wait_until = None
 
     logger.info(
-        f'parsed_date: {parsed}, wait_until: {wait_until}, next_run_time: {next_run_time}')
+        f'parsed_date: {parsed_date}, wait_until: {wait_until}, next_run_time: {next_run_time}')
 
     queue = create_connection('int')
 
-    job = queue.enqueue_at(next_run_time, int_app.book_job,
-                           comp_id=comp_id, partnerIds=partnerIds,
-                           hour=hour, minute=minute, wait_until=wait_until)
+    # TODO change function based on courseName
+    job = queue.enqueue_at(next_run_time, knole_app.bookJob,
+                           username=username, password=password, date=date, time=time, wait_until=wait_until)
 
     response = jsonify({'status': 'ok'})
     return response

@@ -10,7 +10,9 @@ const api_key = import.meta.env.VITE_API_SECRET;
 if (!api_key) {
   throw new Error("API key not found");
 }
-axios.defaults.baseURL = "/";
+axios.defaults.baseURL = window.location.origin.includes("localhost")
+  ? "http://127.0.0.1:8000"
+  : "/";
 axios.defaults.headers["X-MS-JS-API-KEY"] = api_key;
 axios.defaults.headers["Content-Type"] = "application/json";
 

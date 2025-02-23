@@ -9,27 +9,36 @@ import {
 } from "@mui/joy";
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { AddBooking } from "./AddBooking";
 import {
   book_comp,
   Comp,
   comps,
   currComp,
   passWord,
-  sortedPlayers,
   teeTimes,
   userName,
 } from "./atoms";
+import { Bookings } from "./Bookings";
 import { Login } from "./Login";
 
 export const MasterScoreboard = () => {
   return (
-    <>
+    <Box>
       <Box display={"flex"} width="100%" justifyContent={"flex-end"} p={2}>
         <Login />
       </Box>
-      <Comps />
-      {/* <Bookings /> */}
-    </>
+      <Box
+        maxWidth={450}
+        margin={"0 auto"}
+        display={"flex"}
+        flexDirection={"column"}
+        rowGap={2}
+      >
+        <AddBooking />
+        <Bookings />
+      </Box>
+    </Box>
   );
 };
 
@@ -143,62 +152,4 @@ const Comps = () => {
       </Card>
     </Box>
   );
-};
-
-export const Partner = ({ partner, setPartner, label, current_players }) => {
-  // const pps = useRecoilValueLoadable(preferredPlayers);
-  const sps = useRecoilValueLoadable(sortedPlayers);
-  // if (!(pps.state === "hasValue" && sps.state === "hasValue")) {
-  //   return null;
-  // }
-
-  const handlePartner = (an) => {
-    setPartner(an === "No player" ? null : an);
-  };
-
-  if (sps.state === "loading") {
-    return null;
-  }
-  return null;
-  // <Select
-  //   sx={{ my: 1 }}
-  //   fullWidth
-  //   label={label}
-  //   value={partner === null ? "No player" : partner}
-  //   onChange={(e) => handlePartner(e.target.value)}
-  //   inputProps={{
-  //     label: label,
-  //   }}
-  // >
-  //   <MenuItem value={"No player"}>No player chosen</MenuItem>
-  //   {/* {Object.entries(pps.contents).map(([key, val]) => {
-  //     return (
-  //       <MenuItem value={key} key={"pp" + key}>
-  //         {val}
-  //       </MenuItem>
-  //     );
-  //   })} */}
-  //   {sps.contents.map((p) => {
-  //     return (
-  //       <MenuItem value={p.id} key={p.id}>
-  //         {p.name}
-  //       </MenuItem>
-  //     );
-  //   })}
-  // </Select>
-};
-
-const formatDateTime = (time: number | null, include_time = false): string => {
-  if (!time) {
-    return "";
-  }
-  const dt = new Date(time * 1000);
-  return include_time
-    ? dt.toDateString() +
-        " - " +
-        dt.toLocaleTimeString("en-GB", {
-          timeZone: "Europe/London",
-          year: undefined,
-        })
-    : dt.toLocaleDateString("en-GB", { year: undefined });
 };

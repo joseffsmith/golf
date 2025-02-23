@@ -1,141 +1,141 @@
-// import MoreVert from "@mui/icons-material/MoreVert";
-// import {
-//   Card,
-//   Box,
-//   LinearProgress,
-//   IconButton,
-//   Menu,
-//   MenuItem,
-//   CardContent,
-//   List,
-//   ListItem,
-//   Button,
-// } from "@mui/joy";
-// import axios from "axios";
-// import moment from "moment";
-// import { useState } from "react";
-// import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from "recoil";
-// import { currentBookings } from "./atoms";
+import MoreVert from "@mui/icons-material/MoreVert";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Dropdown,
+  List,
+  ListItem,
+  ListItemContent,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Typography,
+} from "@mui/joy";
+import axios from "axios";
+import moment from "moment";
+import { useState } from "react";
+import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from "recoil";
+import { currentBookings } from "./atoms";
 
-export const Bookings = () => {};
-//   const bookings = useRecoilValueLoadable(currentBookings);
-//   const refreshBookings = useRecoilRefresher_UNSTABLE(currentBookings);
-//   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+export const Bookings = () => {
+  const bookings = useRecoilValueLoadable(currentBookings);
+  const refreshBookings = useRecoilRefresher_UNSTABLE(currentBookings);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-//   const open = Boolean(anchorEl);
-//   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-//   const clearBookings = async () => {
-//     await axios.get("/int/clear_bookings/");
-//   };
-//   return (
-//     <Card sx={{ maxWidth: "500px", width: "95%", overflow: "visible", my: 2 }}>
-//       <Box height={"4px"}>
-//         {bookings.state === "loading" && <LinearProgress />}
-//       </Box>
-//       <CardHeader
-//         title="Scheduled"
-//         action={
-//           <>
-//             <IconButton onClick={handleClick} aria-label="settings">
-//               <MoreVert />
-//             </IconButton>
-//             <Menu
-//               id="basic-menu"
-//               anchorEl={anchorEl}
-//               open={open}
-//               onClose={handleClose}
-//               MenuListProps={{
-//                 "aria-labelledby": "basic-button",
-//               }}
-//             >
-//               <MenuItem
-//                 color="error.main"
-//                 onClick={async () => {
-//                   await clearBookings();
-//                   refreshBookings();
-//                   handleClose();
-//                 }}
-//               >
-//                 Clear bookings
-//               </MenuItem>
-//             </Menu>
-//           </>
-//         }
-//       />
-//       {bookings.state === "hasValue" && (
-//         <CardContent>
-//           <List>
-//             {bookings.contents.jobs.map((b, idx) => {
-//               return (
-//                 <Booking
-//                   key={b.id}
-//                   description={b.description}
-//                   id={b.id}
-//                   date={b.kwargs.date}
-//                   hour={b.kwargs.hour}
-//                   minute={b.kwargs.minute}
-//                   waitUntil={b.kwargs.wait_until}
-//                 />
-//               );
-//             })}
-//           </List>
-//         </CardContent>
-//       )}
-//     </Card>
-//   );
-// };
+  const clearBookings = async () => {
+    await axios.get("/api/int/clear_bookings/");
+  };
+  return (
+    <Card sx={{ position: "relative" }}>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Typography level="title-lg">Scheduled</Typography>
+        <Dropdown>
+          <MenuButton aria-label="settings">
+            <MoreVert />
+          </MenuButton>
 
-// const Booking = ({
-//   description,
-//   id,
-//   date,
-//   hour,
-//   minute,
-//   waitUntil,
-// }: {
-//   description: string;
-//   id: string;
-//   date?: string;
-//   minute?: string;
-//   hour?: string;
-//   waitUntil?: string;
-// }) => {
-//   const [isCancellingJob, setIsCancellingJob] = useState(false);
-//   const refreshBookings = useRecoilRefresher_UNSTABLE(currentBookings);
+          <Menu
+            id="basic-menu"
+            // anchorEl={anchorEl}
+            // open={open}
+            // onClose={handleClose}
+          >
+            <MenuItem
+              color="danger"
+              onClick={async () => {
+                await clearBookings();
+                refreshBookings();
+                // handleClose();
+              }}
+            >
+              Clear bookings
+            </MenuItem>
+          </Menu>
+        </Dropdown>
+      </Box>
 
-//   const cancelJob = async () => {
-//     setIsCancellingJob(true);
-//     try {
-//       await axios.post("/int/delete_booking/", { id });
-//     } finally {
-//       refreshBookings();
-//       setIsCancellingJob(false);
-//     }
-//   };
-//   return (
-//     <ListItem
-//       sx={{
-//         display: "flex",
-//         flexDirection: "column",
-//         alignItems: "flex-start",
-//       }}
-//     >
-//       <ListItemText
-//         secondary={waitUntil ? `Booking ${moment(waitUntil).fromNow()}` : null}
-//       >
-//         Comp date: {date}, time: {hour}:{minute}
-//       </ListItemText>
-//       <ListItemSecondaryAction>
-//         <Button disabled={isCancellingJob} onClick={cancelJob}>
-//           Cancel
-//         </Button>
-//       </ListItemSecondaryAction>
-//     </ListItem>
-//   );
-// };
+      {bookings.state === "hasValue" && (
+        <CardContent>
+          <List>
+            {bookings.contents.jobs.map((b, idx) => {
+              return (
+                <Booking
+                  key={b.id}
+                  description={b.description}
+                  id={b.id}
+                  date={b.kwargs.date}
+                  time={b.kwargs.time}
+                  waitUntil={b.kwargs.wait_until}
+                />
+              );
+            })}
+          </List>
+        </CardContent>
+      )}
+    </Card>
+  );
+};
+
+const Booking = ({
+  description,
+  id,
+  date,
+
+  time,
+  waitUntil,
+}: {
+  description: string;
+  id: string;
+  date?: string;
+  time?: string;
+  waitUntil?: string;
+}) => {
+  const [isCancellingJob, setIsCancellingJob] = useState(false);
+  const refreshBookings = useRecoilRefresher_UNSTABLE(currentBookings);
+
+  const cancelJob = async () => {
+    setIsCancellingJob(true);
+    try {
+      await axios.post("/api/int/delete_booking/", { id });
+    } finally {
+      refreshBookings();
+      setIsCancellingJob(false);
+    }
+  };
+  return (
+    <ListItem
+      endAction={
+        <Button disabled={isCancellingJob} onClick={cancelJob}>
+          Cancel
+        </Button>
+      }
+    >
+      <ListItemContent>
+        <Typography level="title-sm">
+          Comp date: {moment(date).format("ddd DD MMM yyyy")}, time: {time}
+        </Typography>
+        {waitUntil ? (
+          <Typography level="body-sm">
+            Booking {moment(waitUntil).fromNow()}
+          </Typography>
+        ) : (
+          "Booking within 30 seconds"
+        )}
+      </ListItemContent>
+    </ListItem>
+  );
+};

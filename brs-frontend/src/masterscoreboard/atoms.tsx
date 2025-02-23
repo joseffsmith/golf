@@ -22,6 +22,13 @@ export type Booking = {
   booked: boolean;
 };
 
+export const currentBookings = selector({
+  key: "intcurrentBookings",
+  get: async () => {
+    return (await axios.get("/api/int/curr_bookings/")).data;
+  },
+});
+
 export const comps = selector<Comp[]>({
   key: "MScomps",
   get: async () => {

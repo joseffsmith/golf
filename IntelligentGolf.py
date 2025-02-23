@@ -3,6 +3,7 @@ import logging
 import os
 import time
 from datetime import datetime
+from typing import Dict, Literal
 from urllib.parse import parse_qs
 
 import bs4
@@ -17,7 +18,9 @@ bst = pytz.timezone('Europe/London')
 
 load_dotenv()
 
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 INT_USERNAME = os.getenv('INT_USERNAME')
 INT_PASSWORD = os.getenv('INT_PASSWORD')
@@ -32,23 +35,34 @@ jeff = "10846"
 players = [{"name": "Rhys", "id": rhys}, {
     "name": "Steffan", "id": steffan}, {"name": "Tony B", "id": tony}, {"name": "Jeff", "id": jeff}]
 
+URLS: Dict[Literal["knole", "llanishen"], str] = {
+    "knole": "https://www.knoleparkgolfclub.co.uk/",
+    "llanishen": "https://llanishen.intelligentgolf.co.uk/"
+}
 
-def intLogin(password, session=None):
-    if not INT_BASE_URL:
-        raise Exception('INT_BASE_URL must be set in .env')
+def getSystems():
+    return URLS
+
+def intLogin(username, password, courseName: str, session=None, debug=False):
     if not session:
         session = requests.Session()
+        
+    if courseName not in URLS:
+        raise ValueError(f'Invalid url: {courseName}')
+    
+    url = URLS[courseName]
+    
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
     session.headers['User-Agent'] = user_agent
     logger.info(f'Logging in...')
 
-    logger.info(f'Logging in with {INT_USERNAME}, {password}, {INT_BASE_URL}')
+    logger.info(f'Logging in with {username}, {password}, {url}')
 
     try: 
-        resp = session.post(INT_BASE_URL, data={
+        resp = session.post(url, data={
             "task": "login",
             "topmenu": 1,
-            "memberid": INT_USERNAME,
+            "memberid": username,
             "pin": password,
             "cachemid": 1,
             "Submit": "Login",
@@ -59,6 +73,9 @@ def intLogin(password, session=None):
         logger.error(f'Error logging in: {e}')
         raise e
     
+    if debug:
+        print(resp.text)
+        
     resp.raise_for_status()
     logger.info(f'Logged in: {resp.status_code}')
     return session
@@ -231,7 +248,7 @@ def getPlayerIdsFromContent(content):
 def book_job(comp_id, partnerIds, hour, minute, wait_until):
     book_time = f"{str(hour).zfill(2)}:{minute}"
 
-    session = intLogin(INT_PASSWORD)
+    session = intLogin(INT_USERNAME, INT_PASSWORD, 'llanishen')
     if wait_until:
         logger.info(f'Checking for wait')
         while pytz.UTC.localize(datetime.utcnow()) < wait_until:
@@ -259,7 +276,8 @@ def book_job(comp_id, partnerIds, hour, minute, wait_until):
 
 
 def scrape_and_save_comps():
-    session = intLogin(INT_PASSWORD)
+    urls = getSystems()
+    session = intLogin(INT_USERNAME, INT_PASSWORD, 'llanishen')
     content = getHtmlCompPage(session)
     comps = getCompsFromHtml(content)
     upsertComps(comps)

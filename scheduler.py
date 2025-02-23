@@ -49,21 +49,21 @@ def main():
             
     # schedule a job for every day at 10pm uk time to booktime
     squash_scheduler.cron(
-        cron_string="1 * * * *",# 1-5 Every hour on the hour, Monday–Friday
+        cron_string="1 * * * 1-5",# Every hour on the hour, Monday–Friday
         func=tryBookSquash,       # The function defined above
         queue_name='squash'
     )
 
-    scheduler.schedule(
-        # Time for first execution, in UTC timezone
-        scheduled_time=datetime.now() + timedelta(seconds=5),
-        func=scrape_and_save_comps,                     # Function to be queued
-        # Keyword arguments passed into function when executed
-        # Time before the function is called again, in seconds
-        interval=60*60*4,
-        # Repeat this number of times (None means repeat forever)
-        repeat=None,
-    )
+    # scheduler.schedule(
+    #     # Time for first execution, in UTC timezone
+    #     scheduled_time=datetime.now() + timedelta(seconds=5),
+    #     func=scrape_and_save_comps,                     # Function to be queued
+    #     # Keyword arguments passed into function when executed
+    #     # Time before the function is called again, in seconds
+    #     interval=60*60*4,
+    #     # Repeat this number of times (None means repeat forever)
+    #     repeat=None,
+    # )
     
     logger.info('Scheduled jobs')
     logger.info(f"all jobs scheduled: {list(scheduler.get_jobs())}")

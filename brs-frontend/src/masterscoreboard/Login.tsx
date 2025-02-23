@@ -1,6 +1,7 @@
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
+  Autocomplete,
   Box,
   Button,
   DialogActions,
@@ -13,6 +14,7 @@ import {
   ModalClose,
   ModalDialog,
 } from "@mui/joy";
+import { InputLabel } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -23,8 +25,16 @@ export const Login = () => {
   const [changingPassword, setChangingPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedIn);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+
   const initialPassword = localStorage.getItem("int-password") ?? "";
+  const initialCourseName = localStorage.getItem("int-course") ?? null;
+  const initialUsername = localStorage.getItem("int-username") ?? "";
+
   const [password, _setPassword] = useState(initialPassword);
+  const [courseName, setCourseName] = useState<"llanishen" | "knole" | null>(
+    initialCourseName as any
+  );
+  const [username, setUsername] = useState(initialUsername);
 
   const [passwordVisible, setPasswordVisibility] = useState(false);
   const setErrors = useSetRecoilState(errors);
@@ -36,10 +46,12 @@ export const Login = () => {
 
     setIsLoggingIn(true);
     axios
-      .get("/api/int/login/", { params: { password } })
+      .get("/api/int/login/", { params: { username, password, courseName } })
       .then(() => {
         setIsLoggedIn(true);
         localStorage.setItem("int-password", password);
+        localStorage.setItem("int-course", courseName ?? "");
+        localStorage.setItem("int-username", username);
         setChangingPassword(false);
       })
       .catch((err) => {
@@ -64,7 +76,7 @@ export const Login = () => {
         <ModalDialog>
           <Box height={4}>{isLoggingIn && <LinearProgress />}</Box>
           <ModalClose />
-          <DialogTitle level="h4">Intelligent Golf password</DialogTitle>
+          <DialogTitle level="h4">Intelligent Golf login</DialogTitle>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -72,8 +84,19 @@ export const Login = () => {
             }}
           >
             <DialogContent>
+              <InputLabel>Course Name</InputLabel>
+              <Autocomplete
+                value={courseName}
+                onChange={(e, val) => setCourseName(val as any)}
+                options={["llanishen", "knole"]}
+              />
+              <InputLabel>Username</InputLabel>
               <Input
-                // fullWidth
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <InputLabel>Password</InputLabel>
+              <Input
                 value={password}
                 onChange={(e) => _setPassword(e.target.value)}
                 type={passwordVisible ? "text" : "password"}
@@ -82,7 +105,7 @@ export const Login = () => {
                     {passwordVisible ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 }
-              ></Input>
+              />
             </DialogContent>
             <DialogActions>
               <Button
