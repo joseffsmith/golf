@@ -150,7 +150,7 @@ def int_schedule_booking():
     parsed_date = datetime.strptime(date, '%d-%m-%Y')
 
     # snap to 10pm
-    wait_until = parsed_date.replace(hour=6, minute=30) - timedelta(days=7)
+    wait_until = parsed_date.replace(hour=18, minute=30) - timedelta(days=7)
     wait_until = bst.localize(wait_until).astimezone(pytz.utc)
     next_run_time = wait_until - timedelta(seconds=10)
 
