@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-def bookJob(username, password, date, time, wait_until):
+def bookJob(username, password, date, teeTime, wait_until):
     if wait_until:
         logger.info(f'Checking for wait')
         while pytz.UTC.localize(datetime.utcnow()) < wait_until:
@@ -37,9 +37,9 @@ def bookJob(username, password, date, time, wait_until):
     teeTimes = getHtmlTeeTimes(username, password, date, session=session)
     
     try: 
-        [formData] = [t for t in teeTimes if 'book' in t and t['book'] == time]
+        [formData] = [t for t in teeTimes if 'book' in t and t['book'] == teeTime]
     except ValueError:
-        logger.error(f"Time {time} not found in tee times")
+        logger.error(f"Time {teeTime} not found in tee times")
         return
     
     bookSlot(username, password, formData, 1, session=session)
