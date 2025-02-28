@@ -168,7 +168,7 @@ def int_schedule_booking():
 
     # TODO change function based on courseName
     job = queue.enqueue_at(next_run_time, knole_app.bookJob,
-                           username=username, password=password, date=date, time=time, wait_until=wait_until)
+                           username=username, password=password, date=date, teeTime=time, wait_until=wait_until)
 
     response = jsonify({'status': 'ok'})
     return response
